@@ -2,8 +2,6 @@ from typing import List, Optional
 
 from backend.models.types import Priority, TicketStatus
 
-
-
 class TicketHistory:
     def __init__(self, history_id: int, ticket_id: int, operator: str, status: TicketStatus, assigned_to: Optional[str], timestamp: str):
         self.history_id = history_id  # 操作历史ID
@@ -32,6 +30,4 @@ class Ticket:
         history_id = len(self.history) + 1
         history_entry = TicketHistory(history_id, self.ticket_id, operator, status, assigned_to, timestamp)
         self.history.append(history_entry)
-
-
 
