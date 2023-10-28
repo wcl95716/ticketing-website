@@ -2,7 +2,6 @@ from typing import List, Optional
 from enum import Enum
 
 from src.models.types import MessageType
-
 class ChatMessage:
     def __init__(self, message_id: int, ticket_id: int, sender: str, content: str, message_time: str, message_type: MessageType):
         self.message_id = message_id  # 消息ID

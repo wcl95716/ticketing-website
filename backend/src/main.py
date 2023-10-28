@@ -1,5 +1,9 @@
-
-
+import sys
+import os
+# 获取项目的根目录路径
+project_root = os.path.dirname(os.path.abspath(__file__))
+# 将项目的根目录添加到 sys.path
+sys.path.insert(0, project_root)
 
 # 示例用法
 from src.models.ticket import Ticket
