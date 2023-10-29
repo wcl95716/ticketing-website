@@ -8,5 +8,8 @@ CREATE TABLE chat_messages (
     sender VARCHAR(255),
     content TEXT,
     message_time DATETIME,
-    message_type ENUM('Type1', 'Type2', 'Type3') -- 根据消息类型的枚举定义
+    message_type INT,
+    INDEX idx_ticket_id (ticket_id),
+    INDEX idx_message_time (message_time),
+    INDEX idx_sender (sender)
 );

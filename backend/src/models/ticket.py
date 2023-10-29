@@ -1,6 +1,6 @@
 from typing import List, Optional
 
-from src.models.types import Priority, TicketStatus
+from models.types import Priority, TicketStatus
 
 class TicketHistory:
     def __init__(self, history_id: int, ticket_id: int, operator: str, status: TicketStatus, assigned_to: Optional[str], timestamp: str):

@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chat Room</title>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.0.0/socket.io.js"></script>
+</head>
+<body>
+    <ul id="messages"></ul>
+    <input id="input" autocomplete="off" /><button onclick="sendMessage()">Send</button>
+    <script type="text/javascript">
+        var socket = io.connect('http://' + document.domain + ':' + location.port);
+        
+        socket.on('message', function(msg) {
+            $('#messages').append($('<li>').text(msg));
+        });
+
+        function sendMessage() {
+            var message = $('#input').val();
+            socket.emit('message', message);
+            $('#input').val('');
+        }
+    </script>
+</body>
+</html>
