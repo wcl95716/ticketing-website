@@ -1,7 +1,8 @@
 # 示例用法
+from models.ticketing_system.types.enum_type import Priority, TicketStatus
+from models.ticketing_system.types.ticket import Ticket
 from database.chatMessage import testChatMessage
-from models.ticket import Ticket
-from models.types import Priority, TicketStatus
+
 
 
 ticket = Ticket(1, "问题报告", "2023-10-28 10:00:00", TicketStatus.NEW, Priority.HIGHEST, "用户A", None, "报告问题", None)

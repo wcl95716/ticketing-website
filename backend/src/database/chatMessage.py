@@ -1,7 +1,8 @@
 import mysql.connector
 
-from models import chat_message
-from models.types import MessageType
+from models.ticketing_system.types.chat_message import ChatMessage
+from models.ticketing_system.types.enum_type import MessageType
+
 
 
 # 创建数据库连接
@@ -17,7 +18,7 @@ db_connection = mysql.connector.connect(
 cursor = db_connection.cursor()
 
 # 创建ChatMessage对象
-message = chat_message.ChatMessage(
+message = ChatMessage(
     message_id=1,
     ticket_id=123,
     sender="John",

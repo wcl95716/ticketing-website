@@ -12,7 +12,8 @@
     <ul id="messages"></ul>
     <input id="input" autocomplete="off" /><button onclick="sendMessage()">Send</button>
     <script type="text/javascript">
-        var socket = io.connect('http://' + document.domain + ':' + location.port);
+        var socket = io.connect('http://' + document.domain + ':' + location.port + '/module1');
+
         
         socket.on('message', function(msg) {
             $('#messages').append($('<li>').text(msg));
@@ -20,7 +21,7 @@
 
         function sendMessage() {
             var message = $('#input').val();
-            socket.emit('message', message);
+            socket.emit('message', message , { namespace: "module1" });
             $('#input').val('');
         }
     </script>

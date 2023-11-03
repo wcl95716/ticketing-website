@@ -34,7 +34,6 @@ def upload_file():
     return jsonify({'error': 'File upload failed'})
 
 
-
 # 在 Flask 应用中注册蓝图
 from flask import Flask, request, send_file, send_from_directory
 app = Flask(__name__)
