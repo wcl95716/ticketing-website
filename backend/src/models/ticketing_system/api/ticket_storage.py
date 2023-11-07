@@ -21,7 +21,7 @@ def insert_ticket(ticket: Ticket):
     except Exception as e:
         print(f"存储工单数据时发生错误：{str(e)}")
 
-def read_ticket(ticket_id: str):
+def read_ticket(ticket_id: str) -> Ticket :
     folder_path = os.path.join(data_path, str(ticket_id))
     file_path = os.path.join(folder_path, "ticket_data.json")
 
@@ -42,8 +42,8 @@ def read_ticket(ticket_id: str):
         return None
 
 
-def read_all_tickets():
-    ticket_list = []
+def read_all_tickets() -> list[Ticket]:
+    ticket_list:list[Ticket] = []
     try:
         # 获取 data_path 下的所有文件夹（每个文件夹代表一个工单）
         for folder_name in os.listdir(data_path):

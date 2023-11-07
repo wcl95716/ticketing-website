@@ -1,42 +1,37 @@
+# 在 storage.py 中
 import os
-import json
-from models.ticketing_system.types.ticket import Ticket
+from models.ticketing_system.types.chat_message import ChatMessage
 
 data_path = "data/work_order_logs"
+chat_history = "chat_history"
 
-def insert_ticket(ticket: Ticket):
-    # 创建工单文件夹（如果不存在）
-    folder_path = os.path.join(data_path, str(ticket.ticket_id))
-    os.makedirs(folder_path, exist_ok=True)
+def insert_message(message: ChatMessage):
+    folder_path = f"{data_path}/{message.ticket_id}/"
+    file_name = f"{folder_path}{chat_history}.txt"
+    try:
+        # 创建工单文件夹（如果不存在）
+        os.makedirs(folder_path, exist_ok=True)
 
-    # 创建工单数据文件
-    file_path = os.path.join(folder_path, "ticket_data.json")
+        with open(file_name, 'a', encoding='utf-8') as file:
+            file.write(message.to_json() + '\n')  # 将消息对象转换为JSON字符串并写入文件
+        print(f"消息已追加到文件 {file_name}")
+    except Exception as e:
+        print(f"追加消息时发生错误：{str(e)}")
+
+
+def read_chat_history(ticket_id: str):
+    folder_path = f"{data_path}/{ticket_id}/"
+    file_name = f"{folder_path}{chat_history}.txt"
+    
+    chat_history = []
 
     try:
-        # 将工单数据写入文件
-        with open(file_path, 'w', encoding='utf-8') as file:
-            json.dump(ticket.to_dict(), file, indent=4)  # 缩进格式化写入 JSON 文件
-
-        print(f"工单数据已存储到文件 {file_path}")
+        with open(file_name, 'r', encoding='utf-8') as file:
+            for line in file:
+                chat_history.append(line.strip())  # 去除末尾的换行符并添加到聊天记录列表
+    except FileNotFoundError:
+        print(f"文件 {file_name} 不存在")
     except Exception as e:
-        print(f"存储工单数据时发生错误：{str(e)}")
+        print(f"读取文件时发生错误：{str(e)}")
 
-def read_ticket(ticket_id: int):
-    folder_path = os.path.join(data_path, str(ticket_id))
-    file_path = os.path.join(folder_path, "ticket_data.json")
-
-    try:
-        # 如果文件不存在，返回 None
-        if not os.path.exists(file_path):
-            return None
-
-        # 读取工单数据文件
-        with open(file_path, 'r', encoding='utf-8') as file:
-            ticket_data = json.load(file)
-
-        # 创建工单对象并返回
-        ticket = Ticket.from_dict(ticket_data)
-        return ticket
-    except Exception as e:
-        print(f"读取工单数据时发生错误：{str(e)}")
-        return None
+    return chat_history
