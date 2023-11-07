@@ -8,6 +8,7 @@ from models.ticketing_system.types.ticket import Ticket
 from database.chatMessage import testChatMessage
 from models import ticketing_system
 from models.ticketing_system.types.chat_message import ChatMessage
+from models.ticketing_system.types import ticket
 
 
 
@@ -36,5 +37,8 @@ if __name__ == "__main__":
     #     print(ticketing_system.storage.read_chat_history(his.ticket_id) )
     #     print()
 
-    for i in range(10):
-        print( str(generate_ticket_id())  )
+    #ticket.testTicket()
+    #ticket = Ticket("问题报告", "2023-10-28 10:00:00", TicketStatus.NEW, Priority.HIGHEST, "用户A", None, "报告问题", None)
+    #ticketing_system.ticket_storage.insert_ticket(ticket)
+    for tem in ticketing_system.ticket_storage.read_all_tickets():
+        print(tem.to_dict())

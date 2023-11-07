@@ -1,19 +1,11 @@
 import datetime
+import json
 import random
 import time
 from typing import List, Optional
 
 from models.ticketing_system.types.enum_type import Priority, TicketStatus
 import uuid
-
-# class TicketHistory:
-#     def __init__(self, history_id: int, ticket_id: int, operator: str, status: TicketStatus, assigned_to: Optional[str], timestamp: str):
-#         self.history_id = history_id  # 操作历史ID
-#         self.ticket_id = ticket_id  # 关联的工单ID
-#         self.operator = operator  # 操作者
-#         self.status = status  # 工单状态
-#         self.assigned_to = assigned_to  # 分配给（可以为 None）
-#         self.timestamp = timestamp  # 操作时间
 
 class Ticket:
 
@@ -35,7 +27,51 @@ class Ticket:
         timestamp = datetime.datetime.now().date()
         ticket_id = f"{timestamp}-{str(uuid.uuid4())}"
         return ticket_id
+    
+    def to_dict(self):
+        return {
+            "ticket_id": self.ticket_id,
+            "title": self.title,
+            "created_time": self.created_time,
+            "status": self.status.value,  # 使用枚举值
+            "priority": self.priority.value,  # 使用枚举值
+            "creator": self.creator,
+            "assigned_to": self.assigned_to,
+            "ticket_type": self.ticket_type,
+            "closed_time": self.closed_time
+        }
+    
+    def to_json(self):
+        return json.dumps(self.to_dict(), indent=4)
+    
+    @classmethod
+    def from_dict(cls, ticket_data):
+        ticket = cls(
+            title=ticket_data["title"],
+            created_time=ticket_data["created_time"],
+            status=TicketStatus(ticket_data["status"]),
+            priority=Priority(ticket_data["priority"]),
+            creator=ticket_data["creator"],
+            assigned_to=ticket_data["assigned_to"],
+            ticket_type=ticket_data["ticket_type"],
+            closed_time=ticket_data["closed_time"]
+        )
+        ticket.ticket_id = ticket_data["ticket_id"]
+        return ticket
+    
+    @classmethod
+    def from_json(cls, json_string):
+        ticket_data = json.loads(json_string)
+        return Ticket.from_dict(ticket_data)
+    
+
+# 创建一个测试数据
+
+
         
 
-
-
+def testTicket():
+    ticket = Ticket("问题报告", "2023-10-28 10:00:00", TicketStatus.NEW, Priority.HIGHEST, "用户A", None, "报告问题", None)
+    print(ticket.to_json())
+    ticket2 = Ticket.from_json(ticket.to_json())
+    print(ticket2.to_json())
