@@ -18,7 +18,6 @@ class ChatRecord:
 
     def to_json(self):
         # 将 MessageType 转换为字符串
-        message_type_str = self.message_type.value if self.message_type else ""
         
         # 创建一个字典来表示对象
         data = {
@@ -27,16 +26,22 @@ class ChatRecord:
             "sender": self.sender,
             "content": self.content,
             "message_time": self.message_time,
-            "message_type": message_type_str
+            "message_type": str(self.message_type)
         }
         
-        return json.dumps(data,ensure_ascii=False)
+        return data
+    
+    def to_json_str(self):
+        return json.dumps(self.to_json(),ensure_ascii=False)
     
     @classmethod
-    def from_json(cls, json_string):
+    def from_json_str(cls, json_string):
         data = json.loads(json_string)
-        return cls(**data)
-
+        return cls.from_json(data)
+    
+    @classmethod
+    def from_json(cls, json_data):
+        return cls(**json_data)
 
 # 创建main 测试
 def testChatMessage():

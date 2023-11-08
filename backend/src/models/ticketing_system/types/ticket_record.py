@@ -71,7 +71,7 @@ class TicketRecord:
         
 
 def testTicket():
-    ticket = Ticket("问题报告", "2023-10-28 10:00:00", TicketStatus.NEW, Priority.HIGHEST, "用户A", None, "报告问题", None)
+    ticket = TicketRecord("问题报告", "2023-10-28 10:00:00", TicketStatus.NEW, Priority.HIGHEST, "用户A", None, "报告问题", None)
     print(ticket.to_json())
-    ticket2 = Ticket.from_json(ticket.to_json())
+    ticket2 = TicketRecord.from_json(ticket.to_json())
     print(ticket2.to_json())

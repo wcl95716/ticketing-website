@@ -1,3 +1,3 @@
-from models.ticketing_system.chat_records import storage
-from models.ticketing_system.api import chat_storage, ticket_storage
-from models.ticketing_system.types import chat_message, ticket , user
+
+from models.ticketing_system.api import chat_api, ticket_api
+from models.ticketing_system.types import chat_record, ticket_record
