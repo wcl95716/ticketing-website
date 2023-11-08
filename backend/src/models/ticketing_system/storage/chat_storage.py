@@ -5,7 +5,7 @@ from models.ticketing_system.types.chat_message import ChatMessage
 data_path = "data/work_order_logs"
 chat_history = "chat_history"
 
-def insert_message(message: ChatMessage):
+def record(message: ChatMessage):
     folder_path = f"{data_path}/{message.ticket_id}/"
     file_name = f"{folder_path}{chat_history}.txt"
     try:
