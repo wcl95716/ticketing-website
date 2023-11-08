@@ -7,7 +7,7 @@ from models.ticketing_system.types.chat_record import ChatRecord
 from models.ticketing_system.types.enum_type import Priority, TicketStatus
 from models import ticketing_system
 
-
+from service import flask_service
 
 # ticket = Ticket(1, "问题报告", "2023-10-28 10:00:00", TicketStatus.NEW, Priority.HIGHEST, "用户A", None, "报告问题", None)
 # ticket.add_history("支持团队", TicketStatus.IN_PROGRESS, "支持团队", "2023-10-28 10:15:00")
@@ -24,16 +24,17 @@ def generate_ticket_id():
 
 if __name__ == "__main__":
     # print( ticketing_system.chat_message.getTestChatMessage().to_json() )
-    his_list:list[ChatRecord] = []
-    for i in range(10):
-        message = ticketing_system.chat_record.getTestChatMessage()
-        his_list.append(message)
-        ticketing_system.chat_api.add_chat_record(message.to_json())
+    # his_list:list[ChatRecord] = []
+    # for i in range(10):
+    #     message = ticketing_system.chat_record.getTestChatMessage()
+    #     his_list.append(message)
+    #     ticketing_system.chat_api.add_chat_record(message.to_json())
 
-    for his in his_list:
-        print(ticketing_system.chat_api.get_chat_history(his.ticket_id) )
-        print()
-
+    # for his in his_list:
+    #     print(ticketing_system.chat_api.get_chat_history(his.ticket_id) )
+    #     print()
+    flask_service.get_app().run(host='127.0.0.1',port=5000,debug=True)
     #ticket.testTicket()
     #ticket = Ticket("问题报告", "2023-10-28 10:00:00", TicketStatus.NEW, Priority.HIGHEST, "用户A", None, "报告问题", None)
     #ticketing_system.ticket_storage.insert_ticket(ticket)
+    
