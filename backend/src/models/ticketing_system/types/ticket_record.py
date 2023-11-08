@@ -7,11 +7,11 @@ from typing import List, Optional
 from models.ticketing_system.types.enum_type import Priority, TicketStatus
 import uuid
 
-class Ticket:
+class TicketRecord:
 
     def __init__(self, title: str, created_time: str, status: TicketStatus, priority: Priority,
                  creator: str, assigned_to: Optional[str], ticket_type: str, closed_time: Optional[str]):
-        self.ticket_id = Ticket.generate_ticket_id()
+        self.ticket_id = TicketRecord.generate_ticket_id()
         self.title = title  # 工单标题
         self.created_time = created_time  # 创建时间
         self.status = status  # 状态
@@ -62,7 +62,7 @@ class Ticket:
     @classmethod
     def from_json(cls, json_string):
         ticket_data = json.loads(json_string)
-        return Ticket.from_dict(ticket_data)
+        return TicketRecord.from_dict(ticket_data)
     
 
 # 创建一个测试数据

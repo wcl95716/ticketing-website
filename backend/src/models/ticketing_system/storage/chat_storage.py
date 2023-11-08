@@ -3,10 +3,11 @@ import os
 from models.ticketing_system.types.chat_message import ChatMessage
 
 data_path = "data/work_order_logs"
+chat_history = "chat_history"
 
 def insert_message(message: ChatMessage):
     folder_path = f"{data_path}/{message.ticket_id}/"
-    file_name = f"{folder_path}chat_history.txt"
+    file_name = f"{folder_path}{chat_history}.txt"
     try:
         # 创建工单文件夹（如果不存在）
         os.makedirs(folder_path, exist_ok=True)
@@ -20,7 +21,7 @@ def insert_message(message: ChatMessage):
 
 def read_chat_history(ticket_id: str):
     folder_path = f"{data_path}/{ticket_id}/"
-    file_name = f"{folder_path}chat_history.txt"
+    file_name = f"{folder_path}{chat_history}.txt"
     
     chat_history = []
 
@@ -34,9 +35,3 @@ def read_chat_history(ticket_id: str):
         print(f"读取文件时发生错误：{str(e)}")
 
     return chat_history
-
-
-
-
-
-

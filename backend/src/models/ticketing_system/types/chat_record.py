@@ -7,7 +7,7 @@ from enum import Enum
 from models.ticketing_system.types.enum_type import MessageType
 
 
-class ChatMessage:
+class ChatRecord:
     def __init__(self, message_id: int, ticket_id: int, sender: str, content: str, message_time: str, message_type: MessageType):
         self.message_id = message_id  # 消息ID
         self.ticket_id = ticket_id  # 关联的工单ID
@@ -40,9 +40,9 @@ class ChatMessage:
 
 # 创建main 测试
 def testChatMessage():
-    chatMessage = ChatMessage(1, 2, "张三", "你好", "2021-10-28 10:00:00", MessageType.TEXT)
+    chatMessage = ChatRecord(1, 2, "张三", "你好", "2021-10-28 10:00:00", MessageType.TEXT)
     print(chatMessage.to_json())
-    chatMessage2 = ChatMessage.from_json(chatMessage.to_json())
+    chatMessage2 = ChatRecord.from_json(chatMessage.to_json())
     print(chatMessage2.to_json())
 
 
@@ -60,5 +60,5 @@ def getTestChatMessage():
     message_time = "2021-10-28 10:00:00"  # 固定消息时间
     message_type = random.choice(list(MessageType))  # 随机选择消息类型
 
-    chatMessage = ChatMessage(message_id, ticket_id, sender, content, message_time, message_type)
+    chatMessage = ChatRecord(message_id, ticket_id, sender, content, message_time, message_type)
     return chatMessage

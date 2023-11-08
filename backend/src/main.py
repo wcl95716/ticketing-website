@@ -4,7 +4,6 @@ import random
 import time
 import uuid
 from models.ticketing_system.types.enum_type import Priority, TicketStatus
-from models.ticketing_system.types.ticket import Ticket
 from database.chatMessage import testChatMessage
 from models import ticketing_system
 from models.ticketing_system.types.chat_message import ChatMessage
