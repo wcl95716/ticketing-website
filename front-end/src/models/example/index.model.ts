@@ -38,6 +38,6 @@ const exampleSlice = createSlice({
 export const { init, changeData } = exampleSlice.actions;
 
 // selector
-export const selectStateName = (state: RootStateModels) => state.exampleData.name;
+export const selectStateName = (storeModels: RootStateModels) => storeModels.exampleData.name;
 export default exampleSlice.reducer;
 // Path: src\componens\video\index.tsx

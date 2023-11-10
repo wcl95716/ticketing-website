@@ -1,5 +1,5 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
-import { RootStateModels, } from 'models/store';
+import { RootStateModels } from 'models/store';
 import { ITicketState } from './types/model.type';
 import { ITicketRecord } from './index.type';
 
@@ -10,13 +10,13 @@ export const getTicketListRequest = createAsyncThunk('test/getTestRequest', asyn
 });
 
 const initialState: ITicketState = {
-    ticketRecordlist: [],
+  ticketRecordlist: [],
 };
 
 // store initData
 // use createSlice Modify initData
 const ticketWebsiteSlice = createSlice({
-  name: 'example',
+  name: 'ticketWebsiteSlice',
   initialState,
   reducers: {
     init: (state, action) => {
@@ -28,16 +28,14 @@ const ticketWebsiteSlice = createSlice({
   },
   extraReducers: (builder) => {
     builder.addCase(getTicketListRequest.fulfilled, (state, action) => {
-      state.ticketRecordlist = action.payload;
+      console.log('action ', action.payload);
+      // state.ticketRecordlist = action.payload;
     });
   },
 });
 
 export const { init, changeData } = ticketWebsiteSlice.actions;
-
+// selector
+export const selectTicketRecordList = (stateModels: RootStateModels) => [];
 
 export default ticketWebsiteSlice.reducer;
-
-
-// selector
-export const selectTicketRecordList = (stateModels: RootStateModels) => stateModels.ticketWebsiteData.ticketRecordlist;

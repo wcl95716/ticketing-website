@@ -1,6 +1,6 @@
 import React, { useState, memo, useEffect } from 'react';
 import { Table, Dialog, Button, Row } from 'tdesign-react';
-import { useAppDispatch, useAppSelector } from 'modules/store';
+// import { useAppDispatch, useAppSelector } from 'modules/store';
 import { selectListSelect, getList, clearPageState } from 'modules/list/select';
 import SearchForm from './components/SearchForm';
 import { StatusMap, ContractTypeMap, PaymentTypeMap } from '../Base';
@@ -9,41 +9,43 @@ import './index.module.less';
 import classnames from 'classnames';
 import CommonStyle from '../../../styles/common.module.less';
 import { getTicketListRequest, selectTicketRecordList } from 'models/ticketing-website/index.model';
-import { useModelsDispatch, useModelsSelector } from 'models/store';
+import { useModelDispatch, useModelSelector } from 'models/store';
+import { selectStateName } from 'models/example/index.model';
+import { useSelector } from 'react-redux';
 
 
 export const SelectTable = () => {
-  const dispatch = useAppDispatch();
-  const pageState = useAppSelector(selectListSelect);
+  // const dispatch = useAppDispatch();
+  // const pageState = useAppSelector(selectListSelect);
   const [selectedRowKeys, setSelectedRowKeys] = useState<(string | number)[]>([0, 1]);
   const [visible, setVisible] = useState(false);
-  const { loading, contractList, current, pageSize, total } = pageState;
+  // const { loading, contractList, current, pageSize, total } = pageState;
 
-  const dispatchModels = useModelsDispatch();
-  dispatch(getTicketListRequest());
+  // const dispatchModels = useModelDispatch();
+  // dispatchModels(getTicketListRequest());
 
-  const ticketRecordList = useModelsSelector(selectTicketRecordList);
+  // const ticketRecordList = useSelector(selectTicketRecordList);
 
-  useEffect(() => {
-    // dispatchModels(getTicketListRequest());
-  }, []);
+  // useEffect(() => {
+  //   dispatchModels(getTicketListRequest());
+  // }, []);
 
-  useEffect(() => {
-    // dispatchModels(getTicketListRequest());
-    console.log("ticketRecordList ",ticketRecordList)
-  }, [ticketRecordList]);
+  // useEffect(() => {
+  //   // dispatchModels(getTicketListRequest());
+  //   console.log("ticketRecordList ",ticketRecordList)
+  // }, [ticketRecordList]);
 
-  useEffect(() => {
-    dispatch(
-      getList({
-        pageSize: pageState.pageSize,
-        current: pageState.current,
-      }),
-    );
-    return () => {
-      dispatch(clearPageState());
-    };
-  }, []);
+  // useEffect(() => {
+  //   dispatch(
+  //     getList({
+  //       pageSize: pageState.pageSize,
+  //       current: pageState.current,
+  //     }),
+  //   );
+  //   return () => {
+  //     dispatch(clearPageState());
+  //   };
+  // }, []);
 
   function onSelectChange(value: (string | number)[]) {
     setSelectedRowKeys(value);
@@ -73,8 +75,6 @@ export const SelectTable = () => {
         />
       </Row>
       <Table
-        loading={loading}
-        data={contractList}
         columns={[
           {
             title: '合同名称',
@@ -157,28 +157,6 @@ export const SelectTable = () => {
         selectedRowKeys={selectedRowKeys}
         hover
         onSelectChange={onSelectChange}
-        pagination={{
-          pageSize,
-          total,
-          current,
-          showJumper: true,
-          onCurrentChange(current, pageInfo) {
-            dispatch(
-              getList({
-                pageSize: pageInfo.pageSize,
-                current: pageInfo.current,
-              }),
-            );
-          },
-          onPageSizeChange(size) {
-            dispatch(
-              getList({
-                pageSize: size,
-                current: 1,
-              }),
-            );
-          },
-        }}
       />
       <Dialog header='确认删除当前所选合同？' visible={visible} onClose={handleClose}>
         <p>删除后的所有合同信息将被清空,且无法恢复</p>

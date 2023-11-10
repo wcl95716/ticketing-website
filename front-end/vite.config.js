@@ -26,6 +26,7 @@ export default (params) => {
         router: path.resolve(__dirname, './src/router'),
         hooks: path.resolve(__dirname, './src/hooks'),
         types: path.resolve(__dirname, './src/types'),
+        models: path.resolve(__dirname, './src/models'),
       },
     },
 
