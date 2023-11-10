@@ -1,5 +1,7 @@
 import { configureStore, combineReducers } from '@reduxjs/toolkit';
 import { TypedUseSelectorHook, useSelector, useDispatch } from 'react-redux';
+import exampleSliceReducer from 'models/example/index.model';
+import ticketSliceReducer from 'models/ticketing-website/index.model';
 
 import global from './global';
 import user from './user';
@@ -13,9 +15,14 @@ const reducer = combineReducers({
   listBase,
   listSelect,
   listCard,
+  exampleData: exampleSliceReducer,
+  ticketWebsiteData: ticketSliceReducer,
 });
 
 export const store = configureStore({
+  // reducer: {
+
+  // },
   reducer,
 });
 
