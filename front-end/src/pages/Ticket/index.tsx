@@ -2,22 +2,19 @@ import React, { useState, memo, useEffect } from 'react';
 import { useAppDispatch, useAppSelector } from 'modules/store';
 import { selectListSelect, getList, clearPageState } from 'modules/list/select';
 import SearchForm from './components/SearchForm';
-// import { StatusMap, ContractTypeMap, PaymentTypeMap } from '../Base';
-
-// import './index.module.less';
-// import classnames from 'classnames';
-// import CommonStyle from '../../../styles/common.module.less';
-
-
+import { useNavigate } from 'react-router-dom';
+import {
+   DeleteOutlined,
+} from "@ant-design/icons";
 import {
    UserOutlined,
 } from "@ant-design/icons";
 import type { MenuProps } from "antd";
 import {
-   Breadcrumb, Layout, Menu, theme, Table, Form, Input, Select, DatePicker, Button, Row
+   Modal, Layout, Popconfirm, theme, Table, message, Input, Select, DatePicker, Button, Row
 } from "antd";
-// import { useStyles } from "./index.style";
-// import { columns, DataType } from "./index.data";
+import Style from './index.module.less';
+import type { ColumnsType } from 'antd/es/table';
 
 export interface DataType {
    key: React.Key;
@@ -33,6 +30,8 @@ const {
 type MenuItem = Required<MenuProps>["items"][number];
 
 const data: DataType[] = [];
+
+//模拟列表数据
 for (let i = 0; i < 100; i++) {
    data.push({
       key: i,
@@ -41,14 +40,22 @@ for (let i = 0; i < 100; i++) {
       address: `London Park no. ${i}`,
    });
 }
-
-
-export const SelectTable = () => {
+const ticketPage: React.FC = () => {
    const dispatch = useAppDispatch();
    const pageState = useAppSelector(selectListSelect);
    const [selectedRowKeys, setSelectedRowKeys] = useState<(string | number)[]>([0, 1]);
-   const [visible, setVisible] = useState(false);
    const { loading, contractList, current, pageSize, total } = pageState;
+   const [modal, contextHolder] = Modal.useModal();
+   const [visible, setVisible] = useState(false);
+   const navigate = useNavigate();
+   const config = {
+      title: '删除工单!',
+      content: (
+         <>
+            <span>是否确认删除？</span>
+         </>
+      ),
+   };
 
    useEffect(() => {
       dispatch(
@@ -62,25 +69,98 @@ export const SelectTable = () => {
       };
    }, []);
 
-   function onSelectChange(value: (string | number)[]) {
-      setSelectedRowKeys(value);
-   }
+   const deleteConfirm = (e: React.MouseEvent<HTMLElement>) => {
+      console.log(e);
+      message.success('Click on Yes');
+    };
 
-   function rehandleClickOp(record: any) {
-      console.log(record);
-   }
+    const onView = (record: DataType) => {
+        navigate('detail', { state: { key: record.key } });
+      };
+    
+    const cancel = (e: React.MouseEvent<HTMLElement>) => {
+      console.log(e);
+      message.error('Click on No');
+    };
+    const columns: ColumnsType<DataType> = [
+      {
+         title: "工单ID",
+         width: 100,
+         dataIndex: "name",
+         key: "name",
+         fixed: "left",
+      },
+      {
+         title: "标题",
+         width: 100,
+         dataIndex: "age",
+         key: "age",
+         //   fixed: 'left',
+      },
+      {
+         title: "处理人",
+         dataIndex: "address",
+         key: "1",
+         width: 150,
+      },
+      {
+         title: "状态",
+         dataIndex: "address",
+         key: "2",
+         width: 150,
+      },
+      {
+         title: "开始时间",
+         dataIndex: "address",
+         key: "3",
+         width: 150,
+      },
+      {
+         title: "更新时间",
+         dataIndex: "address",
+         key: "4",
+         width: 150,
+      },
+      {
+         title: "操作",
+         key: "operation",
+         fixed: "right",
+         width: 100,
+         render: (text, record) => (
+            <div style={{ display: "flex" }}>
+               <Button 
+               type="primary" 
+               style={{ marginRight: 8 }} 
+            //    onClick={() => setVisible(!visible)}
+               onClick={() => onView(record)}
+               size="small"
+               >
+                  查看
+               </Button>
 
-   function handleClickDelete(record: any) {
-      console.log(record);
-      setVisible(true);
-   }
-
-   function handleClose() {
-      setVisible(false);
-   }
-
+               <Popconfirm
+                  title="删除工单"
+                  description="你确定删除此条工单吗?"
+                  onConfirm={deleteConfirm}
+                  // onCancel={cancel}
+                  okText="确定"
+                  cancelText="取消"
+               >
+                  <Button
+                     type="default"
+                     danger size="small"
+                    
+                  ><DeleteOutlined />
+                  </Button>
+               </Popconfirm>
+            </div>
+         ),
+      }
+   ]
+console.log("查看Style111",Style,Style.list_ticket_table)
    return (
-      <>
+      <div>
+         {/* <SelectTable /> */}
          <Row justify='start' style={{ marginBottom: '20px' }}>
             <SearchForm
                onSubmit={async (value) => {
@@ -90,98 +170,44 @@ export const SelectTable = () => {
             />
          </Row>
          <Table
+         className={Style.list_ticket_table}
             loading={loading}
-            // data={contractList}
-            columns={[
-               {
-                  title: "工单ID",
-                  width: 100,
-                  dataIndex: "name",
-                  key: "name",
-                  fixed: "left",
-               },
-               {
-                  title: "标题",
-                  width: 100,
-                  dataIndex: "age",
-                  key: "age",
-                  //   fixed: 'left',
-               },
-               {
-                  title: "处理人",
-                  dataIndex: "address",
-                  key: "1",
-                  width: 150,
-               },
-               {
-                  title: "状态",
-                  dataIndex: "address",
-                  key: "2",
-                  width: 150,
-               },
-               {
-                  title: "开始时间",
-                  dataIndex: "address",
-                  key: "3",
-                  width: 150,
-               },
-               {
-                  title: "更新时间",
-                  dataIndex: "address",
-                  key: "4",
-                  width: 150,
-               },
-               {
-                  title: "操作",
-                  key: "operation",
-                  fixed: "right",
-                  width: 100,
-                  render: (text, record) => (
-                     <div style={{ display: "flex" }}>
-                        {/* <Button type="primary" style={{ marginRight: 8 }}  onClick={() => handleView(record.name)}>查看</Button>
-                 <Button type="default" onClick={() => showModal(record.name)} danger><DeleteOutlined /></Button> */}
-                     </div>
-                  ),
-               }
-            ]}
-            rowKey='index'
-            // selectedRowKeys={selectedRowKeys}
-            // hover
-            // onSelectChange={onSelectChange}
-            // pagination={{
-            //    pageSize,
-            //    total,
-            //    current,
-            //    showJumper: true,
-            //    onCurrentChange(current, pageInfo) {
-            //       dispatch(
-            //          getList({
-            //             pageSize: pageInfo.pageSize,
-            //             current: pageInfo.current,
-            //          }),
-            //       );
-            //    },
-            //    onPageSizeChange(size) {
-            //       dispatch(
-            //          getList({
-            //             pageSize: size,
-            //             current: 1,
-            //          }),
-            //       );
-            //    },
-            // }}
+            size="large"
+            dataSource={data}
+            columns={columns}
+            // rowKey='name'
+            scroll={{ x: 1300 }}
+         // selectedRowKeys={selectedRowKeys}
+         // hover
+         // onSelectChange={onSelectChange}
+         // pagination={{
+         //    pageSize,
+         //    total,
+         //    current,
+         //    showJumper: true,
+         //    onCurrentChange(current, pageInfo) {
+         //       dispatch(
+         //          getList({
+         //             pageSize: pageInfo.pageSize,
+         //             current: pageInfo.current,
+         //          }),
+         //       );
+         //    },
+         //    onPageSizeChange(size) {
+         //       dispatch(
+         //          getList({
+         //             pageSize: size,
+         //             current: 1,
+         //          }),
+         //       );
+         //    },
+         // }}
          />
          {/* <Dialog header='确认删除当前所选合同？' visible={visible} onClose={handleClose}>
             <p>删除后的所有合同信息将被清空,且无法恢复</p>
          </Dialog> */}
-      </>
+         {/* {visible && <DetailModel visible={visible} />} */}
+      </div>
    );
-};
-
-const ticketPage: React.FC = () => (
-   <div>
-      <SelectTable />
-   </div>
-);
-
+}
 export default memo(ticketPage);
