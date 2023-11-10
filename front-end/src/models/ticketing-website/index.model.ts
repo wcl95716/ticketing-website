@@ -4,7 +4,7 @@ import { ITicketState } from './types/model.type';
 import { ITicketRecord } from './index.type';
 
 // get state from http://127.0.0.1:5000/getVideosDetail
-export const getTestRequest = createAsyncThunk('test/getTestRequest', async () => {
+export const getTicketListRequest = createAsyncThunk('test/getTestRequest', async () => {
   const response = await fetch('http://47.103.45.149:5000/test/get_all_tickets');
   return response.json() as unknown as ITicketRecord[];
 });
@@ -27,7 +27,7 @@ const ticketWebsiteSlice = createSlice({
     },
   },
   extraReducers: (builder) => {
-    builder.addCase(getTestRequest.fulfilled, (state, action) => {
+    builder.addCase(getTicketListRequest.fulfilled, (state, action) => {
       state.ticketRecordlist = action.payload;
     });
   },
@@ -36,6 +36,7 @@ const ticketWebsiteSlice = createSlice({
 export const { init, changeData } = ticketWebsiteSlice.actions;
 
 // selector
-export const selectStateName = (state: RootState) => state.exampleData.name;
+export const selectTicketRecordList = (state: RootState) => state.ticketWebsiteData.ticketRecordlist;
+
 export default ticketWebsiteSlice.reducer;
 // Path: src\componens\video\index.tsx
