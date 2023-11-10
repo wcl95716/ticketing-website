@@ -9,7 +9,7 @@ import result from './modules/result';
 import user from './modules/user';
 import login from './modules/login';
 import otherRoutes from './modules/others';
-import Ticket from 'pages/Ticket';
+import DetailModel from '../pages/Ticket/components/DetailModel'
 
 export interface IRouter {
   path: string;

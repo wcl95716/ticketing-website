@@ -16,7 +16,6 @@ const initialState: IExampleStateType = {
 };
 
 // store initData
-// use createSlice Modify initData
 const exampleSlice = createSlice({
     name: "example",
     initialState,
