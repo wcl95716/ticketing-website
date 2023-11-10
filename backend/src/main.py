@@ -31,7 +31,7 @@ if __name__ == "__main__":
     # his_list:list[ChatRecord] = []
     # for i in range(10):
     #     message = ticketing_system.chat_record.getTestChatMessage()
-    #     his_list.append(message)
+    #     # his_list.append(message)
     #     ticketing_system.chat_api.add_chat_record(message.to_json())
 
     # for his in his_list:

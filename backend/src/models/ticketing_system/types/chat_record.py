@@ -46,9 +46,8 @@ class ChatRecord:
 # 创建main 测试
 def testChatMessage():
     chatMessage = ChatRecord(1, 2, "张三", "你好", "2021-10-28 10:00:00", MessageType.TEXT)
-    print(chatMessage.to_json())
-    chatMessage2 = ChatRecord.from_json(chatMessage.to_json())
-    print(chatMessage2.to_json())
+    chatMessage.ticket_id = "2023-11-10-5a994e69-7a49-4f91-bd2f-d1bec831daa9"
+    return chatMessage
 
 
 def generate_random_chinese(length):
@@ -66,4 +65,5 @@ def getTestChatMessage():
     message_type = random.choice(list(MessageType))  # 随机选择消息类型
 
     chatMessage = ChatRecord(message_id, ticket_id, sender, content, message_time, message_type)
+    chatMessage.ticket_id = "2023-11-10-5a994e69-7a49-4f91-bd2f-d1bec831daa9"
     return chatMessage
