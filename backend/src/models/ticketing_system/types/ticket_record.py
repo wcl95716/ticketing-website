@@ -75,3 +75,15 @@ def testTicket():
     print(ticket.to_json())
     ticket2 = TicketRecord.from_json(ticket.to_json())
     print(ticket2.to_json())
+    
+    
+def generate_random_chinese(length):
+    chinese_characters = [chr(random.randint(0x4e00, 0x9fff)) for _ in range(length)]
+    return ''.join(chinese_characters)
+
+#创建一个随机的testTicket 数据
+def getTestTicket():
+    sender = generate_random_chinese(5)  # 随机生成5个中文字符的发送者名字
+    ticket = TicketRecord("问题报告", datetime.datetime.now().isoformat(), TicketStatus.NEW, Priority.HIGHEST, sender, None, "报告问题", None)
+    return ticket
+    pass 

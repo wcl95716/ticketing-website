@@ -29,13 +29,16 @@ def api_get_chat_history(ticket_id):
         return jsonify({"error": str(e)})
 
 
-@api_bp.route('/add_ticket', methods=['POST'])
+# @api_bp.route('/add_ticket', methods=['POST'])
+@api_bp.route('/add_ticket')
 def api_add_ticket():
     try:
-        ticket_data = request.get_json()
+        # ticket_data = request.get_json()
         # 请确保根据需要创建 TicketRecord 对象并将数据传递给 add_ticket 函数
         # 例如：ticket = TicketRecord(**ticket_data)
         # 然后将 ticket 传递给 add_ticket 函数
+        ticket_data = ticketing_system.ticket_api.get_test_ticket()
+        print(ticket_data)
         ticketing_system.ticket_api.add_ticket(ticket_data)
         return jsonify({"message": "Ticket added successfully"})
     except Exception as e:

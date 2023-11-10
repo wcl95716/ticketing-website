@@ -37,8 +37,10 @@ if __name__ == "__main__":
     # for his in his_list:
     #     print(ticketing_system.chat_api.get_chat_history(his.ticket_id) )
     #     print()
-    flask_service.get_app().run(host='0.0.0.0',port=5000)
+    flask_service.get_app().run(host='0.0.0.0',port=5001)
     #ticket.testTicket()
-    #ticket = Ticket("问题报告", "2023-10-28 10:00:00", TicketStatus.NEW, Priority.HIGHEST, "用户A", None, "报告问题", None)
-    #ticketing_system.ticket_storage.insert_ticket(ticket)
+    # ticket = ("问题报告", "2023-10-28 10:00:00", TicketStatus.NEW, Priority.HIGHEST, "用户A", None, "报告问题", None)
     
+    # ticketing_system.ticket_api.add_ticket()
+    
+    pass 

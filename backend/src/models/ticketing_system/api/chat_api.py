@@ -17,3 +17,4 @@ def get_chat_history(ticket_id: str) -> list[dict]:
     chats:list[dict] = chat_storage.get_chat_history_from_file(ticket_id)
     return chats
     pass
+
