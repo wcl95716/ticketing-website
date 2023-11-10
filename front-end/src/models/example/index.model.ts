@@ -1,5 +1,5 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
-import { RootState } from "store";
+import { RootStateModels } from "models/store";
 import { IExampleStateType } from "./index.type";
 
 // get state from http://127.0.0.1:5000/getVideosDetail
@@ -38,6 +38,6 @@ const exampleSlice = createSlice({
 export const { init, changeData } = exampleSlice.actions;
 
 // selector
-export const selectStateName = (state: RootState) => state.exampleData.name;
+export const selectStateName = (state: RootStateModels) => state.exampleData.name;
 export default exampleSlice.reducer;
 // Path: src\componens\video\index.tsx

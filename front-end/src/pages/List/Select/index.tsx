@@ -8,6 +8,9 @@ import { StatusMap, ContractTypeMap, PaymentTypeMap } from '../Base';
 import './index.module.less';
 import classnames from 'classnames';
 import CommonStyle from '../../../styles/common.module.less';
+import { getTicketListRequest, selectTicketRecordList } from 'models/ticketing-website/index.model';
+import { useModelsDispatch, useModelsSelector } from 'models/store';
+
 
 export const SelectTable = () => {
   const dispatch = useAppDispatch();
@@ -15,6 +18,20 @@ export const SelectTable = () => {
   const [selectedRowKeys, setSelectedRowKeys] = useState<(string | number)[]>([0, 1]);
   const [visible, setVisible] = useState(false);
   const { loading, contractList, current, pageSize, total } = pageState;
+
+  const dispatchModels = useModelsDispatch();
+  dispatch(getTicketListRequest());
+
+  const ticketRecordList = useModelsSelector(selectTicketRecordList);
+
+  useEffect(() => {
+    // dispatchModels(getTicketListRequest());
+  }, []);
+
+  useEffect(() => {
+    // dispatchModels(getTicketListRequest());
+    console.log("ticketRecordList ",ticketRecordList)
+  }, [ticketRecordList]);
 
   useEffect(() => {
     dispatch(

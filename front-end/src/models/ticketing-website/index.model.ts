@@ -1,5 +1,5 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
-import { RootState } from 'store';
+import { RootStateModels, } from 'models/store';
 import { ITicketState } from './types/model.type';
 import { ITicketRecord } from './index.type';
 
@@ -35,8 +35,9 @@ const ticketWebsiteSlice = createSlice({
 
 export const { init, changeData } = ticketWebsiteSlice.actions;
 
-// selector
-export const selectTicketRecordList = (state: RootState) => state.ticketWebsiteData.ticketRecordlist;
 
 export default ticketWebsiteSlice.reducer;
-// Path: src\componens\video\index.tsx
+
+
+// selector
+export const selectTicketRecordList = (stateModels: RootStateModels) => stateModels.ticketWebsiteData.ticketRecordlist;
