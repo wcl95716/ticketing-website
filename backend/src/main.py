@@ -1,3 +1,7 @@
+import sys
+sys.path.append("./src")
+
+
 # 示例用法
 import datetime
 import random
