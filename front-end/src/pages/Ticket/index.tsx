@@ -1,6 +1,7 @@
 import React, { useState, memo, useEffect } from 'react';
-import { useAppDispatch, useAppSelector } from 'modules/store';
+// import { useAppDispatch, useAppSelector } from 'modules/store';
 import { selectListSelect, getList, clearPageState } from 'modules/list/select';
+import { getTicketListRequest, selectTicketRecordList } from 'models/ticketing-website/index.model';
 import SearchForm from './components/SearchForm';
 import { useNavigate } from 'react-router-dom';
 import {
@@ -15,6 +16,7 @@ import {
 } from "antd";
 import Style from './index.module.less';
 import type { ColumnsType } from 'antd/es/table';
+import { useAppDispatch, useAppSelector } from 'modules/store';
 
 export interface DataType {
    key: React.Key;
@@ -29,17 +31,17 @@ const {
 } = Layout;
 type MenuItem = Required<MenuProps>["items"][number];
 
-const data: DataType[] = [];
+// const data: DataType[] = [];
 
-//模拟列表数据
-for (let i = 0; i < 100; i++) {
-   data.push({
-      key: i,
-      name: `Edward ${i}`,
-      age: 32,
-      address: `London Park no. ${i}`,
-   });
-}
+// //模拟列表数据
+// for (let i = 0; i < 100; i++) {
+//    data.push({
+//       key: i,
+//       name: `Edward ${i}`,
+//       age: 32,
+//       address: `London Park no. ${i}`,
+//    });
+// }
 const ticketPage: React.FC = () => {
    const dispatch = useAppDispatch();
    const pageState = useAppSelector(selectListSelect);
@@ -47,6 +49,7 @@ const ticketPage: React.FC = () => {
    const { loading, contractList, current, pageSize, total } = pageState;
    const [modal, contextHolder] = Modal.useModal();
    const [visible, setVisible] = useState(false);
+   const [data, setData] = useState([]);
    const navigate = useNavigate();
    const config = {
       title: '删除工单!',
@@ -57,32 +60,47 @@ const ticketPage: React.FC = () => {
       ),
    };
 
+   // useEffect(() => {
+   //    dispatch(
+   //       getList({
+   //          pageSize: pageState.pageSize,
+   //          current: pageState.current,
+   //       }),
+   //    );
+   //    return () => {
+   //       dispatch(clearPageState());
+   //    };
+   // }, []);
+
+
+
+   const ticketRecordList = useAppSelector(selectTicketRecordList);
+
    useEffect(() => {
-      dispatch(
-         getList({
-            pageSize: pageState.pageSize,
-            current: pageState.current,
-         }),
-      );
-      return () => {
-         dispatch(clearPageState());
-      };
+      dispatch(getTicketListRequest())
    }, []);
+
+   useEffect(() => {
+      // dispatchModels(getTicketListRequest());
+      console.log("ticketRecordList ", ticketRecordList,ticketRecordList instanceof Array)
+      setData(ticketRecordList);
+   }, [ticketRecordList]);
+
 
    const deleteConfirm = (e: React.MouseEvent<HTMLElement>) => {
       console.log(e);
       message.success('Click on Yes');
-    };
+   };
 
-    const onView = (record: DataType) => {
-        navigate('detail', { state: { key: record.key } });
-      };
-    
-    const cancel = (e: React.MouseEvent<HTMLElement>) => {
+   const onView = (record: DataType) => {
+      navigate('detail', { state: { key: record.key } });
+   };
+
+   const cancel = (e: React.MouseEvent<HTMLElement>) => {
       console.log(e);
       message.error('Click on No');
-    };
-    const columns: ColumnsType<DataType> = [
+   };
+   const columns: ColumnsType<DataType> = [
       {
          title: "工单ID",
          width: 100,
@@ -111,7 +129,7 @@ const ticketPage: React.FC = () => {
       },
       {
          title: "开始时间",
-         dataIndex: "address",
+         dataIndex: "created_time",
          key: "3",
          width: 150,
       },
@@ -128,12 +146,12 @@ const ticketPage: React.FC = () => {
          width: 100,
          render: (text, record) => (
             <div style={{ display: "flex" }}>
-               <Button 
-               type="primary" 
-               style={{ marginRight: 8 }} 
-            //    onClick={() => setVisible(!visible)}
-               onClick={() => onView(record)}
-               size="small"
+               <Button
+                  type="primary"
+                  style={{ marginRight: 8 }}
+                  //    onClick={() => setVisible(!visible)}
+                  onClick={() => onView(record)}
+                  size="small"
                >
                   查看
                </Button>
@@ -149,7 +167,7 @@ const ticketPage: React.FC = () => {
                   <Button
                      type="default"
                      danger size="small"
-                    
+
                   ><DeleteOutlined />
                   </Button>
                </Popconfirm>
@@ -157,7 +175,9 @@ const ticketPage: React.FC = () => {
          ),
       }
    ]
-console.log("查看Style111",Style,Style.list_ticket_table)
+   console.log("查看data",data)
+   console.log("查看Style111", Style, Style.list_ticket_table)
+   console.log("查看loading",loading)
    return (
       <div>
          {/* <SelectTable /> */}
@@ -170,8 +190,8 @@ console.log("查看Style111",Style,Style.list_ticket_table)
             />
          </Row>
          <Table
-         className={Style.list_ticket_table}
-            loading={loading}
+            className={Style.list_ticket_table}
+            // loading={loading}
             size="large"
             dataSource={data}
             columns={columns}
