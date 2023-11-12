@@ -1,14 +1,9 @@
 import React, { useState, memo, useEffect } from 'react';
-// import { useAppDispatch, useAppSelector } from 'modules/store';
-import { selectListSelect, getList, clearPageState } from 'modules/list/select';
 import { getTicketListRequest, selectTicketRecordList } from 'models/ticketing-website/index.model';
 import SearchForm from './components/SearchForm';
 import { useNavigate } from 'react-router-dom';
 import {
    DeleteOutlined,
-} from "@ant-design/icons";
-import {
-   UserOutlined,
 } from "@ant-design/icons";
 import type { MenuProps } from "antd";
 import {
@@ -33,44 +28,12 @@ type MenuItem = Required<MenuProps>["items"][number];
 
 // const data: DataType[] = [];
 
-// //模拟列表数据
-// for (let i = 0; i < 100; i++) {
-//    data.push({
-//       key: i,
-//       name: `Edward ${i}`,
-//       age: 32,
-//       address: `London Park no. ${i}`,
-//    });
-// }
 const ticketPage: React.FC = () => {
    const dispatch = useAppDispatch();
-   const pageState = useAppSelector(selectListSelect);
-   const [selectedRowKeys, setSelectedRowKeys] = useState<(string | number)[]>([0, 1]);
-   const { loading, contractList, current, pageSize, total } = pageState;
-   const [modal, contextHolder] = Modal.useModal();
-   const [visible, setVisible] = useState(false);
+   // const [selectedRowKeys, setSelectedRowKeys] = useState<(string | number)[]>([0, 1]);
    const [data, setData] = useState([]);
    const navigate = useNavigate();
-   const config = {
-      title: '删除工单!',
-      content: (
-         <>
-            <span>是否确认删除？</span>
-         </>
-      ),
-   };
 
-   // useEffect(() => {
-   //    dispatch(
-   //       getList({
-   //          pageSize: pageState.pageSize,
-   //          current: pageState.current,
-   //       }),
-   //    );
-   //    return () => {
-   //       dispatch(clearPageState());
-   //    };
-   // }, []);
 
 
 
@@ -149,7 +112,6 @@ const ticketPage: React.FC = () => {
                <Button
                   type="primary"
                   style={{ marginRight: 8 }}
-                  //    onClick={() => setVisible(!visible)}
                   onClick={() => onView(record)}
                   size="small"
                >
@@ -175,9 +137,7 @@ const ticketPage: React.FC = () => {
          ),
       }
    ]
-   console.log("查看data",data)
-   console.log("查看Style111", Style, Style.list_ticket_table)
-   console.log("查看loading",loading)
+
    return (
       <div>
          {/* <SelectTable /> */}
@@ -223,10 +183,6 @@ const ticketPage: React.FC = () => {
          //    },
          // }}
          />
-         {/* <Dialog header='确认删除当前所选合同？' visible={visible} onClose={handleClose}>
-            <p>删除后的所有合同信息将被清空,且无法恢复</p>
-         </Dialog> */}
-         {/* {visible && <DetailModel visible={visible} />} */}
       </div>
    );
 }
