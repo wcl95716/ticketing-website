@@ -1,8 +1,10 @@
 from flask import Blueprint, jsonify, request
+from flask_cors import CORS
 
 from models import ticketing_system
 
 api_bp = Blueprint('ticketing_system', __name__)
+CORS(api_bp) # 解决跨域问题
 
 #eg: http://127.0.0.1:5000/api/api_endpoint
 @api_bp.route('/api_endpoint')
