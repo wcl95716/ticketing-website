@@ -19,7 +19,76 @@ const getBase64 = (file: RcFile): Promise<string> =>
    });
 const DetailModel = () => {
    const location = useLocation();
-   const { key } = location.state;
+   const { key } = location.state || {};
+   const addTicket = async (newMessageContent) => {
+      try {
+        const response = await fetch('http://47.103.45.149:5000/test/add_ticket', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({ message: newMessageContent }),
+        });
+        
+        if (!response.ok) throw new Error('Network response was not ok.');
+        // 假设POST请求成功后立即调用GET请求更新列表
+        fetchMessages();
+      } catch (error) {
+        console.error("Error posting new ticket:", error);
+        message.error('发送消息失败');
+      }
+    };
+    const handleSendMessage = () => {
+      if (newMessage.trim() !== '') {
+        addTicket(newMessage.trim()); // 调用addTicket函数发送新消息
+        setNewMessage(''); // 清空输入框
+      }
+    };
+    
+    const handleUpload = (file: RcFile) => {
+      getBase64(file).then(base64 => {
+        const fileMessage = {
+          id: messages.length + 1,
+          img: base64, // 假设我们发送base64编码的图片文件
+          // ...其他属性，如时间戳、发送者等
+        };
+        addTicket(fileMessage); // 发送文件消息
+      });
+    };
+    const fetchMessages = async () => {
+      if (key) {
+        try {
+          const response = await fetch(`http://47.103.45.149:5000/test/get_all_tickets/${key}`);
+          const data = await response.json();
+          setMessages(data); // 更新消息列表
+        } catch (error) {
+          console.error("Error fetching messages:", error);
+          message.error('获取消息列表失败');
+        }
+      }
+    };
+    useEffect(() => {
+      fetchMessages();
+    }, [key]);
+    
+   useEffect(() => {
+      if (key) {
+        const fetchTickets = async () => {
+          try {
+            const response = await fetch(`http://47.103.45.149:5000/test/get_all_tickets/${key}`);
+            const data = await response.json();
+            // 如果接口返回的是消息数组，直接用setMessages更新状态
+            setMessages(data);
+          } catch (error) {
+            console.error("Error fetching tickets:", error);
+            message.error('获取数据失败'); // 可以使用Ant Design的message组件提示用户
+          }
+        };
+  
+        fetchTickets();
+      }
+    }, [key]);
+  
    const [messages, setMessages] = useState(
       [
          { id: 1, text: '你说什么', avatar: 'https://zos.alipayobjects.com/rmsportal/jkjgkEfvpUPVyRjUImniVslZfWPnJuuZ.png', sender: '用户名1', time: '1970-03-04 14:23:44' },
