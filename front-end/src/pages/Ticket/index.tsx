@@ -7,7 +7,7 @@ import {
 } from "@ant-design/icons";
 import type { MenuProps } from "antd";
 import {
-   Modal, Layout, Popconfirm, theme, Table, message, Input, Select, DatePicker, Button, Row
+   Modal, Layout, Popconfirm, theme, Table, message, Input, Select, DatePicker, Button, Row, Badge
 } from "antd";
 import Style from './index.module.less';
 import type { ColumnsType } from 'antd/es/table';
@@ -33,11 +33,8 @@ const ticketPage: React.FC = () => {
    // const [selectedRowKeys, setSelectedRowKeys] = useState<(string | number)[]>([0, 1]);
    const [data, setData] = useState([]);
    const navigate = useNavigate();
-
-
-
-
    const ticketRecordList = useAppSelector(selectTicketRecordList);
+   const [selectedRowKeys, setSelectedRowKeys] = useState<React.Key[]>([]);
 
    useEffect(() => {
       dispatch(getTicketListRequest())
@@ -45,7 +42,7 @@ const ticketPage: React.FC = () => {
 
    useEffect(() => {
       // dispatchModels(getTicketListRequest());
-      console.log("ticketRecordList ", ticketRecordList,ticketRecordList instanceof Array)
+      console.log("ticketRecordList ", ticketRecordList, ticketRecordList instanceof Array)
       setData(ticketRecordList);
    }, [ticketRecordList]);
 
@@ -56,39 +53,85 @@ const ticketPage: React.FC = () => {
    };
 
    const onView = (record: DataType) => {
-      navigate('detail', { state: { key: record.key } });
+      console.log("查看record", record)
+      navigate('detail', { state: { ticket_id: record?.ticket_id } });
    };
 
    const cancel = (e: React.MouseEvent<HTMLElement>) => {
       console.log(e);
       message.error('Click on No');
    };
+
+   const onSelectChange = (newSelectedRowKeys: React.Key[]) => {
+      console.log('selectedRowKeys changed: ', newSelectedRowKeys);
+      setSelectedRowKeys(newSelectedRowKeys);
+    };
+  
+    const rowSelection = {
+      selectedRowKeys,
+      onChange: onSelectChange,
+    };
+
+   const renderStatus = (status: any) => {
+      let statusText;
+      let statusColor;
+
+      switch (status) {
+         case 0:
+            statusText = '待处理';
+            //  statusColor = 'orange';
+            status="error"
+            break;
+         case 1:
+            statusText = '处理中';
+            //  statusColor = 'blue';
+            status = "processing"
+            break;
+         case 2:
+            statusText = '处理完成';
+            //  statusColor = 'green';
+            status = 'success';
+            break;
+         case 3:
+            statusText = '关闭工单';
+            //  statusColor = 'red';
+            status="default"
+            break;
+         default:
+            statusText = '未知状态';
+            status="default"
+         //  statusColor = 'default';
+      }
+
+      return <Badge text={statusText} status={status} />;
+   };
    const columns: ColumnsType<DataType> = [
       {
          title: "工单ID",
          width: 100,
-         dataIndex: "name",
-         key: "name",
-         fixed: "left",
+         dataIndex: "ticket_id",
+         key: "ticket_id",
+         // fixed: "left",
       },
       {
          title: "标题",
          width: 100,
-         dataIndex: "age",
-         key: "age",
+         dataIndex: "title",
+         key: "title",
          //   fixed: 'left',
       },
       {
          title: "处理人",
-         dataIndex: "address",
+         dataIndex: "creator",
          key: "1",
          width: 150,
       },
       {
          title: "状态",
-         dataIndex: "address",
+         dataIndex: "status",
          key: "2",
          width: 150,
+         render: (status) => renderStatus(status)
       },
       {
          title: "开始时间",
@@ -127,10 +170,11 @@ const ticketPage: React.FC = () => {
                   cancelText="取消"
                >
                   <Button
-                     type="default"
+                     type="primary"
                      danger size="small"
-
-                  ><DeleteOutlined />
+                     shape="circle"
+                     
+                  ><DeleteOutlined style={{color:'white'}}/>
                   </Button>
                </Popconfirm>
             </div>
@@ -155,33 +199,9 @@ const ticketPage: React.FC = () => {
             size="large"
             dataSource={data}
             columns={columns}
-            // rowKey='name'
+            rowKey='ticket_id'
             scroll={{ x: 1300 }}
-         // selectedRowKeys={selectedRowKeys}
-         // hover
-         // onSelectChange={onSelectChange}
-         // pagination={{
-         //    pageSize,
-         //    total,
-         //    current,
-         //    showJumper: true,
-         //    onCurrentChange(current, pageInfo) {
-         //       dispatch(
-         //          getList({
-         //             pageSize: pageInfo.pageSize,
-         //             current: pageInfo.current,
-         //          }),
-         //       );
-         //    },
-         //    onPageSizeChange(size) {
-         //       dispatch(
-         //          getList({
-         //             pageSize: size,
-         //             current: 1,
-         //          }),
-         //       );
-         //    },
-         // }}
+            // rowSelection={rowSelection}
          />
       </div>
    );
