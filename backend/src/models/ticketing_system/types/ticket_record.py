@@ -12,6 +12,7 @@ class TicketRecord:
     def __init__(self, title: str, created_time: str, status: TicketStatus, priority: Priority,
                  creator: str, assigned_to: Optional[str], ticket_type: str, closed_time: Optional[str]):
         self.ticket_id = TicketRecord.generate_ticket_id()
+        self.display_id = self.ticket_id.split("-")[1]  # 显示用的工单ID
         self.title = title  # 工单标题
         self.created_time = created_time  # 创建时间
         self.status = status  # 状态
@@ -20,12 +21,15 @@ class TicketRecord:
         self.assigned_to = assigned_to  # 分配给
         self.ticket_type = ticket_type  # 工单类型
         self.closed_time = closed_time  # 关闭时间
+        self.update_time = created_time # 更新时间
 
     @classmethod
     def generate_ticket_id(cls):
         # 使用时间戳和随机数生成唯一的 ticket_id
         timestamp = datetime.datetime.now().date()
-        ticket_id = f"{timestamp}-{str(uuid.uuid4())}"
+        time_id = int(time.time() * 1000 * 1000)
+        last_ten_digits = time_id % (10**13)
+        ticket_id = f"{timestamp}-{last_ten_digits}"
         return ticket_id
     
     def to_dict(self):
@@ -38,7 +42,8 @@ class TicketRecord:
             "creator": self.creator,
             "assigned_to": self.assigned_to,
             "ticket_type": self.ticket_type,
-            "closed_time": self.closed_time
+            "closed_time": self.closed_time,
+            "update_time": self.update_time,
         }
     
     def to_json(self):
@@ -56,7 +61,8 @@ class TicketRecord:
             ticket_type=ticket_data["ticket_type"],
             closed_time=ticket_data["closed_time"]
         )
-        ticket.ticket_id = ticket_data["ticket_id"]
+        ticket.ticket_id = ticket_data.get("ticket_id") or cls.generate_ticket_id()
+        ticket.update_time =  ticket_data.get("created_time") or ticket_data["update_time"],
         return ticket
     
     @classmethod
