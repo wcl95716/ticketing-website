@@ -20,6 +20,7 @@ class TicketRecord:
         self.assigned_to = assigned_to  # 分配给
         self.ticket_type = ticket_type  # 工单类型
         self.closed_time = closed_time  # 关闭时间
+        self.update_time = created_time
 
     @classmethod
     def generate_ticket_id(cls):
@@ -38,7 +39,8 @@ class TicketRecord:
             "creator": self.creator,
             "assigned_to": self.assigned_to,
             "ticket_type": self.ticket_type,
-            "closed_time": self.closed_time
+            "closed_time": self.closed_time,
+            "update_time": self.update_time,
         }
     
     def to_json(self):
@@ -56,7 +58,8 @@ class TicketRecord:
             ticket_type=ticket_data["ticket_type"],
             closed_time=ticket_data["closed_time"]
         )
-        ticket.ticket_id = ticket_data["ticket_id"]
+        ticket.ticket_id = ticket_data.get("ticket_id") or cls.generate_ticket_id()
+        ticket.update_time =  ticket_data.get("created_time") or ticket_data["update_time"],
         return ticket
     
     @classmethod

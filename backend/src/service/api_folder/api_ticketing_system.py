@@ -67,3 +67,5 @@ def api_get_all_tickets():
         return jsonify([ticket.to_dict() for ticket in all_tickets]) 
     except Exception as e:
         return jsonify({"error": str(e)})
+    
+    
