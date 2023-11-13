@@ -8,32 +8,38 @@ import { StatusMap, ContractTypeMap, PaymentTypeMap } from '../Base';
 import './index.module.less';
 import classnames from 'classnames';
 import CommonStyle from '../../../styles/common.module.less';
-import { getTicketListRequest, selectTicketRecordList } from 'models/ticketing-website/index.model';
-import { selectStateName } from 'models/example/index.model';
+import {
+  changeData2,
+  getTicketListRequest,
+  paramsTest,
+  selectTest,
+  selectTicketRecordList,
+} from 'models/ticketing-website/index.model';
+import { changeData, selectStateName } from 'models/example/index.model';
 import { useSelector } from 'react-redux';
 import { useAppDispatch, useAppSelector } from 'modules/store';
-
 
 export const SelectTable = () => {
   const dispatch = useAppDispatch();
 
-  
   const ticketRecordList = useAppSelector(selectTicketRecordList);
+  const test = useAppSelector(selectTest);
 
   useEffect(() => {
-    dispatch(getTicketListRequest())
+    dispatch(getTicketListRequest());
   }, []);
 
   useEffect(() => {
-    // dispatchModels(getTicketListRequest());
-    console.log("ticketRecordList ",ticketRecordList)
+    console.log('ticketRecordList ', ticketRecordList);
   }, [ticketRecordList]);
 
+  useEffect(() => {
+    console.log('test ', test);
+    // dispatch(changeData2('456'));
+    dispatch(paramsTest("789"));
+  }, [test]);
 
-  return (
-    <>
-    </>
-  );
+  return <></>;
 };
 
 const selectPage: React.FC = () => (
