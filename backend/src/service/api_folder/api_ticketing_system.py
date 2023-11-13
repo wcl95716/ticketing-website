@@ -58,7 +58,7 @@ def api_get_ticket(ticket_id):
         return jsonify({"error": str(e)})
 
 @api_bp.route('/delete_ticket/<ticket_id>', methods=['GET'])
-def api_get_ticket(ticket_id):
+def api_delete_ticket(ticket_id):
     try:
         ticketing_system.ticket_api.delete_ticket(ticket_id)
         
