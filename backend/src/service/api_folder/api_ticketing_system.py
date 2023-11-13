@@ -56,7 +56,16 @@ def api_get_ticket(ticket_id):
         return jsonify(ticket.to_dict())
     except Exception as e:
         return jsonify({"error": str(e)})
-    
+
+@api_bp.route('/delete_ticket/<ticket_id>', methods=['GET'])
+def api_get_ticket(ticket_id):
+    try:
+        ticketing_system.ticket_api.delete_ticket(ticket_id)
+        
+        return jsonify({"message": "delete_ticket successfully"})
+    except Exception as e:
+        return jsonify({"error": str(e)})
+
 
 @api_bp.route('/get_all_tickets', methods=['GET'])
 def api_get_all_tickets():
@@ -67,5 +76,7 @@ def api_get_all_tickets():
         return jsonify([ticket.to_dict() for ticket in all_tickets]) 
     except Exception as e:
         return jsonify({"error": str(e)})
+    
+
     
     
