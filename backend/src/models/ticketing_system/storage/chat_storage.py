@@ -35,9 +35,12 @@ def get_chat_history_from_file(ticket_id: str) -> list[dict]:
     try:
         with open(file_name, 'r', encoding='utf-8') as file:
             for line in file:
-                record:dict = json.loads(line.strip())
-                print(record)
-                chat_history.append(record)  # 去除末尾的换行符并添加到聊天记录列表
+                # 去除末尾的换行符并检查是否为空白行
+                cleaned_line = line.strip()
+                if cleaned_line:  # 如果不是空白行
+                    record: dict = json.loads(cleaned_line)
+                    # print(record)
+                    chat_history.append(record)
     except FileNotFoundError:
         print(f"文件 {file_name} 不存在")
     except Exception as e:
