@@ -25,6 +25,7 @@ def api_add_chat_record():
     try:
         chat_record_json = request.get_json()
         ticketing_system.chat_api.add_chat_record(chat_record_json)
+        local_logger.logger.info("api_add_chat_record  successfully")
         return jsonify({"message": "Chat record added successfully"})
     except Exception as e:
         return jsonify({"error": str(e)})
@@ -35,6 +36,7 @@ def api_add_chat_record():
 def api_get_chat_history(ticket_id):
     try:
         chats = ticketing_system.chat_api.get_chat_history(ticket_id)
+        local_logger.logger.info("api_get_chat_history  successfully")
         return jsonify(chats)
     except Exception as e:
         return jsonify({"error": str(e)})
