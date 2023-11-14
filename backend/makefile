@@ -1,6 +1,6 @@
 # 停止先前的程序
 stop:
-	-pkill -f "python src/main.py"
+	-lsof -t -i :8001 | xargs kill -9
 
 # 启动新程序
 start:
