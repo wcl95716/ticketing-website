@@ -102,8 +102,9 @@ def upload_file():
         file_name = ticketing_system.chat_api.upload_file(file)
         # 构造文件的 URL
         local_logger.logger.info("file_name : %s", file_name)
+        file_url = "http://47.103.45.149:8001/test/uploads/" + file_name
 
-        return jsonify({'message': 'File uploaded successfully', 'filename': file_name})
+        return jsonify({'message': 'File uploaded successfully', 'filename': file_name, 'file_url':file_url})
     return jsonify({'error': 'File upload failed'})
 
 # api_bp = Blueprint('ticketing_system', __name__)
@@ -112,7 +113,9 @@ def upload_file():
 # 定义用于获取上传文件的 URL 的路由
 @api_bp.route('/uploads/<filename>')
 def uploaded_file(filename):
+    local_logger.logger.info("filename : %s", filename)
     file_path = ticketing_system.chat_api.get_file(filename)
+    local_logger.logger.info("file_path : %s", file_path)
     return send_file(file_path, as_attachment=True)
 
     

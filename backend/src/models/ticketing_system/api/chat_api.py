@@ -7,9 +7,12 @@ from models.ticketing_system.types.chat_record import ChatRecord
 
 
 def add_chat_record(chat_record_json: dict):
-    chat_record = ChatRecord.from_json(chat_record_json)
-    print(chat_record.to_json())
-    chat_storage.add_chat_record_to_file(chat_record)
+    try:
+        chat_record = ChatRecord.from_json(chat_record_json)
+        print(chat_record.to_json())
+        chat_storage.add_chat_record_to_file(chat_record)
+    except Exception as e:
+        print(f"添加聊天记录时发生错误：{str(e)}")
     pass
 
 
