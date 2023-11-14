@@ -1,11 +1,16 @@
 # 在 storage.py 中
+from werkzeug.utils import secure_filename
 import json
 import os
 
 from models.ticketing_system.types.chat_record import ChatRecord
+from werkzeug.datastructures import FileStorage
+import uuid
 
 data_path = "data/work_order_logs"
 chat_history_name = "chat_history"
+
+file_data_path = "data/chat_files"
 
 def add_chat_record_to_file(message: ChatRecord):
     folder_path = f"{data_path}/{message.ticket_id}/"
@@ -39,3 +44,39 @@ def get_chat_history_from_file(ticket_id: str) -> list[dict]:
         print(f"读取文件时发生错误：{str(e)}")
 
     return chat_history
+
+
+def generate_unique_filename(filename):
+    # 确保文件名是安全的
+    secure_filename_base = secure_filename(os.path.splitext(filename)[0])
+    extension = os.path.splitext(filename)[1]
+
+    # 生成唯一的文件名前缀
+    unique_prefix = str(uuid.uuid4().hex)
+
+    # 构建最终的唯一文件名
+    unique_filename = f"{unique_prefix}_{secure_filename_base}{extension}"
+    
+    return unique_filename
+
+# 添加聊天中的文件储存
+def upload_file(file: FileStorage):
+    file_name = generate_unique_filename(file.filename)
+    file_path = f"{file_data_path}/{file_name}"
+    print("upload_file file_path ",file_path)
+    try:
+        # 创建文件夹（如果不存在）
+        os.makedirs(file_data_path, exist_ok=True)
+        file.save(file_path)
+        print(f"文件已保存到 {file_path}")
+        return file_name
+    except Exception as e:
+        print(f"保存文件时发生错误：{str(e)}")
+    pass
+
+def get_file_path(filename:str):
+    file_path = f"{file_data_path}/{filename}"
+    # 获取真实路径
+    file_path = os.path.abspath(os.path.join(file_data_path, filename))
+    print("get_file_path " ,file_path )
+    return file_path

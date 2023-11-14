@@ -18,7 +18,6 @@ def allowed_file(filename):
 def upload_file():
     if 'file' not in request.files:
         return jsonify({'error': 'No file part'})
-
     file = request.files['file']
 
     if file.filename == '':

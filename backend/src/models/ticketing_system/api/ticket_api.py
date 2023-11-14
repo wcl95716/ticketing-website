@@ -28,9 +28,6 @@ def get_all_tickets() -> list[TicketRecord]:
 def delete_ticket(ticket_id: str):
     ticket_storage.delete_ticket_record(ticket_id)
     
-
-    
 def get_test_ticket() -> TicketRecord:
     return getTestTicket().to_dict()
     pass
-    
