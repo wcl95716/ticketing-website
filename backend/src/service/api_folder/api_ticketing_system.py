@@ -101,7 +101,8 @@ def upload_file():
     if file and allowed_file(file.filename):
         file_name = ticketing_system.chat_api.upload_file(file)
         # 构造文件的 URL
-        local_logger.logger.info("file_name : ",file_name)
+        local_logger.logger.info("file_name : %s", file_name)
+
         return jsonify({'message': 'File uploaded successfully', 'filename': file_name})
     return jsonify({'error': 'File upload failed'})
 
