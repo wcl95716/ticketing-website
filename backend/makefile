@@ -20,4 +20,4 @@ delete_env:
 	conda remove -n ticketing-website --all
 
 # 默认目标，停止先前的程序，然后启动新程序
-all: install stop start
+run: stop start
