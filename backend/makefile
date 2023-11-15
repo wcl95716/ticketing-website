@@ -6,5 +6,9 @@ stop:
 start:
 	nohup python src/main.py > output.log &
 
+install:
+	python -m pip install --upgrade pip
+	pip install --ignore-installed -r requirements.txt
+
 # 默认目标，停止先前的程序，然后启动新程序
-all: stop start
+all: install stop start
