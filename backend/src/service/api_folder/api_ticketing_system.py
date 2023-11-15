@@ -102,7 +102,7 @@ def upload_file():
         file_name = ticketing_system.chat_api.upload_file(file)
         # 构造文件的 URL
         local_logger.logger.info("file_name : %s", file_name)
-        file_url = "http://47.103.45.149:8001/test/uploads/" + file_name
+        file_url = "http://47.116.201.99:8001/test/uploads/" + file_name
 
         return jsonify({'message': 'File uploaded successfully', 'filename': file_name, 'file_url':file_url})
     return jsonify({'error': 'File upload failed'})
