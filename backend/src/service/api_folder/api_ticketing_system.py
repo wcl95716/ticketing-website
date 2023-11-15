@@ -25,6 +25,7 @@ def api_endpoint():
 def api_add_chat_record():
     try:
         chat_record_json = request.get_json()
+        local_logger.logger.info("add_chat_record json : %s", chat_record_json)
         ticketing_system.chat_api.add_chat_record(chat_record_json)
         local_logger.logger.info("api_add_chat_record  successfully")
         return jsonify({"message": "Chat record added successfully"})
