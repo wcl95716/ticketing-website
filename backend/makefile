@@ -7,8 +7,13 @@ start:
 	nohup python src/main.py > output.log &
 
 install:
+	conda create -n ticketing-website python=3.9
+	source activate ticketing-website
 	python -m pip install --upgrade pip
 	pip install --ignore-installed -r requirements.txt
 
+delete_env:
+	conda remove -n ticketing-website --all
+	
 # 默认目标，停止先前的程序，然后启动新程序
 all: install stop start
