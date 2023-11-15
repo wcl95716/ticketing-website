@@ -22,7 +22,7 @@ def get_chat_history(ticket_id: str) -> list[dict]:
     chats:list[dict] = chat_storage.get_chat_history_from_file(ticket_id)
     for chat in chats:
         try:
-            chat["file_url"] = get_file(chat["file_id"])
+            chat["file_url"] = "http://47.116.201.99:8001/test/uploads/"+ get_file(chat["file_id"])
         except Exception as e:
             print(f"获取聊天记录时发生错误：{str(e)}")
             chat["file_url"] = ""
