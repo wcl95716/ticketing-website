@@ -1,10 +1,10 @@
-from flask import Blueprint, current_app, jsonify, request, send_file, url_for
+from flask import Blueprint, current_app, jsonify, request, send_file, render_template, url_for
 from flask_cors import CORS
 import os
 
 from models import ticketing_system
 from utils import  local_logger
-api_bp = Blueprint('ticketing_system', __name__)
+api_bp = Blueprint('ticketing_system', __name__ ,url_prefix='/test')
 CORS(api_bp) # 解决跨域问题
 
 # 配置文件上传目录和允许的文件扩展名
@@ -121,6 +121,16 @@ def uploaded_file(filename):
     local_logger.logger.info("filename : %s", filename)
     file_path = ticketing_system.chat_api.get_file(filename)
     local_logger.logger.info("file_path : %s", file_path)
-    return send_file(file_path, as_attachment=True)
+    return send_file(file_path)
 
-    
+# @api_bp.route('/image')
+# def get_image():
+#     # 本地图像文件的路径
+#     filename = "3.jpg"
+#     image_file_path = ticketing_system.chat_api.get_file(filename)
+#     # 使用send_file函数发送图像文件
+#     return send_file(image_file_path)
+
+# @api_bp.route('/display_image/<filename>')
+# def display_file(filename):
+#     return render_template('img.html', media_url=api_bp.url_prefix+"/uploads/" + filename)
