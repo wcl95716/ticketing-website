@@ -108,7 +108,7 @@ def upload_file():
         local_logger.logger.info("upload_file done file_name : %s", file_name)
         file_url = "http://47.116.201.99:8001/test/uploads/" + file_name
 
-        return jsonify({'message': 'File uploaded successfully', 'filename': file_name, 'file_url':file_url})
+        return jsonify({'message': 'File uploaded successfully', 'file_id': file_name, 'file_url':file_url})
     return jsonify({'error': 'File upload failed'})
 
 # api_bp = Blueprint('ticketing_system', __name__)
