@@ -14,6 +14,7 @@ import { useAppDispatch, useAppSelector } from 'modules/store';
 import { useLocation } from 'react-router-dom';
 import type { UploadFile } from 'antd/es/upload/interface';
 import SearchForm from './SearchForm';
+import { IChatRecord, MessageType } from 'models/ticketing-website/index.type';
 
 
 const getBase64 = (file: RcFile): Promise<string> =>
@@ -137,24 +138,36 @@ const DetailModel = () => {
       const newMessages = [
          ...messages,
          {
+            message_id:'',
+            content: '',
+            message_time: '1970-03-04 14:23:44',
+            sender:'客服',
+            message_type: MessageType.TEXT,
+            file_url: file.file_url,
+            file_id:file.file_id
+         }
+      ];
+      setMessages(newMessages);
+      
+      const updatedMessages:IChatRecord = {
             ticket_id:ticket_id,
             message_id:'',
             content: '',
             message_time: '1970-03-04 14:23:44',
             sender:'客服',
-            message_type: 0,
-            filename:file.filename
-         }
-      ];
-      setMessages(newMessages);
-
+            message_type: MessageType.IMAGE,
+            file_url: file.file_url,
+            file_id:file.file_id
+      }
+      dispatch(postChatRequest(updatedMessages)).then(()=>{
+         dispatch(getChatRequest(ticket_id));
+      });
       setNewMessage(''); // 清空输入框
    };
    
    const handleChange: UploadProps['onChange'] = ({ file }) => {
       //接口备用
       if (file.status === 'done') {
-         // handleUpload(file.originFileObj as RcFile);
          handleUpload(file?.response);
          console.log("上传成功了",file)
       }
@@ -167,7 +180,7 @@ const DetailModel = () => {
    };
    // 修改renderItem函数，为每条消息添加头像和名字
    const renderMessageItem = (item: any) => {
-      if (item.img) {
+      if (item.message_type === MessageType.IMAGE) {
          return <div>
             <div className={`${Style['message-item']} ${item.sender === '当前用户' ? Style['current-user'] : ''} ${Style['bordered-list-item']}`}>
                {item.sender !== '当前用户' && (  // 当消息不是当前用户发送时
@@ -179,7 +192,7 @@ const DetailModel = () => {
                <div className={Style['message-content']} style={{ flexDirection: item.sender === '当前用户' ? 'row-reverse' : 'row' }}>
                   <p className={Style['message-time']} style={{ textAlign: item.sender === '当前用户' ? 'right' : 'left' }}>{item.message_time}</p>
                   <div className={Style['text']} style={{ flexDirection: item.sender === '当前用户' ? 'row-reverse' : 'row' }}>
-                     <Image alt={item.id} src={item.img} style={{ width: 100, height: 100, objectFit: 'cover' }} />
+                     <Image alt={item.id} src={item.file_url} style={{ width: 100, height: 100, objectFit: 'cover' }} />
                   </div>
                </div>
                {item.sender === '当前用户' && (  // 当消息是当前用户发送时
@@ -190,7 +203,7 @@ const DetailModel = () => {
                )}
             </div>
          </div>
-      } else if (item.video) {
+      } else if (item.message_type === MessageType.VIDEO) {
          return <div>
             <div className={`${Style['message-item']} ${item.sender === '当前用户' ? Style['current-user'] : ''} ${Style['bordered-list-item']}`}>
                {item.sender !== '当前用户' && (  // 当消息不是当前用户发送时
@@ -202,7 +215,7 @@ const DetailModel = () => {
                <div className={Style['message-content']} style={{ flexDirection: item.sender === '当前用户' ? 'row-reverse' : 'row' }}>
                   <p className={Style['message-time']} style={{ textAlign: item.sender === '当前用户' ? 'right' : 'left' }}>{item.message_time}</p>
                   <div className={Style['text']} style={{ flexDirection: item.sender === '当前用户' ? 'row-reverse' : 'row' }}>
-                     <video controls src={item.video} style={{ width: 100 }} />
+                     <video controls src={item.file_url} style={{ width: 100 }} />
                   </div>
                </div>
 

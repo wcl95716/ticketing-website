@@ -13,10 +13,12 @@ export interface ITicketRecord {
 }
 
 export interface IChatRecord {
-  message_id: number;
-  ticket_id: number;
+  message_id: string;
+  ticket_id: string;
   sender: string;
   content: string;
   message_time: string;
   message_type: MessageType; // Assuming MessageType is a string enum
+  file_id: string;
+  file_url: string;
 }
