@@ -3,11 +3,17 @@ import { Input, Button, List, message, Upload, Modal, Row, Col, Image } from 'an
 import { PictureOutlined, UploadOutlined, PlusOutlined } from '@ant-design/icons';
 import Style from '../components/DetailModel.module.less';
 import type { RcFile, UploadProps } from 'antd/es/upload';
+import {
+   getTicketListRequest,
+   getChatRequest,
+   postChatRequest,
+   selectTicketRecordList,
+   selecChatRecord,
+} from 'models/ticketing-website/index.model';
+import { useAppDispatch, useAppSelector } from 'modules/store';
 import { useLocation } from 'react-router-dom';
 import type { UploadFile } from 'antd/es/upload/interface';
 import SearchForm from './SearchForm';
-
-const { TextArea } = Input;
 
 
 const getBase64 = (file: RcFile): Promise<string> =>
@@ -17,14 +23,20 @@ const getBase64 = (file: RcFile): Promise<string> =>
       reader.onload = () => resolve(reader.result as string);
       reader.onerror = (error) => reject(error);
    });
+
+
 const DetailModel = () => {
    const location = useLocation();
    const { ticket_id } = location.state || {};
    console.log("传输进来key", ticket_id)
+
+   const dispatch = useAppDispatch();
+   const chatRecord = useAppSelector(selecChatRecord);
+
    const fetchMessages = async () => {
       if (ticket_id) {
          try {
-            const response = await fetch(`http://47.103.45.149:5000/test/get_all_tickets/${ticket_id}`);
+            const response = await fetch(`http://47.116.201.99:8001/test/get_all_tickets/${ticket_id}`);
             const data = await response.json();
             setMessages(data); // 更新消息列表
          } catch (error) {
@@ -39,7 +51,7 @@ const DetailModel = () => {
 
    const addTicket = async (newMessageContent: any) => {
       try {
-         const response = await fetch('http://47.103.45.149:5000/test/add_ticket', {
+         const response = await fetch('http://47.116.201.99:8001/test/add_ticket', {
             method: 'POST',
             headers: {
                'Content-Type': 'application/json',
@@ -77,62 +89,81 @@ const DetailModel = () => {
    useEffect(() => {
       console.log("是否有key", ticket_id)
       if (ticket_id) {
-         const fetchTickets = async () => {
-            try {
-               const response = await fetch(`http://47.103.45.149:5000/test/get_chat_history/${ticket_id}`);
-               console.log("查询回来的数据",response)
-               // const data = await response.json();
-               const data = [
-                  { id: 1, text: '你说什么', avatar: 'https://zos.alipayobjects.com/rmsportal/jkjgkEfvpUPVyRjUImniVslZfWPnJuuZ.png', sender: '用户名1', time: '1970-03-04 14:23:44' },
-                  { id: 2, text: '3333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333', avatar: 'https://zos.alipayobjects.com/rmsportal/jkjgkEfvpUPVyRjUImniVslZfWPnJuuZ.png', sender: '用户名2', time: '1970-03-04 14:23:44' },
-                  { id: 3, img: 'https://zos.alipayobjects.com/rmsportal/jkjgkEfvpUPVyRjUImniVslZfWPnJuuZ.png', avatar: 'https://zos.alipayobjects.com/rmsportal/jkjgkEfvpUPVyRjUImniVslZfWPnJuuZ.png', sender: '用户名3', time: '1970-03-04 14:23:44' },
-                  { id: 3, video: ' https://profilesys.yangwangauto.com/upload-file/yangwang-personal-center/test/ed0c48be8636461e9e4d0e0272c66c3a.mp4', avatar: 'https://zos.alipayobjects.com/rmsportal/jkjgkEfvpUPVyRjUImniVslZfWPnJuuZ.png', sender: '用户名4', time: '1970-03-04 14:23:44' },
-               ]
-               console.log("查看data", data)
-               // 如果接口返回的是消息数组，直接用setMessages更新状态
-               setMessages(data);
-            } catch (error) {
-               console.error("Error fetching tickets:", error);
-               message.error('获取数据失败'); // 可以使用Ant Design的message组件提示用户
-            }
-         };
-
-         fetchTickets();
+         dispatch(getChatRequest(ticket_id))
       }
    }, [ticket_id]);
+
+   useEffect(() => {
+      setMessages(chatRecord);
+   }, [chatRecord]);
+
 
    const [messages, setMessages] = useState([]);
    const [newMessage, setNewMessage] = useState('');
    const handleSendMessage = () => {
-      console.log("输出当前输入的内容", messages, newMessage.trim)
       if (newMessage.trim() !== '') {
-         const updatedMessages = [
+         const newMessages = [
             ...messages,
-            {
-               id: messages.length + 1,
-               text: newMessage,
-               avatar: 'https://zos.alipayobjects.com/rmsportal/jkjgkEfvpUPVyRjUImniVslZfWPnJuuZ.png',
-               time: '1970-03-04 14:23:44',
-               sender: '当前用户'
-            }
+         {
+            ticket_id:ticket_id,
+            message_id:'',
+            content: newMessage.trim(),
+            message_time: '1970-03-04 14:23:44',
+            sender:'客服',
+            message_type: 0,
+         }
          ];
-         setMessages(updatedMessages);
-         setNewMessage(''); // 清空输入框
+         setMessages(newMessages);
+
+         const updatedMessages = {
+            ticket_id:ticket_id,
+            message_id:'',
+            content: newMessage.trim(),
+            message_time: '1970-03-04 14:23:44',
+            sender:'客服',
+            message_type: 0,
+         }
+         
+         dispatch(postChatRequest(updatedMessages)).then(()=>{
+            dispatch(getChatRequest(ticket_id));
+         });
+         setNewMessage(''); 
       }
    };
-   const handleUpload = (file: RcFile) => {
-      const updatedMessages = [
+   const handleUpload = (file) => {
+      console.log("查看RCFile",file)
+      // file.name = 'http://47.116.201.99:8001/test/uplods' + file.name
+      console.log("查看图片链接",file.name)
+      const newMessages = [
          ...messages,
          {
-            id: 123,
-            time: '1970-03-04 14:23:44',
-            img: 'https://zos.alipayobjects.com/rmsportal/jkjgkEfvpUPVyRjUImniVslZfWPnJuuZ.png',
-            avatar: 'https://zos.alipayobjects.com/rmsportal/jkjgkEfvpUPVyRjUImniVslZfWPnJuuZ.png',
-            sender: '当前用户'
+            ticket_id:ticket_id,
+            message_id:'',
+            content: '',
+            message_time: '1970-03-04 14:23:44',
+            sender:'客服',
+            message_type: 0,
+            filename:file.filename
          }
       ];
-      setMessages(updatedMessages);
+      setMessages(newMessages);
+
       setNewMessage(''); // 清空输入框
+   };
+   
+   const handleChange: UploadProps['onChange'] = ({ file }) => {
+      //接口备用
+      if (file.status === 'done') {
+         // handleUpload(file.originFileObj as RcFile);
+         handleUpload(file?.response);
+         console.log("上传成功了",file)
+      }
+   };
+
+   const props = {
+      action: 'http://47.116.201.99:8001/test/upload_file',
+      onChange: handleChange,
+      // multiple: true,
    };
    // 修改renderItem函数，为每条消息添加头像和名字
    const renderMessageItem = (item: any) => {
@@ -146,7 +177,7 @@ const DetailModel = () => {
                   </div>
                )}
                <div className={Style['message-content']} style={{ flexDirection: item.sender === '当前用户' ? 'row-reverse' : 'row' }}>
-                  <p className={Style['message-time']} style={{ textAlign: item.sender === '当前用户' ? 'right' : 'left' }}>{item.time}</p>
+                  <p className={Style['message-time']} style={{ textAlign: item.sender === '当前用户' ? 'right' : 'left' }}>{item.message_time}</p>
                   <div className={Style['text']} style={{ flexDirection: item.sender === '当前用户' ? 'row-reverse' : 'row' }}>
                      <Image alt={item.id} src={item.img} style={{ width: 100, height: 100, objectFit: 'cover' }} />
                   </div>
@@ -169,7 +200,7 @@ const DetailModel = () => {
                   </div>
                )}
                <div className={Style['message-content']} style={{ flexDirection: item.sender === '当前用户' ? 'row-reverse' : 'row' }}>
-                  <p className={Style['message-time']} style={{ textAlign: item.sender === '当前用户' ? 'right' : 'left' }}>{item.time}</p>
+                  <p className={Style['message-time']} style={{ textAlign: item.sender === '当前用户' ? 'right' : 'left' }}>{item.message_time}</p>
                   <div className={Style['text']} style={{ flexDirection: item.sender === '当前用户' ? 'row-reverse' : 'row' }}>
                      <video controls src={item.video} style={{ width: 100 }} />
                   </div>
@@ -186,7 +217,7 @@ const DetailModel = () => {
       }
       return (
          <div>
-            <div style={{ backgroundColor: 'red'}} className={`${Style['message-item']} ${item.sender === '当前用户' ? Style['current-user'] : ''} ${Style['bordered-list-item']}`}>
+            <div style={{ backgroundColor: '' }} className={`${Style['message-item']} ${item.sender === '当前用户' ? Style['current-user'] : ''} ${Style['bordered-list-item']}`}>
                {item.sender !== '当前用户' && (  // 当消息不是当前用户发送时
                   <div className={Style['avatar']}>
                      <img src={item.avatar} alt="avatar" />
@@ -194,9 +225,9 @@ const DetailModel = () => {
                   </div>
                )}
                <div className={Style['message-content']} style={{ flexDirection: item.sender === '当前用户' ? 'row-reverse' : 'row' }}>
-                  <p className={Style['message-time']} style={{ textAlign: item.sender === '当前用户' ? 'right' : 'left' }}>{item.time}</p>
+                  <p className={Style['message-time']} style={{ textAlign: item.sender === '当前用户' ? 'right' : 'left' }}>{item.message_time}</p>
                   <div className={Style['text']}>
-                     <p>{item.text}</p>
+                     <p>{item.content}</p>
                   </div>
                </div>
                {item.sender === '当前用户' && (  // 当消息是当前用户发送时
@@ -210,58 +241,49 @@ const DetailModel = () => {
       );
    }
 
-   const handleChange: UploadProps['onChange'] = ({ file }) => {
-      //假上传
-      // file.status = 'done'
-      handleUpload(file.originFileObj as RcFile);
-      //接口备用
-      // if (file.status === 'done') {
-      //    handleUpload(file.originFileObj as RcFile);
-      // }
-   };
-
-   const props = {
-      action: 'https://run.mocky.io/v3/435e224c-44fb-4773-9faf-380c5e6a2188',
-      onChange: handleChange,
-      // multiple: true,
-   };
 
    return (
       <div>
-         <Row justify='start' style={{ marginBottom: '20px' }}>
-            <SearchForm
+         <Row justify='start' style={{ marginBottom: '20px', width:'100%'}}>
+            <div style={{ width: '100%', backgroundColor: '#fff'}}>
+               <SearchForm
                onSubmit={async (value) => {
                   console.log(value);
                }}
                onCancel={() => { }}
             />
+            </div>
+            
          </Row>
-         <div style={{ width: '100%', height: '100%', backgroundColor: '#fff' }}>
+         <div style={{ width: '100%', height: '100%', backgroundColor: '#fff' ,paddingBottom:'20px'}}>
             <div style={{ paddingLeft: '4%', paddingTop: '10px', marginTop: '10px', marginBottom: '10px' }}>沟通记录</div>
             <List
                dataSource={messages}
                renderItem={renderMessageItem}  // 使用修改后的renderItem函数
             />
-            <div className={Style['chat-input']} style={{ marginBottom: '0px' }}>
+         </div>
+         <div style={{ width: '100%', backgroundColor: '#fff'}}>
+            <div className={Style['chat-input']} style={{ marginBottom: '0px', display: 'flex', flexDirection: 'column' }}>
                <Row justify="space-between" align="middle" >
-                  <Col flex="auto" style={{ width: '40%', marginLeft: '4%', marginBottom: '30px' }}>
+                  <Col  style={{ width: '40%', marginLeft: '4%', marginBottom: 'auto', marginTop: '30px' }}>
                      <Input
-                        style={{ width: '60%' }}
+                        style={{ width: '100%' }}
                         placeholder="请输入聊天内容"
                         suffix={<Button type='primary' onClick={handleSendMessage}>发送</Button>}
                         value={newMessage}
                         onChange={(e: any) => setNewMessage(e.target.value)}
                      />
                   </Col>
-                  <Col flex="auto" style={{ marginLeft: '0px', marginBottom: '30px', marginRight: '10%' }}>
+                  <Col  style={{ marginLeft: '0px', marginBottom: 'auto', marginRight: 'auto' , marginTop: '30px'}}>
                      <Upload {...props} showUploadList={false} >
                         <Button icon={<UploadOutlined />} style={{ marginLeft: '50px' }}>上传文件</Button>
-                        <p className={Style['model-add-drawer-p']}>目前支持的文件类型为*.png,*.xlsx</p>
+                        <p className={Style['model-add-drawer-p']}>支持扩展名： *.png,*.jpg,*.mp4</p>
                      </Upload>
                   </Col>
                </Row>
             </div>
          </div>
+
       </div>
    );
 };

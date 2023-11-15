@@ -30,19 +30,15 @@ type MenuItem = Required<MenuProps>["items"][number];
 
 const ticketPage: React.FC = () => {
    const dispatch = useAppDispatch();
-   // const [selectedRowKeys, setSelectedRowKeys] = useState<(string | number)[]>([0, 1]);
    const [data, setData] = useState([]);
    const navigate = useNavigate();
    const ticketRecordList = useAppSelector(selectTicketRecordList);
-   const [selectedRowKeys, setSelectedRowKeys] = useState<React.Key[]>([]);
 
    useEffect(() => {
       dispatch(getTicketListRequest())
    }, []);
 
    useEffect(() => {
-      // dispatchModels(getTicketListRequest());
-      console.log("ticketRecordList ", ticketRecordList, ticketRecordList instanceof Array)
       setData(ticketRecordList);
    }, [ticketRecordList]);
 
@@ -62,16 +58,6 @@ const ticketPage: React.FC = () => {
       message.error('Click on No');
    };
 
-   const onSelectChange = (newSelectedRowKeys: React.Key[]) => {
-      console.log('selectedRowKeys changed: ', newSelectedRowKeys);
-      setSelectedRowKeys(newSelectedRowKeys);
-    };
-  
-    const rowSelection = {
-      selectedRowKeys,
-      onChange: onSelectChange,
-    };
-
    const renderStatus = (status: any) => {
       let statusText;
       let statusColor;
@@ -80,7 +66,7 @@ const ticketPage: React.FC = () => {
          case 0:
             statusText = '待处理';
             //  statusColor = 'orange';
-            status="error"
+            status = "error"
             break;
          case 1:
             statusText = '处理中';
@@ -95,16 +81,23 @@ const ticketPage: React.FC = () => {
          case 3:
             statusText = '关闭工单';
             //  statusColor = 'red';
-            status="default"
+            status = "default"
             break;
          default:
             statusText = '未知状态';
-            status="default"
+            status = "default"
          //  statusColor = 'default';
       }
 
       return <Badge text={statusText} status={status} />;
    };
+   const renderCreator = (creator: any) => {
+      return <Select defaultValue={creator} style={{ width: 120 }}>
+         <Select.Option value="jack">客服1</Select.Option>
+         <Select.Option value="lucy">客服2</Select.Option>
+         <Select.Option value="Yiminghe">客服3</Select.Option>
+      </Select>
+   }
    const columns: ColumnsType<DataType> = [
       {
          title: "工单ID",
@@ -125,6 +118,7 @@ const ticketPage: React.FC = () => {
          dataIndex: "creator",
          key: "1",
          width: 150,
+         render: (creator) => renderCreator(creator)
       },
       {
          title: "状态",
@@ -134,7 +128,7 @@ const ticketPage: React.FC = () => {
          render: (status) => renderStatus(status)
       },
       {
-         title: "开始时间",
+         title: "创建时间",
          dataIndex: "created_time",
          key: "3",
          width: 150,
@@ -149,7 +143,7 @@ const ticketPage: React.FC = () => {
          title: "操作",
          key: "operation",
          fixed: "right",
-         width: 100,
+         width: 80,
          render: (text, record) => (
             <div style={{ display: "flex" }}>
                <Button
@@ -173,8 +167,8 @@ const ticketPage: React.FC = () => {
                      type="primary"
                      danger size="small"
                      shape="circle"
-                     
-                  ><DeleteOutlined style={{color:'white'}}/>
+
+                  ><DeleteOutlined style={{ color: 'white' }} />
                   </Button>
                </Popconfirm>
             </div>
@@ -184,14 +178,15 @@ const ticketPage: React.FC = () => {
 
    return (
       <div>
-         {/* <SelectTable /> */}
          <Row justify='start' style={{ marginBottom: '20px' }}>
-            <SearchForm
-               onSubmit={async (value) => {
-                  console.log(value);
-               }}
-               onCancel={() => { }}
-            />
+            <div style={{ width: '100%', backgroundColor: '#fff' }}>
+               <SearchForm
+                  onSubmit={async (value) => {
+                     console.log(value);
+                  }}
+                  onCancel={() => { }}
+               />
+            </div>
          </Row>
          <Table
             className={Style.list_ticket_table}
@@ -201,7 +196,6 @@ const ticketPage: React.FC = () => {
             columns={columns}
             rowKey='ticket_id'
             scroll={{ x: 1300 }}
-            // rowSelection={rowSelection}
          />
       </div>
    );
