@@ -20,7 +20,11 @@ def add_chat_record(chat_record_json: dict):
 def get_chat_history(ticket_id: str) -> list[dict]:
     chats:list[dict] = chat_storage.get_chat_history_from_file(ticket_id)
     for chat in chats:
-        chat["file_url"] = get_file(chat["file_id"])
+        try:
+            chat["file_url"] = get_file(chat["file_id"])
+        except Exception as e:
+            print(f"获取聊天记录时发生错误：{str(e)}")
+            chat["file_url"] = ""
     return chats
     past
     
