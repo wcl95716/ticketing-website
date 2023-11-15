@@ -20,6 +20,7 @@ def allowed_file(filename):
 def api_endpoint():
     return "This is an API endpoint from api_module.py"
 
+
 @api_bp.route('/add_chat_record', methods=['POST'])
 def api_add_chat_record():
     try:
@@ -91,17 +92,20 @@ def api_get_all_tickets():
     
 @api_bp.route('/upload_file', methods=['POST'])
 def upload_file():
+    
+    local_logger.logger.info("upload_file begin ")
     if 'file' not in request.files:
         return jsonify({'error': 'No file part'})
     file = request.files['file']
     
     if file.filename == '':
         return jsonify({'error': 'No selected file'})
-
+    
+    local_logger.logger.info("upload_file save begin ")
     if file and allowed_file(file.filename):
         file_name = ticketing_system.chat_api.upload_file(file)
         # 构造文件的 URL
-        local_logger.logger.info("file_name : %s", file_name)
+        local_logger.logger.info("upload_file done file_name : %s", file_name)
         file_url = "http://47.116.201.99:8001/test/uploads/" + file_name
 
         return jsonify({'message': 'File uploaded successfully', 'filename': file_name, 'file_url':file_url})

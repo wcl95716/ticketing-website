@@ -8,17 +8,18 @@ from models.ticketing_system.types.enum_type import MessageType
 
 
 class ChatRecord:
-    def __init__(self, message_id: int, ticket_id: int, sender: str, content: str, message_time: str, message_type: MessageType):
+    def __init__(self, message_id: int, ticket_id: int, sender: str, content: str, message_time: str, message_type: MessageType, file_id: str = "", file_url: str = ""):
         self.message_id = message_id  # 消息ID
         self.ticket_id = ticket_id  # 关联的工单ID
         self.sender = sender  # 发送者
         self.content = content  # 消息内容
         self.message_time = message_time  # 消息时间
         self.message_type = message_type  # 消息类型
+        self.file_id = file_id
+        self.file_url = file_url # 文件 URL
 
     def to_json(self):
         # 将 MessageType 转换为字符串
-        
         # 创建一个字典来表示对象
         data = {
             "message_id": self.message_id,
@@ -26,7 +27,9 @@ class ChatRecord:
             "sender": self.sender,
             "content": self.content,
             "message_time": self.message_time,
-            "message_type": str(self.message_type)
+            "message_type": str(self.message_type),
+            "file_id": self.file_id,
+            "file_url": self.file_url
         }
         
         return data
