@@ -15,3 +15,12 @@ def add_users(user_json: dict):
 def get_users() -> list[dict]:
     return user_storage.get_users_to_file()
     pass 
+
+def get_user(user_id: str ) ->  UserProfile:
+    return user_storage.get_user_by_id(user_id)
+    pass
+
+def update_user(user_json: dict):
+    user =  UserProfile.from_dict(user_json)
+    user_storage.update_user(user)
+    pass

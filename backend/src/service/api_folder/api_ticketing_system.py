@@ -3,6 +3,7 @@ from flask_cors import CORS
 import os
 
 from models import ticketing_system
+from models.ticketing_system.types.user_profile import UserProfile
 from utils import  local_logger
 api_bp = Blueprint('ticketing_system', __name__ ,url_prefix='/test')
 CORS(api_bp) # 解决跨域问题
@@ -134,3 +135,24 @@ def api_get_users():
     except Exception as e:
         return jsonify({"error": str(e)})
     
+@api_bp.route('/get_user/<user_id>', methods=['GET'])
+def api_get_user(user_id):
+    try:
+        user:UserProfile = ticketing_system.user_api.get_user(user_id)
+        # 请确保将 ticket 转换为字典或使用其他方式以 JSON 格式返回
+        # 例如：return jsonify(ticket.to_dict())
+        return jsonify(user.to_dict())
+    except Exception as e:
+        return jsonify({"error": str(e)})
+
+# 添加更新用户接口
+@api_bp.route('/update_user', methods=['POST'])
+def api_update_user():
+    try:
+        user_data = request.get_json()
+        local_logger.logger.info("user_data : %s", user_data)
+        ticketing_system.user_api.update_user(user_data)
+        return jsonify({"message": "User updated successfully"})
+    except Exception as e:
+        local_logger.logger.info("api_update_user error : %s", str(e))
+        return jsonify({"error": str(e)})

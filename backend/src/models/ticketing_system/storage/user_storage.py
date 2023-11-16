@@ -9,21 +9,49 @@ from utils import local_logger
 
 
 user_file_path = "data/users/"
-user_file_name = "user_data.json"
+user_file_name = "user_data.txt"
 
 def add_user_to_file(user: UserProfile):
     folder_path = f"{user_file_path}"
     file_name = f"{folder_path}{user_file_name}"
-    try:
-        # 创建工单文件夹（如果不存在）
-        os.makedirs(folder_path, exist_ok=True)
+    user_list = get_users_to_file()
+    for i in range(len(user_list)):
+        if user_list[i]["user_id"] == user.user_id:
+            local_logger.logger.info("用户已存在")
+            return 
+            pass
 
-        with open(file_name, 'a', encoding='utf-8') as file:
-            file.write(json.dumps(user.to_dict())  + '\n')  # 将消息对象转换为JSON字符串并写入文件
-        local_logger.logger.info("用户追加成功")
-    except Exception as e:
-        local_logger.logger.info(f"追加消息时发生错误：{str(e)}")
+    os.makedirs(folder_path, exist_ok=True)
+    with open(file_name, 'a', encoding='utf-8') as file:
+        file.write(json.dumps(user.to_dict())  + '\n')  # 将消息对象转换为JSON字符串并写入文件
+    local_logger.logger.info("用户添加成功")
+    
+    return 
+
         
+        
+def update_user(user: UserProfile):   
+    user_list = get_users_to_file()
+    for i in range(len(user_list)):
+        if user_list[i]["user_id"] == user.user_id:
+            user_list[i] = user.to_dict()
+            break
+        if i == len(user_list) - 1:
+            local_logger.logger.info("用户不存在")
+            return 
+            pass
+    folder_path = f"{user_file_path}"
+    file_name = f"{folder_path}{user_file_name}"
+
+    # 创建工单文件夹（如果不存在）
+    os.makedirs(folder_path, exist_ok=True)
+
+    with open(file_name, 'w', encoding='utf-8') as file:
+        for user in user_list:
+            file.write(json.dumps(user)  + '\n')  # 将消息对象转换为JSON字符串并写入文件
+    local_logger.logger.info("用户更新成功")
+
+    pass
 
 def get_users_to_file() -> list[dict]:
     folder_path = f"{user_file_path}"
@@ -32,6 +60,8 @@ def get_users_to_file() -> list[dict]:
     users:list[dict] = []
 
     try:
+         # 创建工单文件夹（如果不存在）
+        os.makedirs(folder_path, exist_ok=True)
         with open(file_name, 'r', encoding='utf-8') as file:
             for line in file:
                 # 去除末尾的换行符并检查是否为空白行
@@ -47,4 +77,13 @@ def get_users_to_file() -> list[dict]:
 
     return users
     pass
+
+def get_user_by_id(user_id: str) -> UserProfile:
+    users:list[dict] = get_users_to_file()
+    for user in users:
+        if user["user_id"] == user_id:
+            return UserProfile.from_dict(user)
+    return None
+    pass
+
 
