@@ -31,7 +31,6 @@ class ChatRecord:
             "file_id": self.file_id,
             "file_url": self.file_url
         }
-        
         return data
     
     def to_json_str(self):
