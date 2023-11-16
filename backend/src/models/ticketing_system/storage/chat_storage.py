@@ -7,6 +7,8 @@ from models.ticketing_system.types.chat_record import ChatRecord
 from werkzeug.datastructures import FileStorage
 import uuid
 
+from utils import local_logger
+
 data_path = "data/work_order_logs"
 chat_history_name = "chat_history"
 
@@ -21,9 +23,9 @@ def add_chat_record_to_file(message: ChatRecord):
 
         with open(file_name, 'a', encoding='utf-8') as file:
             file.write(message.to_json_str() + '\n')  # 将消息对象转换为JSON字符串并写入文件
-        print(f"消息已追加到文件 {file_name}")
+        local_logger.logger.info(f"消息已追加到文件 {file_name}")
     except Exception as e:
-        print(f"追加消息时发生错误：{str(e)}")
+        local_logger.logger.info(f"追加消息时发生错误：{str(e)}")
 
 
 def get_chat_history_from_file(ticket_id: str) -> list[dict]:
@@ -42,9 +44,9 @@ def get_chat_history_from_file(ticket_id: str) -> list[dict]:
                     # print(record)
                     chat_history.append(record)
     except FileNotFoundError:
-        print(f"文件 {file_name} 不存在")
+        local_logger.logger.info(f"文件 {file_name} 不存在")
     except Exception as e:
-        print(f"读取文件时发生错误：{str(e)}")
+        local_logger.logger.info(f"读取文件时发生错误：{str(e)}")
 
     return chat_history
 
@@ -66,20 +68,20 @@ def generate_unique_filename(filename):
 def upload_file(file: FileStorage):
     file_name = generate_unique_filename(file.filename)
     file_path = f"{file_data_path}/{file_name}"
-    print("upload_file file_path ",file_path)
+    local_logger.logger.info("upload_file file_path ",file_path)
     try:
         # 创建文件夹（如果不存在）
         os.makedirs(file_data_path, exist_ok=True)
         file.save(file_path)
-        print(f"文件已保存到 {file_path}")
+        local_logger.logger.info(f"文件已保存到 {file_path}")
         return file_name
     except Exception as e:
-        print(f"保存文件时发生错误：{str(e)}")
+        local_logger.logger.info(f"保存文件时发生错误：{str(e)}")
     pass
 
 def get_file_path(filename:str):
     file_path = f"{file_data_path}/{filename}"
     # 获取真实路径
     file_path = os.path.abspath(os.path.join(file_data_path, filename))
-    print("get_file_path " ,file_path )
+    local_logger.logger.info("get_file_path " ,file_path )
     return file_path

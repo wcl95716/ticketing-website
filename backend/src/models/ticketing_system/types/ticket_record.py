@@ -72,10 +72,6 @@ class TicketRecord:
     
 
 # 创建一个测试数据
-
-
-        
-
 def testTicket():
     ticket = TicketRecord("问题报告", "2023-10-28 10:00:00", TicketStatus.NEW, Priority.HIGHEST, "用户A", None, "报告问题", None)
     print(ticket.to_json())
@@ -93,3 +89,8 @@ def getTestTicket():
     ticket = TicketRecord("问题报告", datetime.datetime.now().isoformat(), TicketStatus.NEW, Priority.HIGHEST, sender, None, "报告问题", None)
     return ticket
     pass 
+
+
+# 创建一个根据条件搜索 TicketRecord 的class
+# 用于在 ticket_storage.py 中的 search_ticket_record_from_files 方法中使用
+# 条件为: creator/ticket_id/

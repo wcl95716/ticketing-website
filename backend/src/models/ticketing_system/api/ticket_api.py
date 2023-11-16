@@ -9,7 +9,7 @@ def add_ticket(ticket: dict):
     ticket_storage.save_ticket_to_file(ticketRecord)
     pass
 
-def update_ticket_record_in_file(ticket: dict):
+def update_ticket(ticket: dict):
     ticketRecord:TicketRecord = TicketRecord.from_dict(ticket)
     ticket_storage.update_ticket_record_in_file(ticketRecord)
     

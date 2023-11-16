@@ -10,9 +10,9 @@ app = Flask(__name__,template_folder='templates')
 CORS(app) # 解决跨域问题
 app.logger.setLevel(logging.DEBUG)
 
-from service.api_folder.api_ticketing_system import api_bp as api_ticketing_system
+from service.api_folder.api_ticketing_system.main import api_bp as api_ticketing_system
 
-app.register_blueprint(api_ticketing_system, url_prefix=api_ticketing_system.url_prefix)
+app.register_blueprint(api_ticketing_system)
 
 def get_app():
     return app
