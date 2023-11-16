@@ -1,6 +1,7 @@
 from flask import Blueprint, current_app, jsonify, request, send_file, render_template, url_for
 from flask_cors import CORS
 import os
+import markdown2
 
 from models import ticketing_system
 from models.ticketing_system.types.user_profile import UserProfile
@@ -46,8 +47,8 @@ def api_get_chat_history(ticket_id):
 
 
 # 添加工单的接口
-@api_bp.route('/add_ticket')
-def api_add_ticket():
+@api_bp.route('/add_test_ticket')
+def api_add_ticket_test():
     try:
         # ticket_data = request.get_json()
         # 请确保根据需要创建 TicketRecord 对象并将数据传递给 add_ticket 函数
@@ -59,6 +60,30 @@ def api_add_ticket():
         return jsonify({"message": "Ticket added successfully"})
     except Exception as e:
         return jsonify({"error": str(e)})
+    
+# 添加工单的接口
+@api_bp.route('/add_ticket', methods=['POST'])
+def api_add_ticket():
+    try:
+        ticket_data = request.get_json()
+        local_logger.logger.info("ticket_data : %s", ticket_data)
+        ticketing_system.ticket_api.add_ticket(ticket_data)
+        return jsonify({"message": "Ticket updated successfully"})
+    except Exception as e:
+        return jsonify({"error": str(e)})
+
+
+# 修改工单的接口
+@api_bp.route('/update_ticket', methods=['POST'])
+def api_update_ticket():
+    try:
+        ticket_data = request.get_json()
+        local_logger.logger.info("ticket_data : %s", ticket_data)
+        ticketing_system.ticket_api.update_ticket(ticket_data)
+        return jsonify({"message": "Ticket updated successfully"})
+    except Exception as e:
+        return jsonify({"error": str(e)})
+
 
 # 获取一个工单的接口
 @api_bp.route('/get_ticket/<ticket_id>', methods=['GET'])
@@ -80,6 +105,7 @@ def api_delete_ticket(ticket_id):
         return jsonify({"message": "delete_ticket successfully"})
     except Exception as e:
         return jsonify({"error": str(e)})
+
 
 # 获取所有工单的接口
 @api_bp.route('/get_all_tickets', methods=['GET'])
@@ -156,3 +182,22 @@ def api_update_user():
     except Exception as e:
         local_logger.logger.info("api_update_user error : %s", str(e))
         return jsonify({"error": str(e)})
+    
+    
+@api_bp.route('/readme')
+def get_readme():
+    try:
+        # 指定README.md文件的路径
+        readme_file = 'src/service/api_folder/api_ticketing_system/readme.md'
+        # 读取README.md文件内容
+        with open(readme_file, 'r', encoding='utf-8') as file:
+            markdown_content = file.read()
+
+        # 使用markdown2库将Markdown转换为HTML
+        html_content = markdown2.markdown(markdown_content)
+
+        # 渲染HTML内容
+        return render_template('markdown_template.html', content=html_content)
+    except Exception as e:
+        return str(e)
+    
