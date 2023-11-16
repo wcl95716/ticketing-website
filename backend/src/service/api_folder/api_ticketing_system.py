@@ -24,6 +24,7 @@ def api_endpoint():
 @api_bp.route('/add_chat_record', methods=['POST'])
 def api_add_chat_record():
     try:
+        local_logger.logger.info("add_chat_record begin ")
         chat_record_json = request.get_json()
         local_logger.logger.info("add_chat_record json : %s", chat_record_json)
         ticketing_system.chat_api.add_chat_record(chat_record_json)

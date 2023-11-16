@@ -3,8 +3,16 @@ sys.path.append("./src")
 
 
 from service import flask_service
+from models.ticketing_system.types import chat_record,ticket_record
 
 import requests
+
+def test_add_chat_record():
+    url = 'http://localhost:8001/test/add_chat_record'
+    data = chat_record.getTestChatMessage().to_json()
+    print(data)
+    response = requests.post(url, json=data)
+    print(response.json())  # 注意这里使用 () 调用 json() 方法
 
 def test_upload_file():
     url = 'http://localhost:5000/upload_file'
@@ -13,5 +21,6 @@ def test_upload_file():
     print(response.text)
 
 if __name__ == "__main__":
-    flask_service.get_app().run(host='127.0.0.1',port=5000,debug=True)
+    # flask_service.get_app().run(host='127.0.0.1',port=5000,debug=True)
+    test_add_chat_record()
     # test_upload_file()

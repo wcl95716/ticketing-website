@@ -8,12 +8,10 @@ from utils import local_logger
 
 
 def add_chat_record(chat_record_json: dict):
-    try:
-        chat_record = ChatRecord.from_json(chat_record_json)
-        local_logger.logger.info("api_add_chat_record  successfully %s",chat_record.to_json())
-        chat_storage.add_chat_record_to_file(chat_record)
-    except Exception as e:
-        local_logger.logger.info(f"添加聊天记录时发生错误：{str(e)}")
+
+    chat_record = ChatRecord.from_json(chat_record_json)
+    chat_storage.add_chat_record_to_file(chat_record)
+
     pass
 
 

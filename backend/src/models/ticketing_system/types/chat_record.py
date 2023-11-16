@@ -27,7 +27,7 @@ class ChatRecord:
             "sender": self.sender,
             "content": self.content,
             "message_time": self.message_time,
-            "message_type": int(self.message_type),
+            "message_type": self.message_type.value,
             "file_id": self.file_id,
             "file_url": self.file_url
         }
@@ -43,6 +43,7 @@ class ChatRecord:
     
     @classmethod
     def from_json(cls, json_data):
+        json_data["message_type"] = MessageType(json_data["message_type"])
         return cls(**json_data)
 
 # 创建main 测试
@@ -67,5 +68,5 @@ def getTestChatMessage():
     message_type = random.choice(list(MessageType))  # 随机选择消息类型
 
     chatMessage = ChatRecord(message_id, ticket_id, sender, content, message_time, message_type)
-    chatMessage.ticket_id = "2023-11-10-5a994e69-7a49-4f91-bd2f-d1bec831daa9"
+    chatMessage.ticket_id = "001"
     return chatMessage
