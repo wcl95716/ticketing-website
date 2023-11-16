@@ -93,7 +93,7 @@ def api_get_all_tickets():
     
     
 @api_bp.route('/upload_file', methods=['POST'])
-def upload_file():
+def api_upload_file():
     
     local_logger.logger.info("upload_file begin ")
     if 'file' not in request.files:
@@ -118,20 +118,19 @@ def upload_file():
 
 # 定义用于获取上传文件的 URL 的路由
 @api_bp.route('/uploads/<filename>')
-def uploaded_file(filename):
+def api_get_file(filename):
     local_logger.logger.info("filename : %s", filename)
     file_path = ticketing_system.chat_api.get_file(filename)
     local_logger.logger.info("file_path : %s", file_path)
     return send_file(file_path)
 
-# @api_bp.route('/image')
-# def get_image():
-#     # 本地图像文件的路径
-#     filename = "3.jpg"
-#     image_file_path = ticketing_system.chat_api.get_file(filename)
-#     # 使用send_file函数发送图像文件
-#     return send_file(image_file_path)
-
-# @api_bp.route('/display_image/<filename>')
-# def display_file(filename):
-#     return render_template('img.html', media_url=api_bp.url_prefix+"/uploads/" + filename)
+@api_bp.route('/get_users' , methods=['GET'])
+def api_get_users():
+    try:
+        users:list[dict] = ticketing_system.user_api.get_users()
+        local_logger.logger.info("api_get_users  ", users)
+        # 请确保将所有票证数据转换为 JSON 格式并返回
+        return jsonify(users) 
+    except Exception as e:
+        return jsonify({"error": str(e)})
+    
