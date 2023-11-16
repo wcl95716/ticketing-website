@@ -27,7 +27,7 @@ class ChatRecord:
             "sender": self.sender,
             "content": self.content,
             "message_time": self.message_time,
-            "message_type": str(self.message_type),
+            "message_type": int(self.message_type),
             "file_id": self.file_id,
             "file_url": self.file_url
         }
