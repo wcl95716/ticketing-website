@@ -1,46 +1,28 @@
 import React, { useRef, memo } from 'react';
 import {
-  Row, Col,
-  Breadcrumb, Layout, Menu, theme, Table, Form, Input, Button, Select, DatePicker
+  Row, Col, Form, Input, Button, Select, DatePicker
 } from "antd";
 import { CONTRACT_STATUS_OPTIONS, CONTRACT_TYPE_OPTIONS } from '../consts';
-import { FormInstanceFunctions, SubmitContext } from 'tdesign-react/es/form/type';
 import Style from './SearchForm.module.less';
 
 const { RangePicker } = DatePicker;
 
 
-export type FormValueType = {
-  name?: string;
-  status?: string;
-  number?: string;
-  time?: string;
-  type?: string;
-};
-
-export type SearchFormProps = {
-  onCancel: () => void;
-  onSubmit: (values: FormValueType) => Promise<void>;
-};
-
-const SearchForm: React.FC<SearchFormProps> = (props) => {
-  const formRef = useRef<FormInstanceFunctions>();
-  const onSubmit = (e: SubmitContext) => {
-    if (e.validateResult === true) {
-      // MessagePlugin.info('提交成功');
-    }
-    const queryValue = formRef?.current?.getFieldsValue?.(true);
-    console.log('form 数据', queryValue);
+const SearchForm: React.FC = () => {
+  const [form] = Form.useForm();
+  const onFinish = (values: any) => {
+    console.log('Success:', values);
   };
-
   const onReset = () => {
-    props.onCancel();
-    // MessagePlugin.info('重置成功');
+    form.resetFields();
   };
 
   return (
     <div className={Style.ticketsearch}>
-      <Form  >
+      <Form
+        name="control-hooks"
+        onFinish={onFinish}
+      >
         <Row>
           <Col flex='1'>
             <Row gutter={[16, 16]}>
@@ -55,17 +37,17 @@ const SearchForm: React.FC<SearchFormProps> = (props) => {
                 </Form.Item>
               </Col>
               <Col >
-                <Form.Item label="日期">
+                <Form.Item label="日期" name='time'>
                   <RangePicker />
                 </Form.Item>
               </Col>
             </Row>
           </Col>
           <Col>
-            <Button type='primary' style={{ margin: '0px 20px' }}>
+            <Button type='primary' htmlType="submit" style={{ margin: '0px 20px' }}>
               查询
             </Button>
-            <Button>
+            <Button htmlType="button" onClick={onReset}>
               重置
             </Button>
           </Col>
