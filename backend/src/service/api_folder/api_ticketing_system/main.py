@@ -5,23 +5,22 @@ import os
 from models import ticketing_system
 from models.ticketing_system.types.user_profile import UserProfile
 from utils import  local_logger
+
+from service.api_folder.api_ticketing_system.sub_model1 import api_bp as api_bp_sub
 api_bp = Blueprint('ticketing_system', __name__ ,url_prefix='/test')
+
+api_bp.register_blueprint(api_bp_sub)
+
+
 CORS(api_bp) # 解决跨域问题
 
-# 配置文件上传目录和允许的文件扩展名
-UPLOAD_FOLDER = 'uploads'
-ALLOWED_EXTENSIONS = {'txt', 'pdf', 'png', 'jpg', 'jpeg', 'gif','mp4'}
-
-# 辅助函数，检查文件扩展名是否允许
-def allowed_file(filename):
-    return '.' in filename and filename.rsplit('.', 1)[1].lower() in ALLOWED_EXTENSIONS
-
-#eg: http://127.0.0.1:5000/api/api_endpoint
+# 定义用于测试的 API 路由
 @api_bp.route('/api_endpoint')
 def api_endpoint():
     return "This is an API endpoint from api_module.py"
 
 
+# 添加聊天记录的接口
 @api_bp.route('/add_chat_record', methods=['POST'])
 def api_add_chat_record():
     try:
@@ -35,7 +34,7 @@ def api_add_chat_record():
         return jsonify({"error": str(e)})
 
 
-# eg http://localhost:5000/api/get_chat_history/12345
+# 获取聊天记录的接口
 @api_bp.route('/get_chat_history/<ticket_id>', methods=['GET'])
 def api_get_chat_history(ticket_id):
     try:
@@ -46,7 +45,7 @@ def api_get_chat_history(ticket_id):
         return jsonify({"error": str(e)})
 
 
-# @api_bp.route('/add_ticket', methods=['POST'])
+# 添加工单的接口
 @api_bp.route('/add_ticket')
 def api_add_ticket():
     try:
@@ -61,7 +60,7 @@ def api_add_ticket():
     except Exception as e:
         return jsonify({"error": str(e)})
 
-
+# 获取一个工单的接口
 @api_bp.route('/get_ticket/<ticket_id>', methods=['GET'])
 def api_get_ticket(ticket_id):
     try:
@@ -72,6 +71,7 @@ def api_get_ticket(ticket_id):
     except Exception as e:
         return jsonify({"error": str(e)})
 
+# 删除工单的接口
 @api_bp.route('/delete_ticket/<ticket_id>', methods=['GET'])
 def api_delete_ticket(ticket_id):
     try:
@@ -81,7 +81,7 @@ def api_delete_ticket(ticket_id):
     except Exception as e:
         return jsonify({"error": str(e)})
 
-
+# 获取所有工单的接口
 @api_bp.route('/get_all_tickets', methods=['GET'])
 def api_get_all_tickets():
     try:
@@ -92,7 +92,7 @@ def api_get_all_tickets():
     except Exception as e:
         return jsonify({"error": str(e)})
     
-    
+# 上传文件的接口
 @api_bp.route('/upload_file', methods=['POST'])
 def api_upload_file():
     
