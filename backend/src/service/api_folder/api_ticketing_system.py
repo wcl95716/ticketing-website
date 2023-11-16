@@ -54,7 +54,7 @@ def api_add_ticket():
         # 例如：ticket = TicketRecord(**ticket_data)
         # 然后将 ticket 传递给 add_ticket 函数
         ticket_data = ticketing_system.ticket_api.get_test_ticket()
-        print(ticket_data)
+        local_logger.logger.info(ticket_data)
         ticketing_system.ticket_api.add_ticket(ticket_data)
         return jsonify({"message": "Ticket added successfully"})
     except Exception as e:

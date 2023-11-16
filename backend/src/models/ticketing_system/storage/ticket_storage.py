@@ -2,6 +2,7 @@ import os
 import json
 
 from models.ticketing_system.types.ticket_record import TicketRecord
+from utils import local_logger
 
 
 data_path = "data/work_order_logs"
@@ -18,10 +19,9 @@ def save_ticket_to_file(ticket: TicketRecord):
         # 将工单数据写入文件
         with open(file_path, 'w', encoding='utf-8') as file:
             json.dump(ticket.to_dict(), file, indent=4 ,ensure_ascii=False)  # 缩进格式化写入 JSON 文件
-
-        print(f"工单数据已存储到文件 {file_path}")
+        local_logger.logger.info(f"将工单数据写入文件 成功")
     except Exception as e:
-        print(f"存储工单数据时发生错误：{str(e)}")
+        local_logger.logger.info(f"存储工单数据时发生错误：{str(e)}")
         
 def update_ticket_record_in_file(ticket: TicketRecord):
     folder_path = os.path.join(data_path, str(ticket.ticket_id))
@@ -30,16 +30,17 @@ def update_ticket_record_in_file(ticket: TicketRecord):
     try:
         # 如果文件不存在，返回 None
         if not os.path.exists(file_path):
-            print(f"工单数据文件不存在：{file_path}")
+            
+            local_logger.logger.info(f"工单数据文件不存在：{file_path}")
             return
 
         # 将工单数据写入文件
         with open(file_path, 'w', encoding='utf-8') as file:
             json.dump(ticket.to_dict(), file, indent=4, ensure_ascii=False)  # 缩进格式化写入 JSON 文件
 
-        print(f"工单数据已更新并存储到文件 {file_path}")
+        local_logger.logger.info(f"工单数据已更新并存储到文件 {file_path}")
     except Exception as e:
-        print(f"更新工单数据时发生错误：{str(e)}")
+        local_logger.logger.info(f"更新工单数据时发生错误：{str(e)}")
 
 
 def get_ticket_record_from_file(ticket_id: str) -> TicketRecord :
@@ -59,7 +60,7 @@ def get_ticket_record_from_file(ticket_id: str) -> TicketRecord :
         ticket = TicketRecord.from_dict(ticket_data)
         return ticket
     except Exception as e:
-        print(f"读取工单数据时发生错误：{str(e)}")
+        local_logger.logger.info(f"读取工单数据时发生错误：{str(e)}")
         return None
 
 
@@ -78,7 +79,7 @@ def get_all_ticket_record_from_files() -> list[TicketRecord]:
                 if ticket:
                     ticket_list.append(ticket)
     except Exception as e:
-        print(f"读取所有工单数据时发生错误：{str(e)}")
+        local_logger.logger.info(f"读取所有工单数据时发生错误：{str(e)}")
     
     return ticket_list
 
@@ -90,7 +91,7 @@ def delete_ticket_record(ticket_id: str):
     try:
         # 如果文件夹不存在，返回 None
         if not os.path.exists(folder_path):
-            print(f"工单数据文件夹不存在：{folder_path}")
+            local_logger.logger.info(f"工单数据文件夹不存在：{folder_path}")
             return
 
         # 删除工单数据文件夹及其内容
@@ -104,6 +105,6 @@ def delete_ticket_record(ticket_id: str):
 
         # 删除工单数据文件夹
         os.rmdir(folder_path)
-        print(f"工单数据文件夹及其内容已删除：{folder_path}")
+        local_logger.logger.info(f"工单数据文件夹及其内容已删除：{folder_path}")
     except Exception as e:
-        print(f"删除工单数据时发生错误：{str(e)}")
+        local_logger.logger.info(f"删除工单数据时发生错误：{str(e)}")

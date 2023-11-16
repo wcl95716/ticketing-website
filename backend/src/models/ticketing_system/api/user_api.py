@@ -1,0 +1,17 @@
+
+
+
+
+from models.ticketing_system.storage import user_storage
+from models.ticketing_system.types import user_profile
+from models.ticketing_system.types.user_profile import UserProfile
+
+
+def add_users(user_json: dict):
+    user =  UserProfile.from_dict(user_json)
+    user_storage.add_user_to_file(user)
+    pass
+
+def get_users() -> list[dict]:
+    return user_storage.get_users_to_file()
+    pass 
