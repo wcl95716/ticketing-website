@@ -9,7 +9,7 @@ import result from './modules/result';
 import user from './modules/user';
 import login from './modules/login';
 import otherRoutes from './modules/others';
-import DetailModel from '../pages/Ticket/components/DetailModel'
+import userChatPage from './modules/userChatPage'
 
 export interface IRouter {
   path: string;
@@ -53,6 +53,6 @@ const routes: IRouter[] = [
 ];
 
 // const allRoutes = [...routes, ...dashboard, ...list, ...form, ...detail, ...result, ...ticket, ...user, ...login, ...otherRoutes];
-const allRoutes = [...routes, ...ticket ];
+const allRoutes = [...routes, ...ticket, ...userChatPage ];
 
 export default allRoutes;
