@@ -124,6 +124,17 @@ def api_get_all_tickets():
     except Exception as e:
         return jsonify({"error": str(e)})
     
+# 根据条件获取工单的接口
+@api_bp.route('/get_ticket_filter', methods=['POST'])
+def api_get_ticket_filter():
+    try:
+        result = ticketing_system.ticket_api.get_ticket_filter(request.get_json())
+        # 例如：return jsonify([ticket.to_dict() for ticket in all_tickets])
+        return jsonify([ticket.to_dict() for ticket in result])
+    except Exception as e:
+        return jsonify({"error": str(e)})
+    pass
+    
 # 上传文件的接口
 @api_bp.route('/upload_file', methods=['POST'])
 def api_upload_file():
@@ -190,8 +201,8 @@ def api_update_user():
     except Exception as e:
         local_logger.logger.info("api_update_user error : %s", str(e))
         return jsonify({"error": str(e)})
-    
-    
+
+
 @api_bp.route('/readme')
 def get_readme():
     try:

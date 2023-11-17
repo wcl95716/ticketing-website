@@ -108,3 +108,8 @@ def delete_ticket_record(ticket_id: str):
         local_logger.logger.info(f"工单数据文件夹及其内容已删除：{folder_path}")
     except Exception as e:
         local_logger.logger.info(f"删除工单数据时发生错误：{str(e)}")
+        
+        
+ 
+
+

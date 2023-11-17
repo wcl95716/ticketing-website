@@ -71,7 +71,63 @@ class TicketRecord:
     def from_json(cls, json_string):
         ticket_data = json.loads(json_string)
         return TicketRecord.from_dict(ticket_data)
+
+
+
+class TicketFilter:
+    def __init__(self, search_criteria:str = None , status:TicketStatus = None ,start_date:str = None , end_date:str = None):
+        self.search_criteria = search_criteria
+        self.status = status
+        self.start_date = start_date
+        self.end_date = end_date
+        pass 
     
+    def to_dict(self):
+        return {
+            "search_criteria": self.search_criteria,
+            "status": self.status.value if self.status != None else None,
+            "start_date": self.start_date,
+            "end_date": self.end_date,
+        }
+    
+    @classmethod
+    def from_dict(cls, json_data: dict ):
+        return cls(**json_data)
+        pass
+    
+    def get_filter_condition_ticket(self , list_ticket:List[TicketRecord]) -> List[TicketRecord] :
+        # 根据条件筛选出符合条件的工单
+        return self.get_filter_condition_ticket_id(list_ticket)
+        pass
+
+    def get_filter_condition_ticket_id(self ,  list_ticket:List[TicketRecord]) -> List[TicketRecord]:
+        # 根据条件筛选出符合条件的工单ID
+        result_list:List[TicketRecord]  = []
+        for ticket in list_ticket:
+            # self.start_date <= ticket.created_time <= self.end_date: 
+            # 它们都是字符串 帮我转换成时间
+            # 将字符串日期解析为 datetime 对象
+            start_date = datetime.datetime.strptime(self.start_date, "%Y-%m-%d %H:%M:%S")
+            end_date = datetime.datetime.strptime(self.end_date, "%Y-%m-%d %H:%M:%S")
+            created_time = datetime.datetime.strptime(ticket.created_time, "%Y-%m-%d %H:%M:%S")
+            if self.search_criteria in ticket.ticket_id:
+                result_list.append(ticket)
+            elif self.search_criteria in ticket.title:
+                result_list.append(ticket)
+            elif self.search_criteria in ticket.assigned_to:
+                result_list.append(ticket)
+            elif self.status == ticket.status and self.status != None:
+                result_list.append(ticket)
+                pass 
+            elif start_date <= created_time <= end_date:
+                result_list.append(ticket)
+                pass
+        return result_list
+
+    
+    pass 
+
+
 
 # 创建一个测试数据
 def testTicket():
