@@ -145,7 +145,15 @@ def generate_random_chinese(length):
 #创建一个随机的testTicket 数据
 def getTestTicket():
     sender = generate_random_chinese(5)  # 随机生成5个中文字符的发送者名字
-    ticket = TicketRecord("问题报告", datetime.datetime.now().isoformat(), TicketStatus.NEW, Priority.HIGHEST, sender, None, "报告问题", None)
+    ticket = TicketRecord(
+        "问题报告", 
+        datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S"),
+        TicketStatus.NEW,
+        Priority.HIGHEST,
+        sender,
+        None,
+        "报告问题",
+        None)
     return ticket
     pass 
 
