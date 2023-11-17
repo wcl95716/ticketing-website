@@ -12,6 +12,12 @@ api_bp = Blueprint('ticketing_system', __name__ ,url_prefix='/test')
 
 api_bp.register_blueprint(api_bp_sub)
 
+# 配置文件上传目录和允许的文件扩展名
+UPLOAD_FOLDER = 'uploads'
+ALLOWED_EXTENSIONS = {'txt', 'pdf', 'png', 'jpg', 'jpeg', 'gif','mp4'}
+# 辅助函数，检查文件扩展名是否允许
+def allowed_file(filename):
+    return '.' in filename and filename.rsplit('.', 1)[1].lower() in ALLOWED_EXTENSIONS
 
 CORS(api_bp) # 解决跨域问题
 
