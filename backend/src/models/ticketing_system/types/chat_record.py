@@ -8,7 +8,16 @@ from models.ticketing_system.types.enum_type import MessageType
 
 
 class ChatRecord:
-    def __init__(self, message_id: int, ticket_id: int, sender: str, content: str, message_time: str, message_type: MessageType, file_id: str = "", file_url: str = ""):
+    def __init__(self, 
+                message_id: int, 
+                ticket_id: int,
+                sender: str,
+                content: str,
+                message_time: str,
+                message_type: MessageType,
+                file_id: str = None,
+                file_url: str = None,
+                ):
         self.message_id = message_id  # 消息ID
         self.ticket_id = ticket_id  # 关联的工单ID
         self.sender = sender  # 发送者

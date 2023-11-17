@@ -83,5 +83,5 @@ def get_file_path(filename:str):
     file_path = f"{file_data_path}/{filename}"
     # 获取真实路径
     file_path = os.path.abspath(os.path.join(file_data_path, filename))
-    local_logger.logger.info("get_file_path " ,file_path )
+    local_logger.logger.info("get_file_path %s" ,file_path )
     return file_path

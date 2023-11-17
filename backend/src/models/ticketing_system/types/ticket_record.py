@@ -10,9 +10,11 @@ import uuid
 class TicketRecord:
 
     def __init__(self, title: str, created_time: str, status: TicketStatus, priority: Priority,
-                 creator: str, assigned_to: Optional[str], ticket_type: str, closed_time: Optional[str]):
+                 creator: str, assigned_to: Optional[str],
+                closed_time: Optional[str],
+                ticket_type: str = None,
+                ):
         self.ticket_id = TicketRecord.generate_ticket_id()
-        self.display_id = self.ticket_id.split("-")[1]  # 显示用的工单ID
         self.title = title  # 工单标题
         self.created_time = created_time  # 创建时间
         self.status = status  # 状态
