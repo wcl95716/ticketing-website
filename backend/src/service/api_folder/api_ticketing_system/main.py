@@ -163,7 +163,7 @@ def api_get_file(filename):
 def api_get_users():
     try:
         users:list[dict] = ticketing_system.user_api.get_users()
-        local_logger.logger.info("api_get_users  ", users)
+        local_logger.logger.info("api_get_users %s ", users)
         # 请确保将所有票证数据转换为 JSON 格式并返回
         return jsonify(users) 
     except Exception as e:
