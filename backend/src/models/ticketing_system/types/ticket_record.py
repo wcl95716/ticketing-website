@@ -92,6 +92,7 @@ class TicketFilter:
     
     @classmethod
     def from_dict(cls, json_data: dict ):
+        json_data["status"] = TicketStatus(json_data["status"]) if json_data["status"] != None else None
         return cls(**json_data)
         pass
     
