@@ -19,12 +19,12 @@ def test():
     
     
 def test_add_user():
-
-    user_name = user_profile.get_test_user()
-    add_user_to_file(user_name)
-    users = get_users_to_file()
-    
-    print(users)
+    for i in range(10):
+        user_name = user_profile.get_test_user()
+        add_user_to_file(user_name)
+        users = get_users_to_file()
+        
+        print(users)
     
     
 if __name__ == "__main__":

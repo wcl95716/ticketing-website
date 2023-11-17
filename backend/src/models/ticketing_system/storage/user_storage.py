@@ -9,7 +9,7 @@ from utils import local_logger
 
 
 user_file_path = "data/users/"
-user_file_name = "user_data.txt"
+user_file_name = "ticketing_system_user_data.txt"
 
 def add_user_to_file(user: UserProfile):
     folder_path = f"{user_file_path}"

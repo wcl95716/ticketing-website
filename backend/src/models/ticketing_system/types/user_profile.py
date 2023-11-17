@@ -48,10 +48,9 @@ def get_test_user():
     email = faker.email()
     phone = faker.phone_number()
     avatar = faker.image_url()
+    avatar_url = faker.image_url()
     password = faker.password()
     user_id = str(faker.uuid4())  # 将 UUID 转换为字符串
-    return UserProfile(user_id, name, email, phone, avatar, password=password)
+    return UserProfile(user_id, name, email, phone, avatar,avatar_url, password=password)
 
 
-
-print(get_test_user().to_dict())
