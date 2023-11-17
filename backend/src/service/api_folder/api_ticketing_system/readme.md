@@ -67,6 +67,18 @@
   - **状态码:** `200 OK`
   - **返回内容:** 包含所有工单详情的 JSON 数组。
 
+## 根据条件搜索工单
+
+- **URL:** `/get_ticket_filter`
+- **方法:** `POST`
+- **描述:** 用于返回筛选的工单信息
+- **请求体:** 返回筛选后工单的列表。
+- **成功响应:**
+  - **状态码:** `200 OK`
+  - **返回内容:** `{"message": "Ticket updated successfully"}`
+- **错误响应:**
+  - **返回内容:** `{"error": "<error_message>"}`，其中 `<error_message>` 表示捕获到的异常信息。
+
 ## 8. 上传文件
 
 - **URL:** `/upload_file`
@@ -142,5 +154,6 @@
   - **返回内容:** `{"message": "Ticket updated successfully"}`
 - **错误响应:**
   - **返回内容:** `{"error": "<error_message>"}`，其中 `<error_message>` 表示捕获到的异常信息。
+
 
 
