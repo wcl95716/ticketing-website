@@ -16,6 +16,7 @@ install:
 checkout:
 	conda activate ticketing-website
 
+
 delete_env:
 	conda remove -n ticketing-website --all
 
