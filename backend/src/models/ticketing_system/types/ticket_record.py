@@ -122,16 +122,17 @@ class TicketFilter:
             start_date = parse_datetime(self.start_date)# datetime.datetime.strptime(self.start_date, "%Y-%m-%d %H:%M:%S")
             end_date = parse_datetime(self.end_date) #datetime.datetime.strptime(self.end_date, "%Y-%m-%d %H:%M:%S")
             created_time = parse_datetime(ticket.created_time) # datetime.datetime.strptime(ticket.created_time, "%Y-%m-%d %H:%M:%S")
-            if self.search_criteria in ticket.ticket_id:
+            
+            if self.search_criteria is not None and  self.search_criteria in ticket.ticket_id:
                 result_list.append(ticket)
-            elif self.search_criteria in ticket.title:
+            elif self.search_criteria is not None and self.search_criteria in ticket.title:
                 result_list.append(ticket)
-            elif self.search_criteria in ticket.assigned_to:
+            elif self.search_criteria is not None and self.search_criteria in ticket.assigned_to:
                 result_list.append(ticket)
-            elif self.status == ticket.status and self.status != None:
+            elif self.status is not None and self.status == ticket.status :
                 result_list.append(ticket)
                 pass 
-            elif start_date <= created_time <= end_date:
+            elif start_date is not None and start_date <= created_time <= end_date:
                 result_list.append(ticket)
                 pass
         return result_list
