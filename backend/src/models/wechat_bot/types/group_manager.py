@@ -3,8 +3,7 @@ import PyOfficeRobot
 
 
 # def check_group(who_group ,customer_service_names = [] , group_mark = GroupMark.NULL ):
-#     wx.GetSessionList()  # 获取会话列表
-#     wx.ChatWith(who_group)  # 打开`who`聊天窗口
+
 #     print("who_group: ",who_group ,group_mark  )
 #     if group_mark == GroupMark.NULL:
 #         res = is_find_customer_service(wx.GetAllMessage,customer_service_names)
@@ -42,9 +41,29 @@ class GroupChatManager:
     def send_chat_message(self, message: str):
         PyOfficeRobot.chat.send_message(who=self.group_id, message=message)
         pass
-
+    
+    def get_chat_message(self):
+        wx.GetSessionList()  # 获取会话列表
+        wx.ChatWith(who_group)  # 打开`who`聊天窗口
+        pass
     pass 
 
 
 class GroupManager:
+    
+    def __init__(self, group_list: list[GroupChatManager]):
+        self.group_list = group_list
+        pass
+    
+    
     pass 
+
+
+
+keywords = {
+    "我要报名": "你好，这是报名链接：www.python-office.com",
+    "点赞了吗？": "点了",
+    "关注了吗？": "必须的",
+    "投币了吗？": "三连走起",
+}
+PyOfficeRobot.chat.chat_by_keywords(who='抖音：程序员晚枫', keywords=keywords)
