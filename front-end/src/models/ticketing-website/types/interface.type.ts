@@ -22,3 +22,22 @@ export interface IChatRecord {
   file_id: string;
   file_url: string;
 }
+
+
+export interface TicketFilter {
+  search_criteria?: string;
+  status?: TicketStatus;
+  start_date?: string;
+  end_date?: string;
+}
+
+export interface UserProfile {
+  user_id: string;
+  name: string;
+  email?: string | null;
+  phone?: string | null;
+  avatar?: string | null;
+  avatar_url?: string | null;
+  info?: { [key: string]: any } | null;
+  password?: string | null;
+}
