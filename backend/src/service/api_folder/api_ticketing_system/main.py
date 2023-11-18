@@ -116,8 +116,8 @@ def api_delete_ticket(ticket_id):
 # 获取所有工单的接口
 @api_bp.route('/get_all_tickets', methods=['POST'])
 def api_get_all_tickets():
+    local_logger.logger.info("api_get_all_tickets begin ")
     try:
-        
         ticket_filter_data = request.get_json()
         local_logger.logger.info("ticket_filter_data : %s", ticket_filter_data)
         # 如果没有传递任何筛选条件，则返回所有工单
@@ -132,6 +132,7 @@ def api_get_all_tickets():
         # # 例如：return jsonify([ticket.to_dict() for ticket in all_tickets])
         # return jsonify([ticket.to_dict() for ticket in all_tickets]) 
     except Exception as e:
+        local_logger.logger.info("api_get_all_tickets error : %s", str(e))
         return jsonify({"error": str(e)})
     
 # 根据条件获取工单的接口
