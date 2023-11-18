@@ -1,6 +1,3 @@
-from test.api import chat
-from test.api import file
-from test.api import friend
-from test.api import group
 
-
+from models.ticketing_system.api import chat_api, ticket_api
+from models.ticketing_system.types import chat_record, ticket_record

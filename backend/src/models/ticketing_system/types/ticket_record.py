@@ -10,9 +10,11 @@ import uuid
 class TicketRecord:
 
     def __init__(self, title: str, created_time: str, status: TicketStatus, priority: Priority,
-                 creator: str, assigned_to: Optional[str], ticket_type: str, closed_time: Optional[str]):
+                 creator: str, assigned_to: Optional[str],
+                closed_time: Optional[str],
+                ticket_type: str = None,
+                ):
         self.ticket_id = TicketRecord.generate_ticket_id()
-        self.display_id = self.ticket_id.split("-")[1]  # 显示用的工单ID
         self.title = title  # 工单标题
         self.created_time = created_time  # 创建时间
         self.status = status  # 状态
@@ -69,13 +71,66 @@ class TicketRecord:
     def from_json(cls, json_string):
         ticket_data = json.loads(json_string)
         return TicketRecord.from_dict(ticket_data)
+
+
+
+class TicketFilter:
+    def __init__(self, search_criteria:str = None , status:TicketStatus = None ,start_date:str = None , end_date:str = None):
+        self.search_criteria = search_criteria
+        self.status = status
+        self.start_date = start_date
+        self.end_date = end_date
+        pass 
     
+    def to_dict(self):
+        return {
+            "search_criteria": self.search_criteria,
+            "status": self.status.value if self.status != None else None,
+            "start_date": self.start_date,
+            "end_date": self.end_date,
+        }
+    
+    @classmethod
+    def from_dict(cls, json_data: dict ):
+        json_data["status"] = TicketStatus(json_data["status"]) if json_data["status"] != None else None
+        return cls(**json_data)
+        pass
+    
+    def get_filter_condition_ticket(self , list_ticket:List[TicketRecord]) -> List[TicketRecord] :
+        # 根据条件筛选出符合条件的工单
+        return self.get_filter_condition_ticket_id(list_ticket)
+        pass
+
+    def get_filter_condition_ticket_id(self ,  list_ticket:List[TicketRecord]) -> List[TicketRecord]:
+        # 根据条件筛选出符合条件的工单ID
+        result_list:List[TicketRecord]  = []
+        for ticket in list_ticket:
+            # self.start_date <= ticket.created_time <= self.end_date: 
+            # 它们都是字符串 帮我转换成时间
+            # 将字符串日期解析为 datetime 对象
+            start_date = datetime.datetime.strptime(self.start_date, "%Y-%m-%d %H:%M:%S")
+            end_date = datetime.datetime.strptime(self.end_date, "%Y-%m-%d %H:%M:%S")
+            created_time = datetime.datetime.strptime(ticket.created_time, "%Y-%m-%d %H:%M:%S")
+            if self.search_criteria in ticket.ticket_id:
+                result_list.append(ticket)
+            elif self.search_criteria in ticket.title:
+                result_list.append(ticket)
+            elif self.search_criteria in ticket.assigned_to:
+                result_list.append(ticket)
+            elif self.status == ticket.status and self.status != None:
+                result_list.append(ticket)
+                pass 
+            elif start_date <= created_time <= end_date:
+                result_list.append(ticket)
+                pass
+        return result_list
+
+    
+    pass 
+
+
 
 # 创建一个测试数据
-
-
-        
-
 def testTicket():
     ticket = TicketRecord("问题报告", "2023-10-28 10:00:00", TicketStatus.NEW, Priority.HIGHEST, "用户A", None, "报告问题", None)
     print(ticket.to_json())
@@ -90,6 +145,19 @@ def generate_random_chinese(length):
 #创建一个随机的testTicket 数据
 def getTestTicket():
     sender = generate_random_chinese(5)  # 随机生成5个中文字符的发送者名字
-    ticket = TicketRecord("问题报告", datetime.datetime.now().isoformat(), TicketStatus.NEW, Priority.HIGHEST, sender, None, "报告问题", None)
+    ticket = TicketRecord(
+        "问题报告", 
+        datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S"),
+        TicketStatus.NEW,
+        Priority.HIGHEST,
+        sender,
+        None,
+        "报告问题",
+        None)
     return ticket
     pass 
+
+
+# 创建一个根据条件搜索 TicketRecord 的class
+# 用于在 ticket_storage.py 中的 search_ticket_record_from_files 方法中使用
+# 条件为: creator/ticket_id/

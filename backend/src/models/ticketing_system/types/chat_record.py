@@ -8,17 +8,27 @@ from models.ticketing_system.types.enum_type import MessageType
 
 
 class ChatRecord:
-    def __init__(self, message_id: int, ticket_id: int, sender: str, content: str, message_time: str, message_type: MessageType):
+    def __init__(self, 
+                message_id: int, 
+                ticket_id: int,
+                sender: str,
+                content: str,
+                message_time: str,
+                message_type: MessageType,
+                file_id: str = None,
+                file_url: str = None,
+                ):
         self.message_id = message_id  # 消息ID
         self.ticket_id = ticket_id  # 关联的工单ID
         self.sender = sender  # 发送者
         self.content = content  # 消息内容
         self.message_time = message_time  # 消息时间
         self.message_type = message_type  # 消息类型
+        self.file_id = file_id
+        self.file_url = file_url # 文件 URL
 
     def to_json(self):
         # 将 MessageType 转换为字符串
-        
         # 创建一个字典来表示对象
         data = {
             "message_id": self.message_id,
@@ -26,9 +36,10 @@ class ChatRecord:
             "sender": self.sender,
             "content": self.content,
             "message_time": self.message_time,
-            "message_type": str(self.message_type)
+            "message_type": self.message_type.value,
+            "file_id": self.file_id,
+            "file_url": self.file_url
         }
-        
         return data
     
     def to_json_str(self):
@@ -41,6 +52,7 @@ class ChatRecord:
     
     @classmethod
     def from_json(cls, json_data):
+        json_data["message_type"] = MessageType(json_data["message_type"])
         return cls(**json_data)
 
 # 创建main 测试
@@ -65,5 +77,5 @@ def getTestChatMessage():
     message_type = random.choice(list(MessageType))  # 随机选择消息类型
 
     chatMessage = ChatRecord(message_id, ticket_id, sender, content, message_time, message_type)
-    chatMessage.ticket_id = "2023-11-10-5a994e69-7a49-4f91-bd2f-d1bec831daa9"
+    chatMessage.ticket_id = "001"
     return chatMessage

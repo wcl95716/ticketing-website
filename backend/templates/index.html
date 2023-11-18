@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Media Display</title>
+</head>
+<body>
+    {% if media_type == 'image' %}
+    <h1>Image:</h1>
+    <img src="{{ media_url }}" alt="Image">
+    {% elif media_type == 'video' %}
+    <h1>Video:</h1>
+    <video controls width="640" height="360">
+        <source src="{{ media_url }}" type="video/mp4">
+        Your browser does not support the video tag.
+    </video>
+    {% endif %}
+</body>
+</html>
