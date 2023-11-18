@@ -14,7 +14,7 @@ export const CONTRACT_STATUS = {
 
 export const CONTRACT_STATUS_OPTIONS: Array<IOption> = [
   { value: CONTRACT_STATUS.FAIL, label: '审核失败' },
-  { value: CONTRACT_STATUS.AUDIT_PENDING, label: '待审核' },
+  { value: CONTRACT_STATUS.AUDIT_PENDING, label: '待处理' },
   { value: CONTRACT_STATUS.EXEC_PENDING, label: '待履行' },
   { value: CONTRACT_STATUS.EXECUTING, label: '审核成功' },
   { value: CONTRACT_STATUS.FINISH, label: '已完成' },

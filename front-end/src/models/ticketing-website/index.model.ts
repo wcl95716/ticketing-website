@@ -2,6 +2,7 @@ import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 import { ITicketState } from './types/model.type';
 import { IChatRecord, ITicketRecord, TicketFilter, TicketStatus, UserProfile } from './index.type';
 import { RootState } from 'modules/store';
+import { isNull } from 'lodash';
 
 // get state from http://127.0.0.1:8001/getVideosDetail获取列表
 export const getTicketListRequest = createAsyncThunk('test/postTestRequest', async (params?: TicketFilter) => {
@@ -69,10 +70,10 @@ const initialState: ITicketState = {
   chatRecord: [],
   allUser: [],
   ticket_filter: {
-    search_criteria: undefined,
-    status: undefined,
-    start_date: undefined,
-    end_date: undefined,
+    search_criteria: null,
+    status: null,
+    start_date: null,
+    end_date: null,
   },
 };
 

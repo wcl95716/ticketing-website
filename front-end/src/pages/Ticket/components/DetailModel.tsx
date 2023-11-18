@@ -30,7 +30,8 @@ const getBase64 = (file: RcFile): Promise<string> =>
 const DetailModel = () => {
    const location = useLocation();
    const now = new Date();
-   const { ticket_id } = location.state || {};
+   const { ticket_id,record } = location.state || {};
+
 
    const dispatch = useAppDispatch();
    const chatRecord = useAppSelector(selecChatRecord);
@@ -245,6 +246,7 @@ const DetailModel = () => {
                   console.log(value);
                }}
                onCancel={() => { }}
+               record={record} 
             />
             </div>
          </Row>
