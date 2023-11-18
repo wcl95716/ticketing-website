@@ -74,7 +74,9 @@ class TicketRecord:
         return TicketRecord.from_dict(ticket_data)
 
 
-def parse_datetime(date_string:str):
+def parse_datetime(date_string:str or None):
+    if date_string is None:
+        return None
     try:
         # 尝试解析第一种格式
         return datetime.datetime.strptime(date_string, '%Y-%m-%d %H:%M:%S')
@@ -138,7 +140,9 @@ class TicketFilter:
             elif self.status is not None and self.status == ticket.status :
                 result_list.append(ticket)
                 pass 
-            elif start_date is not None and start_date <= created_time <= end_date:
+            elif start_date is not None and \
+                end_date is not None and \
+                start_date <= created_time <= end_date:
                 result_list.append(ticket)
                 pass
         return result_list

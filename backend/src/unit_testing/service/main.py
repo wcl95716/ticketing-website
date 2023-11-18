@@ -33,9 +33,9 @@ def test_get_all_tickets():
     url = 'http://localhost:8001/test/get_all_tickets'
     ticket_filter = ticket_record.TicketFilter()
     # ticket_filter.search_criteria = "121"
-    ticket_filter.start_date = "2023-11-17 21:49:30"
-    ticket_filter.end_date = "2023-11-17 21:49:30"
-    # ticket_filter.status = TicketStatus.NEW
+    ticket_filter.start_date = None
+    ticket_filter.end_date = None
+    ticket_filter.status = TicketStatus.NEW
     # 使用post
     response = requests.post(url, json=ticket_filter.to_dict())
     
