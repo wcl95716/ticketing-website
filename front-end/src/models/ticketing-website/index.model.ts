@@ -94,6 +94,7 @@ const ticketWebsiteSlice = createSlice({
     allUserData: (state, action) => {
       state.allUser = [];
     },
+    // dispatch(updateTicketFilter({ search_criteria: 'test' , status: TicketStatus.NEW}));
     updateTicketFilter: (state, action) => {
       const ticketFilter: TicketFilter  = action.payload as TicketFilter;
       state.ticket_filter = { ...state.ticket_filter, ...ticketFilter };
