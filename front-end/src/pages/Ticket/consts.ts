@@ -1,3 +1,4 @@
+import { TicketStatus } from 'models/ticketing-website/index.type';
 interface IOption {
   value: number | string;
   label: string;
@@ -13,11 +14,10 @@ export const CONTRACT_STATUS = {
 };
 
 export const CONTRACT_STATUS_OPTIONS: Array<IOption> = [
-  { value: CONTRACT_STATUS.FAIL, label: '审核失败' },
-  { value: CONTRACT_STATUS.AUDIT_PENDING, label: '待审核' },
-  { value: CONTRACT_STATUS.EXEC_PENDING, label: '待履行' },
-  { value: CONTRACT_STATUS.EXECUTING, label: '审核成功' },
-  { value: CONTRACT_STATUS.FINISH, label: '已完成' },
+  { value: TicketStatus.NEW, label: '待审核' },
+  { value: TicketStatus.IN_PROGRESS, label: '处理中' },
+  { value: TicketStatus.COMPLETED, label: '完成' },
+  { value: TicketStatus.CLOSED, label: '关闭' },
 ];
 
 // 合同类型枚举

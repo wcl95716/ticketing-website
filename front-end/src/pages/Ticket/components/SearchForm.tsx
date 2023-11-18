@@ -12,6 +12,16 @@ const SearchForm: React.FC = () => {
   const [form] = Form.useForm();
   const onFinish = (values: any) => {
     console.log('Success:', values);
+    const { time } = values;
+
+    if (time && time.length === 2) {
+      const formattedStartTime = time[0].format('YYYY-MM-DD HH:mm:ss');
+      const formattedEndTime = time[1].format('YYYY-MM-DD HH:mm:ss');
+
+      console.log('开始时间:', formattedStartTime);
+      console.log('结束时间:', formattedEndTime);
+      // 在这里处理格式化后的时间值
+    }
   };
   const onReset = () => {
     form.resetFields();
@@ -27,7 +37,7 @@ const SearchForm: React.FC = () => {
           <Col flex='1'>
             <Row gutter={[16, 16]}>
               <Col >
-                <Form.Item label='关键字' name='name'>
+                <Form.Item label='关键字' name='search_criteria'>
                   <Input placeholder='请输入关键字' />
                 </Form.Item>
               </Col>
@@ -38,7 +48,11 @@ const SearchForm: React.FC = () => {
               </Col>
               <Col >
                 <Form.Item label="日期" name='time'>
-                  <RangePicker />
+                  <RangePicker 
+                  placeholder={['开始时间', '结束时间']}
+                  format="YYYY-MM-DD"
+                  />
+                  
                 </Form.Item>
               </Col>
             </Row>

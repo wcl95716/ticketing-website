@@ -47,9 +47,6 @@ const DetailModel = () => {
          }
       }
    };
-   // useEffect(() => {
-   //    fetchMessages();
-   // }, [ticket_id]);
 
    const addTicket = async (newMessageContent: any) => {
       try {
@@ -116,7 +113,6 @@ const DetailModel = () => {
       }
    };
    const handleUpload = (file) => {
-      console.log("查看文件全称",file)
       // 取出文件名中的后缀
     const fileExtension = file.file_id.split('.').pop().toLowerCase();
       const newMessages = [
@@ -163,7 +159,6 @@ const DetailModel = () => {
    };
    // 修改renderItem函数，为每条消息添加头像和名字
    const renderMessageItem = (item: any) => {
-      console.log("查看文件类型",item.message_type)
       if (item.message_type === MessageType.IMAGE) {
          return <div>
             <div className={`${Style['message-item']} ${item.sender === '客服' ? Style['current-user'] : ''} ${Style['bordered-list-item']}`}>
@@ -199,7 +194,7 @@ const DetailModel = () => {
                <div className={Style['message-content']} style={{ flexDirection: item.sender === '客服' ? 'row-reverse' : 'row' }}>
                   <p className={Style['message-time']} style={{ textAlign: item.sender === '客服' ? 'right' : 'left' }}>{item.message_time}</p>
                   <div className={Style['text']} style={{ flexDirection: item.sender === '客服' ? 'row-reverse' : 'row' }}>
-                     <video controls src={item.file_url} style={{ width: 100 }} />
+                     <video muted controls src={item.file_url}  width="100px" height="100px"/>
                   </div>
                </div>
 
@@ -217,7 +212,8 @@ const DetailModel = () => {
             <div style={{ backgroundColor: '' }} className={`${Style['message-item']} ${item.sender === '客服' ? Style['current-user'] : ''} ${Style['bordered-list-item']}`}>
                {item.sender !== '客服' && (  // 当消息不是当前用户发送时
                   <div className={Style['avatar']}>
-                     <img src={item.avatar} alt="avatar" />
+                     <img src='https://gw.alipayobjects.com/zos/rmsportal/JiqGstEfoWAOHiTxclqi.png' alt="avatar"></img>
+                     {/* <img src={item.avatar} alt="avatar" /> */}
                      <p>{item.sender}</p>
                   </div>
                )}
@@ -229,7 +225,8 @@ const DetailModel = () => {
                </div>
                {item.sender === '客服' && (  // 当消息是当前用户发送时
                   <div className={Style['current-avatar']} style={{ marginLeft: '10px' }}>
-                     <img src={item.avatar} alt="avatar" />
+                     <img src='https://gw.alipayobjects.com/zos/rmsportal/JiqGstEfoWAOHiTxclqi.png' alt="avatar"></img>
+                     {/* <img src={item.avatar} alt="avatar" /> */}
                      <p>{item.sender}</p>
                   </div>
                )}
@@ -250,7 +247,6 @@ const DetailModel = () => {
                onCancel={() => { }}
             />
             </div>
-            
          </Row>
          <div style={{ width: '100%', height: '100%', backgroundColor: '#fff' ,paddingBottom:'20px'}}>
             <div style={{ paddingLeft: '4%', paddingTop: '10px', marginTop: '10px', marginBottom: '10px' }}>沟通记录</div>
@@ -262,7 +258,7 @@ const DetailModel = () => {
          <div style={{ width: '100%', backgroundColor: '#fff'}}>
             <div className={Style['chat-input']} style={{ marginBottom: '0px', display: 'flex', flexDirection: 'column' }}>
                <Row justify="space-between" align="middle" >
-                  <Col  style={{ width: '40%', marginLeft: '4%', marginBottom: 'auto', marginTop: '30px' }}>
+                  <Col  style={{ width: '50%', marginLeft: '4%', marginBottom: 'auto', marginTop: '30px' }}>
                      <Input
                         style={{ width: '100%' }}
                         placeholder="请输入聊天内容"

@@ -26,7 +26,7 @@ export const SelectTable = () => {
   const test = useAppSelector(selectTest);
 
   useEffect(() => {
-    dispatch(getTicketListRequest());
+    dispatch(getTicketListRequest({}));
   }, []);
 
   useEffect(() => {

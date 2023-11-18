@@ -1,5 +1,5 @@
 import React, { useState, memo, useEffect } from 'react';
-import { getTicketListRequest, selectTicketRecordList } from 'models/ticketing-website/index.model';
+import { getTicketListRequest, getAllUserRequest, updateTicket, selecAllUser, selectTicketRecordList, deleteTicketListRequest } from 'models/ticketing-website/index.model';
 import SearchForm from './components/SearchForm';
 import { useNavigate } from 'react-router-dom';
 import {
@@ -12,6 +12,7 @@ import {
 import Style from './index.module.less';
 import type { ColumnsType } from 'antd/es/table';
 import { useAppDispatch, useAppSelector } from 'modules/store';
+import { concat } from 'lodash';
 
 export interface DataType {
    key: React.Key;
@@ -33,9 +34,11 @@ const ticketPage: React.FC = () => {
    const [data, setData] = useState([]);
    const navigate = useNavigate();
    const ticketRecordList = useAppSelector(selectTicketRecordList);
+   const allUserList = useAppSelector(selecAllUser);
 
    useEffect(() => {
-      dispatch(getTicketListRequest())
+      dispatch(getTicketListRequest({}))
+      dispatch(getAllUserRequest())
    }, []);
 
    useEffect(() => {
@@ -43,59 +46,69 @@ const ticketPage: React.FC = () => {
    }, [ticketRecordList]);
 
 
-   const deleteConfirm = (e: React.MouseEvent<HTMLElement>) => {
-      console.log(e);
-      message.success('Click on Yes');
+   const deleteConfirm = (record: DataType) => {
+      dispatch(deleteTicketListRequest(record?.ticket_id)).then(() => {
+         dispatch(getTicketListRequest({}));
+      });
    };
 
    const onView = (record: DataType) => {
-      console.log("查看record", record)
       navigate('detail', { state: { ticket_id: record?.ticket_id } });
-   };
-
-   const cancel = (e: React.MouseEvent<HTMLElement>) => {
-      console.log(e);
-      message.error('Click on No');
    };
 
    const renderStatus = (status: any) => {
       let statusText;
-      let statusColor;
 
       switch (status) {
          case 0:
             statusText = '待处理';
-            //  statusColor = 'orange';
             status = "error"
             break;
          case 1:
             statusText = '处理中';
-            //  statusColor = 'blue';
             status = "processing"
             break;
          case 2:
             statusText = '处理完成';
-            //  statusColor = 'green';
             status = 'success';
             break;
          case 3:
             statusText = '关闭工单';
-            //  statusColor = 'red';
             status = "default"
             break;
          default:
             statusText = '未知状态';
             status = "default"
-         //  statusColor = 'default';
       }
 
       return <Badge text={statusText} status={status} />;
    };
-   const renderCreator = (creator: any) => {
-      return <Select defaultValue={creator} style={{ width: 120 }}>
-         <Select.Option value="jack">客服1</Select.Option>
-         <Select.Option value="lucy">客服2</Select.Option>
-         <Select.Option value="Yiminghe">客服3</Select.Option>
+   // Filter `option.label` match the user type `input`
+   const filterOption = (input: string, option?: { label: string; value: string }) =>
+      (option?.label ?? '').toLowerCase().includes(input.toLowerCase());
+
+
+
+   const renderCreator = (assigned_to: any, record: any) => {
+      const userOption = [];
+      allUserList.forEach((item) => {
+         userOption.push({
+            label: item?.name,
+            value: item?.user_id
+         })
+      })
+      // 定义内部函数，用于处理选择变更
+      const onValueChange = (value) => {
+         console.log("查看value111",value)
+         const updateRecord = {...record, assigned_to: value === undefined ? null : value };
+         console.log(updateRecord)
+         dispatch(updateTicket(updateRecord)).then(()=>{
+            dispatch(getTicketListRequest({}));
+         });
+      };
+      return <Select defaultValue={assigned_to} style={{ width: 120 }} allowClear showSearch filterOption={filterOption}
+         options={userOption} onChange={onValueChange}
+      >
       </Select>
    }
    const columns: ColumnsType<DataType> = [
@@ -115,10 +128,10 @@ const ticketPage: React.FC = () => {
       },
       {
          title: "处理人",
-         dataIndex: "creator",
+         dataIndex: "assigned_to",
          key: "1",
          width: 150,
-         render: (creator) => renderCreator(creator)
+         render: (assigned_to, record) => renderCreator(assigned_to, record)
       },
       {
          title: "状态",
@@ -158,7 +171,7 @@ const ticketPage: React.FC = () => {
                <Popconfirm
                   title="删除工单"
                   description="你确定删除此条工单吗?"
-                  onConfirm={deleteConfirm}
+                  onConfirm={() => deleteConfirm(record)}
                   // onCancel={cancel}
                   okText="确定"
                   cancelText="取消"
@@ -167,7 +180,6 @@ const ticketPage: React.FC = () => {
                      type="primary"
                      danger size="small"
                      shape="circle"
-
                   ><DeleteOutlined style={{ color: 'white' }} />
                   </Button>
                </Popconfirm>
