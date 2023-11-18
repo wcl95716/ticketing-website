@@ -4,7 +4,7 @@ import { IChatRecord, ITicketRecord, TicketFilter, TicketStatus, UserProfile } f
 import { RootState } from 'modules/store';
 
 // get state from http://127.0.0.1:8001/getVideosDetail获取列表
-export const getTicketListRequest = createAsyncThunk('test/postTestRequest', async (params: TicketFilter) => {
+export const getTicketListRequest = createAsyncThunk('test/postTestRequest', async (params?: TicketFilter) => {
   console.log('查询111', params);
   const response = await fetch(`http://47.116.201.99:8001/test/get_all_tickets`, {
     method: 'POST',
@@ -69,10 +69,10 @@ const initialState: ITicketState = {
   chatRecord: [],
   allUser: [],
   ticket_filter: {
-    search_criteria: '',
-    status: TicketStatus.NEW,
-    start_date: '',
-    end_date: '',
+    search_criteria: undefined,
+    status: undefined,
+    start_date: undefined,
+    end_date: undefined,
   },
 };
 
