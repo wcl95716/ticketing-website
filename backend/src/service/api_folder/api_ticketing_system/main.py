@@ -123,7 +123,7 @@ def api_get_all_tickets():
         # 如果没有传递任何筛选条件，则返回所有工单
         if not ticket_filter_data:
             all_tickets = ticketing_system.ticket_api.get_all_tickets()
-            local_logger.logger.info("all_tickets : %d ", len(result))
+            local_logger.logger.info("all_tickets : %d ", len(all_tickets))
             return jsonify([ticket.to_dict() for ticket in all_tickets])
         # 如果传递了筛选条件，则返回符合条件的工单
         result = ticketing_system.ticket_api.get_ticket_filter(ticket_filter_data)
