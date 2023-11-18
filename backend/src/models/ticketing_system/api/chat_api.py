@@ -15,7 +15,6 @@ def add_chat_record(chat_record_json: dict):
     pass
 
 
-
 def get_chat_history(ticket_id: str) -> list[dict]:
     chats:list[dict] = chat_storage.get_chat_history_from_file(ticket_id)
     for chat in chats:

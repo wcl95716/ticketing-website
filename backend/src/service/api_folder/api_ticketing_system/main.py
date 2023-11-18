@@ -204,7 +204,7 @@ def api_update_user():
 
 
 @api_bp.route('/readme')
-def get_readme():
+def api_get_readme():
     try:
         # 指定README.md文件的路径
         readme_file = 'src/service/api_folder/api_ticketing_system/readme.md'
