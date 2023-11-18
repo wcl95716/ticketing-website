@@ -15,13 +15,11 @@ const SearchForm: React.FC = () => {
     const { time } = values;
 
     if (time && time.length === 2) {
-      const formattedStartTime = time[0].format('YYYY-MM-DD HH:mm:ss');
-      const formattedEndTime = time[1].format('YYYY-MM-DD HH:mm:ss');
-
-      console.log('开始时间:', formattedStartTime);
-      console.log('结束时间:', formattedEndTime);
+      const start_date = time[0].format('YYYY-MM-DD HH:mm:ss');
+      const end_date = time[1].format('YYYY-MM-DD HH:mm:ss');
       // 在这里处理格式化后的时间值
     }
+    
   };
   const onReset = () => {
     form.resetFields();
