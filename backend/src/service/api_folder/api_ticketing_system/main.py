@@ -114,13 +114,21 @@ def api_delete_ticket(ticket_id):
 
 
 # 获取所有工单的接口
-@api_bp.route('/get_all_tickets', methods=['GET'])
+@api_bp.route('/get_all_tickets', methods=['POST'])
 def api_get_all_tickets():
     try:
-        all_tickets = ticketing_system.ticket_api.get_all_tickets()
-        # 请确保将所有票证数据转换为 JSON 格式并返回
-        # 例如：return jsonify([ticket.to_dict() for ticket in all_tickets])
-        return jsonify([ticket.to_dict() for ticket in all_tickets]) 
+        ticket_filter_data = request.get_json()
+        # 如果没有传递任何筛选条件，则返回所有工单
+        if not ticket_filter_data:
+            all_tickets = ticketing_system.ticket_api.get_all_tickets()
+            return jsonify([ticket.to_dict() for ticket in all_tickets])
+        # 如果传递了筛选条件，则返回符合条件的工单
+        result = ticketing_system.ticket_api.get_ticket_filter(ticket_filter_data)
+        return jsonify([ticket.to_dict() for ticket in result])
+        # all_tickets = ticketing_system.ticket_api.get_all_tickets()
+        # # 请确保将所有票证数据转换为 JSON 格式并返回
+        # # 例如：return jsonify([ticket.to_dict() for ticket in all_tickets])
+        # return jsonify([ticket.to_dict() for ticket in all_tickets]) 
     except Exception as e:
         return jsonify({"error": str(e)})
     
