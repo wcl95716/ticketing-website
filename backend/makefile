@@ -19,5 +19,10 @@ checkout:
 delete_env:
 	conda remove -n ticketing-website --all
 
+push:
+	git add *
+	git commit -m "update"
+	git push origin main
+
 # 默认目标，停止先前的程序，然后启动新程序
 run: stop start
