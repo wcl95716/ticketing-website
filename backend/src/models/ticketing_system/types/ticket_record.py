@@ -115,6 +115,9 @@ class TicketFilter:
     def get_filter_condition_ticket_id(self ,  list_ticket:List[TicketRecord]) -> List[TicketRecord]:
         # 根据条件筛选出符合条件的工单ID
         result_list:List[TicketRecord]  = []
+        # 如果传入都为None 则返回所有的工单
+        if self.search_criteria is None and self.status is None and self.start_date is None and self.end_date is None:
+            return list_ticket
         for ticket in list_ticket:
             # self.start_date <= ticket.created_time <= self.end_date: 
             # 它们都是字符串 帮我转换成时间
