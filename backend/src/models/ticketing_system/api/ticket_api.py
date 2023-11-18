@@ -33,6 +33,7 @@ def get_test_ticket() -> TicketRecord:
 
 def get_ticket_filter(ticket_filter_dict:dict):
     ticket_filter = TicketFilter.from_dict(ticket_filter_dict)
+    
     ticket_reord_list:list[TicketRecord] = get_all_tickets()
     
     result:list[TicketRecord] = ticket_filter.get_filter_condition_ticket(ticket_reord_list)

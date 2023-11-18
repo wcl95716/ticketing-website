@@ -6,6 +6,7 @@ from typing import List, Optional
 
 from models.ticketing_system.types.enum_type import Priority, TicketStatus
 import uuid
+from utils import  local_logger
 
 class TicketRecord:
 
@@ -103,12 +104,14 @@ class TicketFilter:
     
     @classmethod
     def from_dict(cls, json_data: dict ):
-        json_data["status"] = TicketStatus(json_data["status"]) if json_data["status"] != None else None
-        return cls(**json_data)
+        json_data["status"] = TicketStatus(json_data["status"]) if json_data["status"] != None else None 
+        
+        return TicketFilter(**json_data)
         pass
     
     def get_filter_condition_ticket(self , list_ticket:List[TicketRecord]) -> List[TicketRecord] :
         # 根据条件筛选出符合条件的工单
+        local_logger.logger.info("get_filter_condition_ticket begin ")
         return self.get_filter_condition_ticket_id(list_ticket)
         pass
 
@@ -125,7 +128,7 @@ class TicketFilter:
             start_date = parse_datetime(self.start_date)# datetime.datetime.strptime(self.start_date, "%Y-%m-%d %H:%M:%S")
             end_date = parse_datetime(self.end_date) #datetime.datetime.strptime(self.end_date, "%Y-%m-%d %H:%M:%S")
             created_time = parse_datetime(ticket.created_time) # datetime.datetime.strptime(ticket.created_time, "%Y-%m-%d %H:%M:%S")
-            
+            local_logger.logger.info(f" {start_date}  {end_date}  {created_time}" )
             if self.search_criteria is not None and  self.search_criteria in ticket.ticket_id:
                 result_list.append(ticket)
             elif self.search_criteria is not None and self.search_criteria in ticket.title:
@@ -142,7 +145,6 @@ class TicketFilter:
 
     
     pass 
-
 
 
 

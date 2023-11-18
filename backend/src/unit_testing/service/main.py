@@ -1,6 +1,8 @@
 import sys
 sys.path.append("./src")
 
+from models.ticketing_system.types.enum_type import TicketStatus
+
 
 from service import flask_service
 from models.ticketing_system.types import chat_record,ticket_record
@@ -25,10 +27,23 @@ def test_get_users():
     url = 'http://localhost:8001/test/get_users'
     response = requests.get(url)  # 使用 GET 方法发送请求
     print(response.json())
+    
+    
+def test_get_all_tickets():
+    url = 'http://localhost:8001/test/get_all_tickets'
+    ticket_filter = ticket_record.TicketFilter()
+    # ticket_filter.search_criteria = "121"
+    ticket_filter.start_date = "2023-11-17 21:49:30"
+    ticket_filter.end_date = "2023-11-17 21:49:30"
+    # ticket_filter.status = TicketStatus.NEW
+    # 使用post
+    response = requests.post(url, json=ticket_filter.to_dict())
+    
+    # print(response.json())
 
 if __name__ == "__main__":
     # flask_service.get_app().run(host='127.0.0.1',port=5000,debug=True)
-    test_get_users()
+    test_get_all_tickets()
     # test_add_chat_record()
     # test_upload_file()
     

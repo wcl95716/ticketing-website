@@ -26,8 +26,18 @@ def test_add_user():
         
         print(users)
     
+def test_ticket_filter():
+    ticket_filter = ticket_record.TicketFilter()
     
+    print(ticket_filter.to_dict())
+    
+    tes2 = ticket_record.TicketFilter.from_dict(ticket_filter.to_dict())
+    
+    print(tes2.to_dict())
+    
+    pass 
+
 if __name__ == "__main__":
     
-    test_add_user()
+    test_ticket_filter()
     pass
