@@ -73,18 +73,17 @@ class TicketRecord:
         return TicketRecord.from_dict(ticket_data)
 
 
-def get_datetime(date_string: str ):
+def parse_datetime(date_string:str):
     try:
         # 尝试解析第一种格式
-        return datetime.strptime(date_string, '%Y-%m-%d %H:%M:%S')
+        return datetime.datetime.strptime(date_string, '%Y-%m-%d %H:%M:%S')
     except ValueError:
         try:
             # 尝试解析第二种格式
-            return datetime.strptime(date_string, '%Y-%m-%dT%H:%M:%S.%f')
+            return datetime.datetime.strptime(date_string, '%Y-%m-%dT%H:%M:%S.%f')
         except ValueError:
             # 如果两种格式都无法解析，可以返回None或引发异常，具体取决于你的需求
             return None
-
 
 class TicketFilter:
     def __init__(self, search_criteria:str = None , status:TicketStatus = None ,start_date:str = None , end_date:str = None):
@@ -120,9 +119,9 @@ class TicketFilter:
             # self.start_date <= ticket.created_time <= self.end_date: 
             # 它们都是字符串 帮我转换成时间
             # 将字符串日期解析为 datetime 对象
-            start_date = get_datetime(self.start_date)# datetime.datetime.strptime(self.start_date, "%Y-%m-%d %H:%M:%S")
-            end_date = get_datetime(self.end_date) #datetime.datetime.strptime(self.end_date, "%Y-%m-%d %H:%M:%S")
-            created_time = get_datetime(self.created_time) # datetime.datetime.strptime(ticket.created_time, "%Y-%m-%d %H:%M:%S")
+            start_date = parse_datetime(self.start_date)# datetime.datetime.strptime(self.start_date, "%Y-%m-%d %H:%M:%S")
+            end_date = parse_datetime(self.end_date) #datetime.datetime.strptime(self.end_date, "%Y-%m-%d %H:%M:%S")
+            created_time = parse_datetime(ticket.created_time) # datetime.datetime.strptime(ticket.created_time, "%Y-%m-%d %H:%M:%S")
             if self.search_criteria in ticket.ticket_id:
                 result_list.append(ticket)
             elif self.search_criteria in ticket.title:
