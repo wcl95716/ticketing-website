@@ -117,7 +117,9 @@ def api_delete_ticket(ticket_id):
 @api_bp.route('/get_all_tickets', methods=['POST'])
 def api_get_all_tickets():
     try:
+        
         ticket_filter_data = request.get_json()
+        local_logger.logger.info("ticket_filter_data : %s", ticket_filter_data)
         # 如果没有传递任何筛选条件，则返回所有工单
         if not ticket_filter_data:
             all_tickets = ticketing_system.ticket_api.get_all_tickets()
