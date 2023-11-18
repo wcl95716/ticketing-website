@@ -123,9 +123,11 @@ def api_get_all_tickets():
         # 如果没有传递任何筛选条件，则返回所有工单
         if not ticket_filter_data:
             all_tickets = ticketing_system.ticket_api.get_all_tickets()
+            local_logger.logger.info("all_tickets : %d ", len(result))
             return jsonify([ticket.to_dict() for ticket in all_tickets])
         # 如果传递了筛选条件，则返回符合条件的工单
         result = ticketing_system.ticket_api.get_ticket_filter(ticket_filter_data)
+        local_logger.logger.info("ticket_filter result : %d ", len(result))
         return jsonify([ticket.to_dict() for ticket in result])
         # all_tickets = ticketing_system.ticket_api.get_all_tickets()
         # # 请确保将所有票证数据转换为 JSON 格式并返回
