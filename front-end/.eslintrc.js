@@ -18,6 +18,8 @@ module.exports = {
     },
   },
   rules: {
+    "camelCase": false,
+    "eslintcamelcase": "off",
     'no-shadow': 'off',
     'no-param-reassign': ['error', { props: false }],
     'no-console': 'off',
