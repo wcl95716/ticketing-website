@@ -38,6 +38,7 @@ def api_add_chat_record():
         local_logger.logger.info("api_add_chat_record  successfully")
         return jsonify({"message": "Chat record added successfully"})
     except Exception as e:
+        local_logger.logger.info("api_add_chat_record error : %s", str(e))
         return jsonify({"error": str(e)})
 
 
