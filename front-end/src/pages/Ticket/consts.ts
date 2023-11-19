@@ -14,7 +14,7 @@ export const CONTRACT_STATUS = {
 };
 
 export const CONTRACT_STATUS_OPTIONS: Array<IOption> = [
-  { value: TicketStatus.NEW, label: '待审核' },
+  { value: TicketStatus.NEW, label: '待处理' },
   { value: TicketStatus.IN_PROGRESS, label: '处理中' },
   { value: TicketStatus.COMPLETED, label: '完成' },
   { value: TicketStatus.CLOSED, label: '关闭' },

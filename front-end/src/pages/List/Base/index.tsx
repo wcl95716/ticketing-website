@@ -20,7 +20,7 @@ export const StatusMap: {
 } = {
   1: (
     <Tag theme='warning' variant='light'>
-      待审核
+      待处理
     </Tag>
   ),
   2: (
@@ -49,7 +49,7 @@ export const ContractTypeMap: {
   [key: number]: string;
 } = {
   0: '审核失败',
-  1: '待审核',
+  1: '待处理',
   2: '待履行',
 };
 

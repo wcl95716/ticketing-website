@@ -23,12 +23,16 @@ export interface IChatRecord {
   file_url: string;
 }
 
+export interface UserDetail {
+  
+}
+
 
 export interface TicketFilter {
-  search_criteria?: string;
-  status?: TicketStatus;
-  start_date?: string;
-  end_date?: string;
+  search_criteria?: string| null;
+  status?: TicketStatus| null;
+  start_date?: string | null;
+  end_date?: string| null;
 }
 
 export interface UserProfile {

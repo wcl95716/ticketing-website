@@ -53,7 +53,7 @@ const ticketPage: React.FC = () => {
    };
 
    const onView = (record: DataType) => {
-      navigate('detail', { state: { ticket_id: record?.ticket_id } });
+      navigate('detail', { state: { ticket_id: record?.ticket_id ,record: record} });
    };
 
    const renderStatus = (status: any) => {
@@ -99,7 +99,6 @@ const ticketPage: React.FC = () => {
       })
       // 定义内部函数，用于处理选择变更
       const onValueChange = (value) => {
-         console.log("查看value111",value)
          const updateRecord = {...record, assigned_to: value === undefined ? null : value };
          console.log(updateRecord)
          dispatch(updateTicket(updateRecord)).then(()=>{
