@@ -32,12 +32,18 @@ import { IChatRecord, MessageType } from 'models/ticketing-website/index.type';
 const DetailModel = () => {
    const location = useLocation();
    const now = new Date();
-   const { ticket_id,record } = location.state || {};
+   const { ticket_id, record } = location.state || {};
 
 
    const dispatch = useAppDispatch();
    const chatRecord = useAppSelector(selecChatRecord);
+
    const userInfo = useAppSelector(selecUserDetail);
+
+   useEffect(() => {
+      console.log("查看userInfo", userInfo)
+      
+   }, [selecUserDetail])
 
 
    // const fetchMessages = async () => {
@@ -80,7 +86,7 @@ const DetailModel = () => {
       }
    }, [ticket_id]);
 
-   
+
    // useEffect(() => {
    //    setMessages(chatRecord);
    // }, [record]);
@@ -96,65 +102,65 @@ const DetailModel = () => {
       if (newMessage.trim() !== '') {
          const newMessages = [
             ...messages,
-         {
-            ticket_id:ticket_id,
-            message_id:'',
-            content: newMessage.trim(),
-            message_time: dayjs(now).format('YYYY-MM-DD HH:mm:ss'),
-            sender:'客服',
-            message_type: MessageType.TEXT,
-         }
+            {
+               ticket_id: ticket_id,
+               message_id: '',
+               content: newMessage.trim(),
+               message_time: dayjs(now).format('YYYY-MM-DD HH:mm:ss'),
+               sender: userInfo.name,
+               message_type: MessageType.TEXT,
+            }
          ];
          setMessages(newMessages);
 
          const updatedMessages = {
-            ticket_id:ticket_id,
-            message_id:'',
+            ticket_id: ticket_id,
+            message_id: '',
             content: newMessage.trim(),
             message_time: dayjs(now).format('YYYY-MM-DD HH:mm:ss'),
-            sender:'客服',
+            sender: '客服',
             message_type: MessageType.TEXT,
          }
-         
-         dispatch(postChatRequest(updatedMessages)).then(()=>{
+
+         dispatch(postChatRequest(updatedMessages)).then(() => {
             dispatch(getChatRequest(ticket_id));
          });
-         setNewMessage(''); 
+         setNewMessage('');
       }
    };
    const handleUpload = (file) => {
       // 取出文件名中的后缀
-    const fileExtension = file.file_id.split('.').pop().toLowerCase();
+      const fileExtension = file.file_id.split('.').pop().toLowerCase();
       const newMessages = [
          ...messages,
          {
-            message_id:'',
+            message_id: '',
             content: '',
             message_time: dayjs(now).format('YYYY-MM-DD HH:mm:ss'),
-            sender:'客服',
-            message_type:  fileExtension === 'png' || fileExtension === 'jpg' ? MessageType.IMAGE : fileExtension === 'mp4' ? MessageType.VIDEO : '',
+            sender: '客服',
+            message_type: fileExtension === 'png' || fileExtension === 'jpg' ? MessageType.IMAGE : fileExtension === 'mp4' ? MessageType.VIDEO : '',
             file_url: file.file_url,
-            file_id:file.file_id
+            file_id: file.file_id
          }
       ];
       setMessages(newMessages);
-      
-      const updatedMessages:IChatRecord = {
-            ticket_id:ticket_id,
-            message_id:'',
-            content: '',
-            message_time: dayjs(now).format('YYYY-MM-DD HH:mm:ss'),
-            sender:'客服',
-            message_type:  fileExtension === 'png' || fileExtension === 'jpg' ? MessageType.IMAGE : fileExtension === 'mp4' ? MessageType.VIDEO : '',
-            file_url: file.file_url,
-            file_id:file.file_id
+
+      const updatedMessages: IChatRecord = {
+         ticket_id: ticket_id,
+         message_id: '',
+         content: '',
+         message_time: dayjs(now).format('YYYY-MM-DD HH:mm:ss'),
+         sender: '客服',
+         message_type: fileExtension === 'png' || fileExtension === 'jpg' ? MessageType.IMAGE : fileExtension === 'mp4' ? MessageType.VIDEO : '',
+         file_url: file.file_url,
+         file_id: file.file_id
       }
-      dispatch(postChatRequest(updatedMessages)).then(()=>{
+      dispatch(postChatRequest(updatedMessages)).then(() => {
          dispatch(getChatRequest(ticket_id));
       });
       setNewMessage(''); // 清空输入框
    };
-   
+
    const handleChange: UploadProps['onChange'] = ({ file }) => {
       //接口备用
       if (file.status === 'done') {
@@ -203,7 +209,7 @@ const DetailModel = () => {
                <div className={Style['message-content']} style={{ flexDirection: item.sender === '客服' ? 'row-reverse' : 'row' }}>
                   <p className={Style['message-time']} style={{ textAlign: item.sender === '客服' ? 'right' : 'left' }}>{item.message_time}</p>
                   <div className={Style['text']} style={{ flexDirection: item.sender === '客服' ? 'row-reverse' : 'row' }}>
-                     <video muted controls src={item.file_url}  width="100px" height="100px"/>
+                     <video muted controls src={item.file_url} width="100px" height="100px" />
                   </div>
                </div>
 
@@ -247,28 +253,28 @@ const DetailModel = () => {
 
    return (
       <div>
-         <Row justify='start' style={{ marginBottom: '20px', width:'100%'}}>
-            <div style={{ width: '100%', backgroundColor: '#fff'}}>
+         <Row justify='start' style={{ marginBottom: '20px', width: '100%' }}>
+            <div style={{ width: '100%', backgroundColor: '#fff' }}>
                <DetailSearch
-               onSubmit={async (value) => {
-                  console.log(value);
-               }}
-               onCancel={() => { }}
-               record={record} 
-            />
+                  onSubmit={async (value) => {
+                     console.log(value);
+                  }}
+                  onCancel={() => { }}
+                  record={record}
+               />
             </div>
          </Row>
-         <div style={{ width: '100%', height: '100%', backgroundColor: '#fff' ,paddingBottom:'20px'}}>
+         <div style={{ width: '100%', height: '100%', backgroundColor: '#fff', paddingBottom: '20px' }}>
             <div style={{ paddingLeft: '4%', paddingTop: '10px', marginTop: '10px', marginBottom: '10px' }}>沟通记录</div>
             <List
                dataSource={messages}
                renderItem={renderMessageItem}  // 使用修改后的renderItem函数
             />
          </div>
-         <div style={{ width: '100%', backgroundColor: '#fff'}}>
+         <div style={{ width: '100%', backgroundColor: '#fff' }}>
             <div className={Style['chat-input']} style={{ marginBottom: '0px', display: 'flex', flexDirection: 'column' }}>
                <Row justify="space-between" align="middle" >
-                  <Col  style={{ width: '50%', marginLeft: '4%', marginBottom: 'auto', marginTop: '30px' }}>
+                  <Col style={{ width: '50%', marginLeft: '4%', marginBottom: 'auto', marginTop: '30px' }}>
                      <Input
                         style={{ width: '100%' }}
                         placeholder="请输入聊天内容"
@@ -277,7 +283,7 @@ const DetailModel = () => {
                         onChange={(e: any) => setNewMessage(e.target.value)}
                      />
                   </Col>
-                  <Col  style={{ marginLeft: '0px', marginBottom: 'auto', marginRight: 'auto' , marginTop: '30px'}}>
+                  <Col style={{ marginLeft: '0px', marginBottom: 'auto', marginRight: 'auto', marginTop: '30px' }}>
                      <Upload {...props} showUploadList={false} >
                         <Button icon={<UploadOutlined />} style={{ marginLeft: '50px' }}>上传文件</Button>
                         <p className={Style['model-add-drawer-p']}>支持扩展名： *.png,*.jpg,*.mp4</p>
