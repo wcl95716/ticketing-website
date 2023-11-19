@@ -1,0 +1,103 @@
+.message-item {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    margin-bottom: 10px;
+    // overflow-y: scroll; /* 将 overflow 属性设置为 scroll */
+    // scroll-behavior: smooth; /* 可选：使滚动平滑进行 */
+ }
+ 
+ .message-item.current-user {
+    justify-content: flex-end;
+ }
+ 
+ .message-item .avatar {
+    margin-right: 10px;
+ }
+ 
+ .message-item.current-user .avatar {
+    // margin-left: 10px;
+    margin-right: 0;
+ }
+ 
+ .message-item .text {
+    // background-color: aqua;
+    padding: 8px;
+    border-radius: 8px;
+ }
+ 
+ /* 聊天内容框 */
+ .chat-input {
+    // margin-top: 50px;
+    // background-color: aqua;
+    // display: flex;
+    width: 100%; /* 占据80%的宽度 */
+ }
+ 
+ .bordered-list-item {
+    border: 1px solid #D3D3D3; /* 添加边框样式 */
+    width: 93%; /* 占据80%的宽度 */
+    margin: 0 auto; /* 水平居中 */
+    margin-bottom: 5px;
+ }
+ // .avatar {
+ //   display: flex;
+ //   align-items: center;
+ //   justify-content: center;
+ //   border-radius: 50%;
+ //   overflow: hidden;
+ //   width: 40px;
+ //   height: 40px;
+ //   margin-right: 10px; // 调整头像与文字之间的间距
+ // }
+ 
+ // .text {
+ //   flex: 1; // 文字部分占据剩余空间
+ //   word-wrap: break-word; // 文字自动换行
+ // }
+ .avatar {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-left: 20px;
+  }
+ .avatar img {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%; /* 将头像设置为圆形 */
+    margin-top: 15px;
+  }
+  .avatar p {
+    text-align: center; /* 用户名居中显示 */
+    font-size: 12PX;
+    color: #808080;
+  }
+  .current-avatar {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-right: 20px;
+  }
+  .current-avatar img {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%; /* 将头像设置为圆形 */
+    margin-top: 15px;
+  }
+  .current-avatar p {
+    text-align: center; /* 用户名居中显示 */
+    font-size: 12PX;
+    color: #808080;
+  }
+  .message-time{
+    margin-bottom: 0px;
+    font-size: 12px;
+    color: #808080;
+  }
+  .model-add-drawer-p {
+    color: darkgrey;
+    font-size: 10px;
+    // margin-top: 10px;
+    
+    margin-left: 40px;
+  }

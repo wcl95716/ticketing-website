@@ -59,7 +59,7 @@ const SearchForm: React.FC = () => {
               </Col>
               <Col>
                 <Form.Item label='状态' name='status'>
-                  <Select options={CONTRACT_STATUS_OPTIONS} placeholder='请选择状态' />
+                  <Select options={CONTRACT_STATUS_OPTIONS} placeholder='请选择状态' allowClear/>
                 </Form.Item>
               </Col>
               <Col>

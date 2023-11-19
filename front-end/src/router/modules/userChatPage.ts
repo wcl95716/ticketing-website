@@ -6,7 +6,7 @@ import DetailModel from '../../pages/Ticket/components/DetailModel';
 const result: IRouter[] = [
   {
     path: '/user_chat_page',
-    Component: lazy(() => import('pages/Login')),
+    Component: lazy(() => import('pages/Chatpage')),
     isFullPage: true,
     meta: {
       hidden: true,

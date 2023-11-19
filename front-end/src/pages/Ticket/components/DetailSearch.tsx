@@ -5,7 +5,7 @@ import {
 } from "antd";
 import { CONTRACT_STATUS_OPTIONS, CONTRACT_TYPE_OPTIONS } from '../consts';
 import { FormInstanceFunctions, SubmitContext } from 'tdesign-react/es/form/type';
-import { getTicketListRequest, getAllUserRequest, updateTicket, selecAllUser } from 'models/ticketing-website/index.model';
+import { getTicketListRequest, getAllUserRequest, getUserDetail, updateTicket, selecAllUser } from 'models/ticketing-website/index.model';
 import Style from './DetailSearch.module.less';
 import { useAppDispatch, useAppSelector } from 'modules/store';
 

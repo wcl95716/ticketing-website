@@ -23,6 +23,10 @@ export interface IChatRecord {
   file_url: string;
 }
 
+export interface UserDetail {
+  
+}
+
 
 export interface TicketFilter {
   search_criteria?: string| null;

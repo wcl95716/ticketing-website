@@ -6,9 +6,11 @@ import type { RcFile, UploadProps } from 'antd/es/upload';
 import {
    getTicketListRequest,
    getChatRequest,
+   getUserDetail,
    postChatRequest,
    selectTicketRecordList,
    selecChatRecord,
+   selecUserDetail,
 } from 'models/ticketing-website/index.model';
 import { useAppDispatch, useAppSelector } from 'modules/store';
 import { useLocation } from 'react-router-dom';
@@ -18,13 +20,13 @@ import DetailSearch from './DetailSearch';
 import { IChatRecord, MessageType } from 'models/ticketing-website/index.type';
 
 
-const getBase64 = (file: RcFile): Promise<string> =>
-   new Promise((resolve, reject) => {
-      const reader = new FileReader();
-      reader.readAsDataURL(file);
-      reader.onload = () => resolve(reader.result as string);
-      reader.onerror = (error) => reject(error);
-   });
+// const getBase64 = (file: RcFile): Promise<string> =>
+//    new Promise((resolve, reject) => {
+//       const reader = new FileReader();
+//       reader.readAsDataURL(file);
+//       reader.onload = () => resolve(reader.result as string);
+//       reader.onerror = (error) => reject(error);
+//    });
 
 
 const DetailModel = () => {
@@ -35,46 +37,53 @@ const DetailModel = () => {
 
    const dispatch = useAppDispatch();
    const chatRecord = useAppSelector(selecChatRecord);
+   const userInfo = useAppSelector(selecUserDetail);
 
-   const fetchMessages = async () => {
-      if (ticket_id) {
-         try {
-            const response = await fetch(`http://47.116.201.99:8001/test/get_all_tickets/${ticket_id}`);
-            const data = await response.json();
-            setMessages(data); // 更新消息列表
-         } catch (error) {
-            console.error("Error fetching messages:", error);
-            message.error('获取消息列表失败');
-         }
-      }
-   };
 
-   const addTicket = async (newMessageContent: any) => {
-      try {
-         const response = await fetch('http://47.116.201.99:8001/test/add_ticket', {
-            method: 'POST',
-            headers: {
-               'Content-Type': 'application/json',
-            },
-            body: JSON.stringify({ message: newMessageContent }),
-         });
+   // const fetchMessages = async () => {
+   //    if (ticket_id) {
+   //       try {
+   //          const response = await fetch(`http://47.116.201.99:8001/test/get_all_tickets/${ticket_id}`);
+   //          const data = await response.json();
+   //          setMessages(data); // 更新消息列表
+   //       } catch (error) {
+   //          console.error("Error fetching messages:", error);
+   //          message.error('获取消息列表失败');
+   //       }
+   //    }
+   // };
 
-         if (!response.ok) throw new Error('Network response was not ok.');
-         // 假设POST请求成功后立即调用GET请求更新列表
-         fetchMessages();
-      } catch (error) {
-         console.error("Error posting new ticket:", error);
-         message.error('发送消息失败');
-      }
-   };
+   // const addTicket = async (newMessageContent: any) => {
+   //    try {
+   //       const response = await fetch('http://47.116.201.99:8001/test/add_ticket', {
+   //          method: 'POST',
+   //          headers: {
+   //             'Content-Type': 'application/json',
+   //          },
+   //          body: JSON.stringify({ message: newMessageContent }),
+   //       });
+
+   //       if (!response.ok) throw new Error('Network response was not ok.');
+   //       // 假设POST请求成功后立即调用GET请求更新列表
+   //       fetchMessages();
+   //    } catch (error) {
+   //       console.error("Error posting new ticket:", error);
+   //       message.error('发送消息失败');
+   //    }
+   // };
 
 
    useEffect(() => {
-      console.log("是否有key", ticket_id)
       if (ticket_id) {
          dispatch(getChatRequest(ticket_id))
+         dispatch(getUserDetail(record?.assigned_to))
       }
    }, [ticket_id]);
+
+   
+   // useEffect(() => {
+   //    setMessages(chatRecord);
+   // }, [record]);
 
    useEffect(() => {
       setMessages(chatRecord);
@@ -156,7 +165,6 @@ const DetailModel = () => {
    const props = {
       action: 'http://47.116.201.99:8001/test/upload_file',
       onChange: handleChange,
-      // multiple: true,
    };
    // 修改renderItem函数，为每条消息添加头像和名字
    const renderMessageItem = (item: any) => {
@@ -165,7 +173,7 @@ const DetailModel = () => {
             <div className={`${Style['message-item']} ${item.sender === '客服' ? Style['current-user'] : ''} ${Style['bordered-list-item']}`}>
                {item.sender !== '客服' && (  // 当消息不是当前用户发送时
                   <div className={Style['avatar']}>
-                     <img src={item.avatar} alt="avatar" />
+                     <img src={userInfo?.avatar_url} alt="avatar" />
                      <p>{item.sender}</p>
                   </div>
                )}
@@ -177,7 +185,7 @@ const DetailModel = () => {
                </div>
                {item.sender === '客服' && (  // 当消息是当前用户发送时
                   <div className={Style['current-avatar']} style={{ marginLeft: '10px' }}>
-                     <img src={item.avatar} alt="avatar" />
+                     <img src={userInfo?.avatar} alt="avatar" />
                      <p>{item.sender}</p>
                   </div>
                )}
@@ -226,7 +234,7 @@ const DetailModel = () => {
                </div>
                {item.sender === '客服' && (  // 当消息是当前用户发送时
                   <div className={Style['current-avatar']} style={{ marginLeft: '10px' }}>
-                     <img src='https://gw.alipayobjects.com/zos/rmsportal/JiqGstEfoWAOHiTxclqi.png' alt="avatar"></img>
+                     <img src={userInfo?.avatar_url} alt="avatar"></img>
                      {/* <img src={item.avatar} alt="avatar" /> */}
                      <p>{item.sender}</p>
                   </div>
