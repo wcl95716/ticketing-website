@@ -4,7 +4,7 @@ import string
 from typing import List, Optional
 from enum import Enum
 
-from models.ticketing_system.types.enum_type import MessageType
+from models.ticketing_system.types.enum_type import ChatPriority, MessageType
 
 
 class ChatRecord:
@@ -17,6 +17,8 @@ class ChatRecord:
                 message_type: MessageType,
                 file_id: str = None,
                 file_url: str = None,
+                chat_profile: ChatPriority = None, # 聊天级别
+                avatar_url: dict = None # 用户信息 传入的
                 ):
         self.message_id = message_id  # 消息ID
         self.ticket_id = ticket_id  # 关联的工单ID
@@ -25,7 +27,11 @@ class ChatRecord:
         self.message_time = message_time  # 消息时间
         self.message_type = message_type  # 消息类型
         self.file_id = file_id
-        self.file_url = file_url # 文件 URL
+        self.file_url = file_url # 文件 
+        self.chat_profile = chat_profile # 聊天级别
+        self.avatar_url = avatar_url # 用户信息 传入的
+        
+        
 
     def to_json(self):
         # 将 MessageType 转换为字符串
@@ -38,7 +44,9 @@ class ChatRecord:
             "message_time": self.message_time,
             "message_type": self.message_type.value,
             "file_id": self.file_id,
-            "file_url": self.file_url
+            "file_url": self.file_url,
+            "chat_profile": self.chat_profile.value, # 聊天级别
+            "avatar_url": self.avatar_url,
         }
         return data
     
@@ -53,6 +61,7 @@ class ChatRecord:
     @classmethod
     def from_json(cls, json_data):
         json_data["message_type"] = MessageType(json_data["message_type"])
+        json_data["chat_profile"] = ChatPriority(json_data["chat_profile"])
         return cls(**json_data)
 
 # 创建main 测试

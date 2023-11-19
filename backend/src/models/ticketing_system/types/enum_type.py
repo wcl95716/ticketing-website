@@ -30,3 +30,12 @@ class FileType(Enum):
     POWERPOINT = 8
     ZIP = 9
     OTHER = 10
+    
+
+class ChatPriority(Enum):
+    LOW = 1
+    MEDIUM = 2
+    HIGH = 3
+    URGENT = 4
+    User = 1000
+    Customer = 1001
