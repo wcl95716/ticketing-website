@@ -45,7 +45,7 @@ class ChatRecord:
             "message_type": self.message_type.value,
             "file_id": self.file_id,
             "file_url": self.file_url,
-            "chat_profile": self.chat_profile.value, # 聊天级别
+            "chat_profile": self.chat_profile.value , # 聊天级别
             "avatar_url": self.avatar_url,
         }
         return data
@@ -61,7 +61,8 @@ class ChatRecord:
     @classmethod
     def from_json(cls, json_data):
         json_data["message_type"] = MessageType(json_data["message_type"])
-        json_data["chat_profile"] = ChatPriority(json_data["chat_profile"])
+        json_data["chat_profile"] = ChatPriority(json_data["chat_profile"]) if json_data["status"] != None else None 
+        
         return cls(**json_data)
 
 # 创建main 测试
