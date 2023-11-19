@@ -28,7 +28,7 @@ class ChatRecord:
         self.message_type = message_type  # 消息类型
         self.file_id = file_id
         self.file_url = file_url # 文件 
-        self.chat_profile = chat_profile # 聊天级别
+        self.chat_profile = chat_profile if chat_profile != None  else ChatPriority.LOW # 聊天级别 如果为None 则为普通聊天
         self.avatar_url = avatar_url # 用户信息 传入的
         
         
