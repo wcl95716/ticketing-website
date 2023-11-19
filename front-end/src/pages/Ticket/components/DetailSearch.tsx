@@ -45,15 +45,13 @@ const SearchForm: React.FC<SearchFormProps> = (props) => {
     }, []);
     const onUserChange = (value) => {
     const updateRecord = { ...record, assigned_to: value === undefined ? null : value };
-    console.log(updateRecord)
     dispatch(updateTicket(updateRecord)).then(() => {
-        dispatch(getUserDetail(value));
+        // dispatch(getUserDetail(value));
         dispatch(getTicketListRequest({}));
     });
    }
    const onStatusChange = (value) => {
     const updateRecord = { ...record, status: value === undefined ? null : value };
-    console.log(updateRecord)
     dispatch(updateTicket(updateRecord)).then(() => {
         dispatch(getTicketListRequest({}));
     });
@@ -69,7 +67,7 @@ const SearchForm: React.FC<SearchFormProps> = (props) => {
                         <Col flex='1'>
                             <Row gutter={[16, 16]}>
                                 <Col >
-                                    <Form.Item label='当前处理人' name='name' >
+                                    <Form.Item label='' name='name' >
                                         <Select defaultValue={record?.assigned_to} style={{ width: 120 }} placeholder="无处理人" allowClear showSearch filterOption={filterOption}
                                             options={userOption} onChange={onUserChange}
                                         >
