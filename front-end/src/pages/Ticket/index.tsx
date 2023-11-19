@@ -32,12 +32,20 @@ type MenuItem = Required<MenuProps>["items"][number];
 const ticketPage: React.FC = () => {
    const dispatch = useAppDispatch();
    const [data, setData] = useState([]);
+   const [loading, setLoading] = useState(false);
    const navigate = useNavigate();
    const ticketRecordList = useAppSelector(selectTicketRecordList);
    const allUserList = useAppSelector(selecAllUser);
 
+   const pageInit = async () => {
+      setLoading(true);
+      await dispatch(getTicketListRequest({}));
+      setLoading(false);
+    };
+
    useEffect(() => {
-      dispatch(getTicketListRequest({}))
+      pageInit();
+      // dispatch(getTicketListRequest({}))
       dispatch(getAllUserRequest())
    }, []);
 
@@ -201,7 +209,7 @@ const ticketPage: React.FC = () => {
          </Row>
          <Table
             className={Style.list_ticket_table}
-            // loading={loading}
+            loading={loading}
             size="large"
             dataSource={data}
             columns={columns}
