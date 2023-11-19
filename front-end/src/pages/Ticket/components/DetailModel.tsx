@@ -17,7 +17,7 @@ import { useLocation } from 'react-router-dom';
 import type { UploadFile } from 'antd/es/upload/interface';
 import dayjs, { Dayjs } from 'dayjs';
 import DetailSearch from './DetailSearch';
-import { IChatRecord, MessageType } from 'models/ticketing-website/index.type';
+import { IChatRecord, MessageType, ChatPriority } from 'models/ticketing-website/index.type';
 
 
 // const getBase64 = (file: RcFile): Promise<string> =>
@@ -40,10 +40,7 @@ const DetailModel = () => {
 
    const userInfo = useAppSelector(selecUserDetail);
 
-   useEffect(() => {
-      console.log("查看userInfo", userInfo)
-      
-   }, [selecUserDetail])
+   
 
 
    // const fetchMessages = async () => {
@@ -109,6 +106,8 @@ const DetailModel = () => {
                message_time: dayjs(now).format('YYYY-MM-DD HH:mm:ss'),
                sender: userInfo.name,
                message_type: MessageType.TEXT,
+               chat_profile: ChatPriority.User,
+               avatar_url: userInfo.avatar_url,
             }
          ];
          setMessages(newMessages);
@@ -118,8 +117,10 @@ const DetailModel = () => {
             message_id: '',
             content: newMessage.trim(),
             message_time: dayjs(now).format('YYYY-MM-DD HH:mm:ss'),
-            sender: '客服',
+            sender: userInfo.name,
             message_type: MessageType.TEXT,
+            chat_profile: ChatPriority.User,
+            avatar_url: userInfo.avatar_url,
          }
 
          dispatch(postChatRequest(updatedMessages)).then(() => {
@@ -137,10 +138,12 @@ const DetailModel = () => {
             message_id: '',
             content: '',
             message_time: dayjs(now).format('YYYY-MM-DD HH:mm:ss'),
-            sender: '客服',
+            sender: userInfo.name,
             message_type: fileExtension === 'png' || fileExtension === 'jpg' ? MessageType.IMAGE : fileExtension === 'mp4' ? MessageType.VIDEO : '',
             file_url: file.file_url,
-            file_id: file.file_id
+            file_id: file.file_id,
+            chat_profile: ChatPriority.User,
+            avatar_url: userInfo.avatar_url,
          }
       ];
       setMessages(newMessages);
@@ -150,10 +153,12 @@ const DetailModel = () => {
          message_id: '',
          content: '',
          message_time: dayjs(now).format('YYYY-MM-DD HH:mm:ss'),
-         sender: '客服',
+         sender: userInfo.name,
          message_type: fileExtension === 'png' || fileExtension === 'jpg' ? MessageType.IMAGE : fileExtension === 'mp4' ? MessageType.VIDEO : '',
          file_url: file.file_url,
-         file_id: file.file_id
+         file_id: file.file_id,
+         chat_profile: ChatPriority.User,
+         avatar_url: userInfo.avatar_url,
       }
       dispatch(postChatRequest(updatedMessages)).then(() => {
          dispatch(getChatRequest(ticket_id));
@@ -176,22 +181,22 @@ const DetailModel = () => {
    const renderMessageItem = (item: any) => {
       if (item.message_type === MessageType.IMAGE) {
          return <div>
-            <div className={`${Style['message-item']} ${item.sender === '客服' ? Style['current-user'] : ''} ${Style['bordered-list-item']}`}>
-               {item.sender !== '客服' && (  // 当消息不是当前用户发送时
+            <div className={`${Style['message-item']} ${item.chat_profile === ChatPriority.User ? Style['current-user'] : ''} ${Style['bordered-list-item']}`}>
+               {item.chat_profile !== ChatPriority.User && (  // 当消息不是当前用户发送时
                   <div className={Style['avatar']}>
-                     <img src={userInfo?.avatar_url} alt="avatar" />
+                     <img src={item.avatar_url} alt="avatar" />
                      <p>{item.sender}</p>
                   </div>
                )}
-               <div className={Style['message-content']} style={{ flexDirection: item.sender === '客服' ? 'row-reverse' : 'row' }}>
-                  <p className={Style['message-time']} style={{ textAlign: item.sender === '客服' ? 'right' : 'left' }}>{item.message_time}</p>
-                  <div className={Style['text']} style={{ flexDirection: item.sender === '客服' ? 'row-reverse' : 'row' }}>
+               <div className={Style['message-content']} style={{ flexDirection: item.chat_profile === ChatPriority.User ? 'row-reverse' : 'row' }}>
+                  <p className={Style['message-time']} style={{ textAlign: item.chat_profile === ChatPriority.User ? 'right' : 'left' }}>{item.message_time}</p>
+                  <div className={Style['text']} style={{ flexDirection: item.chat_profile === ChatPriority.User ? 'row-reverse' : 'row' }}>
                      <Image alt={item.id} src={item.file_url} style={{ width: 100, height: 100, objectFit: 'cover' }} />
                   </div>
                </div>
-               {item.sender === '客服' && (  // 当消息是当前用户发送时
+               {item.chat_profile === ChatPriority.User && (  // 当消息是当前用户发送时
                   <div className={Style['current-avatar']} style={{ marginLeft: '10px' }}>
-                     <img src={userInfo?.avatar} alt="avatar" />
+                     <img src={item.avatar_url} alt="avatar" />
                      <p>{item.sender}</p>
                   </div>
                )}
@@ -199,23 +204,23 @@ const DetailModel = () => {
          </div>
       } else if (item.message_type === MessageType.VIDEO) {
          return <div>
-            <div className={`${Style['message-item']} ${item.sender === '客服' ? Style['current-user'] : ''} ${Style['bordered-list-item']}`}>
-               {item.sender !== '客服' && (  // 当消息不是当前用户发送时
+            <div className={`${Style['message-item']} ${item.chat_profile === ChatPriority.User ? Style['current-user'] : ''} ${Style['bordered-list-item']}`}>
+               {item.chat_profile !== ChatPriority.User && (  // 当消息不是当前用户发送时
                   <div className={Style['avatar']}>
-                     <img src={item.avatar} alt="avatar" />
+                     <img src={item.avatar_url} alt="avatar" />
                      <p>{item.sender}</p>
                   </div>
                )}
-               <div className={Style['message-content']} style={{ flexDirection: item.sender === '客服' ? 'row-reverse' : 'row' }}>
-                  <p className={Style['message-time']} style={{ textAlign: item.sender === '客服' ? 'right' : 'left' }}>{item.message_time}</p>
-                  <div className={Style['text']} style={{ flexDirection: item.sender === '客服' ? 'row-reverse' : 'row' }}>
+               <div className={Style['message-content']} style={{ flexDirection: item.chat_profile === ChatPriority.User ? 'row-reverse' : 'row' }}>
+                  <p className={Style['message-time']} style={{ textAlign: item.chat_profile === ChatPriority.User ? 'right' : 'left' }}>{item.message_time}</p>
+                  <div className={Style['text']} style={{ flexDirection: item.chat_profile === ChatPriority.User ? 'row-reverse' : 'row' }}>
                      <video muted controls src={item.file_url} width="100px" height="100px" />
                   </div>
                </div>
 
-               {item.sender === '客服' && (  // 当消息是当前用户发送时
+               {item.chat_profile === ChatPriority.User && (  // 当消息是当前用户发送时
                   <div className={Style['current-avatar']} style={{ marginLeft: '10px' }}>
-                     <img src={item.avatar} alt="avatar" />
+                     <img src={item.avatar_url} alt="avatar" />
                      <p>{item.sender}</p>
                   </div>
                )}
@@ -224,21 +229,21 @@ const DetailModel = () => {
       }
       return (
          <div>
-            <div style={{ backgroundColor: '' }} className={`${Style['message-item']} ${item.sender === '客服' ? Style['current-user'] : ''} ${Style['bordered-list-item']}`}>
-               {item.sender !== '客服' && (  // 当消息不是当前用户发送时
+            <div style={{ backgroundColor: '' }} className={`${Style['message-item']} ${item.chat_profile === ChatPriority.User ? Style['current-user'] : ''} ${Style['bordered-list-item']}`}>
+               {item.chat_profile !== ChatPriority.User && (  // 当消息不是当前用户发送时
                   <div className={Style['avatar']}>
                      <img src='https://gw.alipayobjects.com/zos/rmsportal/JiqGstEfoWAOHiTxclqi.png' alt="avatar"></img>
                      {/* <img src={item.avatar} alt="avatar" /> */}
                      <p>{item.sender}</p>
                   </div>
                )}
-               <div className={Style['message-content']} style={{ flexDirection: item.sender === '客服' ? 'row-reverse' : 'row' }}>
-                  <p className={Style['message-time']} style={{ textAlign: item.sender === '客服' ? 'right' : 'left' }}>{item.message_time}</p>
+               <div className={Style['message-content']} style={{ flexDirection: item.chat_profile === ChatPriority.User ? 'row-reverse' : 'row' }}>
+                  <p className={Style['message-time']} style={{ textAlign: item.chat_profile === ChatPriority.User ? 'right' : 'left' }}>{item.message_time}</p>
                   <div className={Style['text']}>
                      <p>{item.content}</p>
                   </div>
                </div>
-               {item.sender === '客服' && (  // 当消息是当前用户发送时
+               {item.chat_profile === ChatPriority.User && (  // 当消息是当前用户发送时
                   <div className={Style['current-avatar']} style={{ marginLeft: '10px' }}>
                      <img src={userInfo?.avatar_url} alt="avatar"></img>
                      {/* <img src={item.avatar} alt="avatar" /> */}

@@ -47,6 +47,7 @@ const SearchForm: React.FC<SearchFormProps> = (props) => {
     const updateRecord = { ...record, assigned_to: value === undefined ? null : value };
     console.log(updateRecord)
     dispatch(updateTicket(updateRecord)).then(() => {
+        dispatch(getUserDetail(value));
         dispatch(getTicketListRequest({}));
     });
    }
@@ -54,9 +55,7 @@ const SearchForm: React.FC<SearchFormProps> = (props) => {
     const updateRecord = { ...record, status: value === undefined ? null : value };
     console.log(updateRecord)
     dispatch(updateTicket(updateRecord)).then(() => {
-        dispatch(getUserDetail(value));
         dispatch(getTicketListRequest({}));
-
     });
    }
     // Filter `option.label` match the user type `input`

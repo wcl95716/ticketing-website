@@ -33,4 +33,13 @@ enum FileType {
   OTHER = 10,
 }
 
-export { TicketStatus, Priority, MessageType, FileType };
+enum ChatPriority {
+  LOw = 1,
+  MEDIUM = 2,
+  HIGH = 3,
+  URGENT = 4,
+  User = 1000,
+  Customer = 1001,
+}
+
+export { TicketStatus, Priority, MessageType, FileType, ChatPriority };
