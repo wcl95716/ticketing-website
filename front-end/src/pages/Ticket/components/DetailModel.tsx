@@ -232,8 +232,7 @@ const DetailModel = () => {
             <div style={{ backgroundColor: '' }} className={`${Style['message-item']} ${item.chat_profile === ChatPriority.User ? Style['current-user'] : ''} ${Style['bordered-list-item']}`}>
                {item.chat_profile !== ChatPriority.User && (  // 当消息不是当前用户发送时
                   <div className={Style['avatar']}>
-                     <img src='https://gw.alipayobjects.com/zos/rmsportal/JiqGstEfoWAOHiTxclqi.png' alt="avatar"></img>
-                     {/* <img src={item.avatar} alt="avatar" /> */}
+                     <img src={item.avatar_url} alt="avatar"></img>
                      <p>{item.sender}</p>
                   </div>
                )}
@@ -245,7 +244,7 @@ const DetailModel = () => {
                </div>
                {item.chat_profile === ChatPriority.User && (  // 当消息是当前用户发送时
                   <div className={Style['current-avatar']} style={{ marginLeft: '10px' }}>
-                     <img src={userInfo?.avatar_url} alt="avatar"></img>
+                     <img src={item.avatar_url} alt="avatar"></img>
                      {/* <img src={item.avatar} alt="avatar" /> */}
                      <p>{item.sender}</p>
                   </div>
