@@ -61,8 +61,8 @@ class ChatRecord:
     @classmethod
     def from_json(cls, json_data):
         json_data["message_type"] = MessageType(json_data["message_type"])
-        json_data["chat_profile"] = ChatPriority(json_data["chat_profile"]) if json_data["status"] != None else None 
-        
+        json_data["chat_profile"] = ChatPriority(json_data["chat_profile"]) if "chat_profile" in json_data and json_data["chat_profile"] is not None else None
+
         return cls(**json_data)
 
 # 创建main 测试
