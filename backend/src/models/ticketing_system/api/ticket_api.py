@@ -1,6 +1,6 @@
 import os
 import json
-from models.ticketing_system.storage import ticket_storage
+from models.ticketing_system.utils import ticket_storage
 
 from models.ticketing_system.types.ticket_record import TicketFilter, TicketRecord, getTestTicket
 

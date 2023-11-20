@@ -43,10 +43,10 @@ class GroupChatManager:
         pass
     
     def get_chat_message(self):
-        wx.GetSessionList()  # 获取会话列表
-        wx.ChatWith(who_group)  # 打开`who`聊天窗口
         pass
     pass 
+
+
 
 
 class GroupManager:

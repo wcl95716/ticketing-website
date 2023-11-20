@@ -1,7 +1,7 @@
 # 在 storage.py 中
 import os
 from cgi import FieldStorage
-from models.ticketing_system.storage import chat_storage
+from models.ticketing_system.utils import chat_storage
 
 from models.ticketing_system.types.chat_record import ChatRecord
 from utils import local_logger
