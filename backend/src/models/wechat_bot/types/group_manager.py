@@ -1,52 +1,55 @@
+import sys
 
-import PyOfficeRobot
+sys.path.append("./src")
 
+from collections import deque
+# import PyOfficeRobot
+from models.wechat_bot.types.chat_action_function import ChatActionFunctionFactory, ChatActionsEnum
+from models.wechat_bot.types.chat_command_handler import ChatCommandHandler
 
-# def check_group(who_group ,customer_service_names = [] , group_mark = GroupMark.NULL ):
+# from models.wechat_bot.utils.chat import get_chat_messages
 
-#     print("who_group: ",who_group ,group_mark  )
-#     if group_mark == GroupMark.NULL:
-#         res = is_find_customer_service(wx.GetAllMessage,customer_service_names)
-#         print("寻找客户提问 ",res)
-#         if res != None:
-#             group_mark = GroupMark.FIND_START_MESSAGE
-#             print("发现客户提问,开始计时")
-#             wx.SendMsg("发现客户提问,开始计时,%s"%(datetime.datetime.now() ), who_group)
-#             pass
-    
-#     if group_mark != GroupMark.CUSTOMER_SERVICE_REPLY or group_mark != GroupMark.NULL:
-#         print("寻找客服回复")
-#         if customer_service_reply(wx.GetAllMessage,customer_service_names) != None:
-#             group_mark = GroupMark.NULL
-#             print("客服回复了")
-#             wx.SendMsg("客服回复,结束计时,%s"%(datetime.datetime.now()), who_group)
-#         pass 
-    
-#     if group_mark == GroupMark.FIND_START_MESSAGE:
-#         res = find_start_message(wx.GetAllMessage)
-#         print("开始计时 ",res)
-#         if res > 10: 
-#             group_mark = GroupMark.FIND_PHONE_MESSAGE
-#             print("超时,机器人正在电话联系客服",res)
-#             wx.SendMsg("超时,机器人正在电话联系客服,%s"%(datetime.datetime.now()), who_group)
-#             Sample.main(sys.argv[1:])
-#             pass
+from models.wechat_bot.config import config
 
 class GroupChatManager:
     
-    def __init__ (self, group_id: str,):
+    def __init__ (self, group_id: str, robot_name: str, actions: []):
         self.group_id = group_id
+        self.robot_name = robot_name
+        self.actions = actions
+        self.current_chat_message_id = 0
+        
+        self.chat_messages:list[tuple] = []
+        self.tasks = deque()  # 创建一个空的任务双端队列
         pass
     
     def send_chat_message(self, message: str):
-        PyOfficeRobot.chat.send_message(who=self.group_id, message=message)
+        # PyOfficeRobot.chat.send_message(who=self.group_id, message=message)
         pass
     
-    def get_chat_message(self):
+    def process_next_task(self):
+        if self.tasks:
+            next_task = self.tasks.popleft()  # 获取并删除队列的第一个任务
+            # 执行任务的操作逻辑
+            print(f"处理任务：{next_task}")
+            self.send_chat_message(next_task)
+        else:
+            print("没有待处理的任务")
+    
+    def update_chat_message(self):
+        # self.chat_messages = get_chat_messages(self.group_id)
         pass
+    
+    def find_task(self):
+        chat_keyword_handler = ChatCommandHandler(robot_name=self.robot_name, actions=self.actions)
+        for message in self.chat_messages:
+            action = chat_keyword_handler.search(message[1])
+            if action:
+                result = ChatActionFunctionFactory.get_action_function(action)(message)
+                self.tasks.append((result,message))
+        pass
+    
     pass 
-
-
 
 
 class GroupManager:
@@ -55,15 +58,18 @@ class GroupManager:
         self.group_list = group_list
         pass
     
-    
     pass 
 
 
 
-keywords = {
-    "我要报名": "你好，这是报名链接：www.python-office.com",
-    "点赞了吗？": "点了",
-    "关注了吗？": "必须的",
-    "投币了吗？": "三连走起",
-}
-PyOfficeRobot.chat.chat_by_keywords(who='抖音：程序员晚枫', keywords=keywords)
+def test():
+    group_chat = GroupChatManager(group_id="测试群", robot_name=config.robot_name, actions=[ChatActionsEnum.CREATE_WORK_ORDER])
+    messages = [('Panda', '@机器人名 创建工单', '4211805484920'), ('Panda', '@机器人名 创建工单', '4211805484920')]
+    group_chat.chat_messages = messages
+    group_chat.find_task()
+    print(group_chat.tasks )
+    pass
+
+if __name__ == "__main__":
+    test()
+    pass
