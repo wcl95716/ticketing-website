@@ -38,8 +38,8 @@ enum ChatPriority {
   MEDIUM = 2,
   HIGH = 3,
   URGENT = 4,
-  User = 1000,
-  Customer = 1001,
+  CUSTOMER = 1000,
+  SERVICE = 1001,
 }
 
 export { TicketStatus, Priority, MessageType, FileType, ChatPriority };

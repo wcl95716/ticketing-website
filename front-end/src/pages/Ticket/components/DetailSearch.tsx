@@ -44,51 +44,59 @@ const SearchForm: React.FC<SearchFormProps> = (props) => {
         dispatch(getAllUserRequest())
     }, []);
     const onUserChange = (value) => {
-    const updateRecord = { ...record, assigned_to: value === undefined ? null : value };
-    dispatch(updateTicket(updateRecord)).then(() => {
-        // dispatch(getUserDetail(value));
-        dispatch(getTicketListRequest({}));
-    });
-   }
-   const onStatusChange = (value) => {
-    const updateRecord = { ...record, status: value === undefined ? null : value };
-    dispatch(updateTicket(updateRecord)).then(() => {
-        dispatch(getTicketListRequest({}));
-    });
-   }
+        const updateRecord = { ...record, assigned_to: value === undefined ? null : value };
+        dispatch(updateTicket(updateRecord)).then(() => {
+            dispatch(getUserDetail(value));
+            dispatch(getTicketListRequest({}));
+        });
+    }
+    const onStatusChange = (value) => {
+        const updateRecord = { ...record, status: value === undefined ? null : value };
+        dispatch(updateTicket(updateRecord)).then(() => {
+            dispatch(getTicketListRequest({}));
+        });
+    }
     // Filter `option.label` match the user type `input`
     const filterOption = (input: string, option?: { label: string; value: string }) =>
         (option?.label ?? '').toLowerCase().includes(input.toLowerCase());
 
-        return (
-            <div className={Style.ticketsearch}>
-                <Form  >
-                    <Row>
-                        <Col flex='1'>
-                            <Row gutter={[16, 16]}>
-                                <Col >
-                                    <Form.Item label='' name='name' >
-                                        <Select defaultValue={record?.assigned_to} style={{ width: 120 }} placeholder="无处理人" allowClear showSearch filterOption={filterOption}
-                                            options={userOption} onChange={onUserChange}
-                                        >
-                                        </Select>
-                                    </Form.Item>
+    return (
+        <div className={Style.ticketsearch}>
+            <Form  >
+                <Row>
+                    <Col flex='1'>
+                        <Row gutter={[16, 16]}>
+                            <Col>
+                                <div style={{margin:'10px'}}>工单详情</div>
+                            </Col>
+                            <Col>
+                                <Button size='small'>返回</Button>
+                            </Col>
+                        </Row>
+                        <Row gutter={[16, 16]}>
+                            <Col >
+                                <Form.Item label='' name='name' >
+                                    <Select defaultValue={record?.assigned_to} style={{ width: 120 }} placeholder="无处理人" allowClear showSearch filterOption={filterOption}
+                                        options={userOption} onChange={onUserChange}
+                                    >
+                                    </Select>
+                                </Form.Item>
 
-                                </Col>
-                                <Col >
-                                    <Form.Item name='status' >
-                                        <Select defaultValue={record?.status} style={{ width: 120 }} placeholder="请选择处理状态" allowClear showSearch filterOption={filterOption}
-                                            options={CONTRACT_STATUS_OPTIONS} onChange={onStatusChange}
-                                        >
-                                        </Select>
-                                    </Form.Item>
-                                </Col>
-                            </Row>
-                        </Col>
-                    </Row>
-                </Form>
-            </div>
-        );
-    };
+                            </Col>
+                            <Col >
+                                <Form.Item name='status' >
+                                    <Select defaultValue={record?.status} style={{ width: 120 }} placeholder="请选择处理状态" allowClear showSearch filterOption={filterOption}
+                                        options={CONTRACT_STATUS_OPTIONS} onChange={onStatusChange}
+                                    >
+                                    </Select>
+                                </Form.Item>
+                            </Col>
+                        </Row>
+                    </Col>
+                </Row>
+            </Form>
+        </div>
+    );
+};
 
-    export default memo(SearchForm);
+export default memo(SearchForm);
