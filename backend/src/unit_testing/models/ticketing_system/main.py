@@ -1,7 +1,7 @@
 import sys
 
 sys.path.append("./src")
-from models.ticketing_system.storage.user_storage import add_user_to_file, get_users_to_file
+from models.ticketing_system.utils.user_storage import add_user_to_file, get_users_to_file
 
 from models.ticketing_system.types import user_profile, chat_record,ticket_record
 from models.ticketing_system.types.enum_type import Priority, TicketStatus
