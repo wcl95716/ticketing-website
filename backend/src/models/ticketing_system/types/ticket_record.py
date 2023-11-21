@@ -43,7 +43,7 @@ class TicketRecord:
             "status": self.status.value,  # 使用枚举值
             "priority": self.priority.value,  # 使用枚举值
             "creator": self.creator,
-            "assigned_to": self.assigned_to,
+            "assigned_to": self.assigned_to if self.assigned_to is not None else None,
             "ticket_type": self.ticket_type,
             "closed_time": self.closed_time,
             "update_time": self.update_time,
@@ -60,7 +60,7 @@ class TicketRecord:
             status=TicketStatus(ticket_data["status"]),
             priority=Priority(ticket_data["priority"]),
             creator=ticket_data["creator"],
-            assigned_to=ticket_data["assigned_to"],
+            assigned_to=ticket_data["assigned_to"] if ticket_data["assigned_to"] is not None else None,
             ticket_type=ticket_data["ticket_type"],
             closed_time=ticket_data["closed_time"]
         )
