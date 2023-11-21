@@ -1,4 +1,5 @@
 import sys
+from models.ticketing_system.api.user_api import get_user
 
 sys.path.append("./src")
 from models.ticketing_system.utils.user_storage import add_user_to_file, get_users_to_file
@@ -41,5 +42,6 @@ if __name__ == "__main__":
     
     # test_ticket_filter()
     # print(TicketStatus(None))
-    test_add_user()
+    # test_add_user()
+    
     pass
