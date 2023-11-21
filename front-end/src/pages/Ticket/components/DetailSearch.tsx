@@ -65,12 +65,17 @@ const SearchForm: React.FC<SearchFormProps> = (props) => {
             <Form  >
                 <Row>
                     <Col flex='1'>
-                        <Row gutter={[16, 16]}>
+                        <Row gutter={[16, 16]} style={{ alignItems: 'center'}}>
                             <Col>
                                 <div style={{margin:'10px'}}>工单详情</div>
                             </Col>
                             <Col>
                                 <Button size='small'>返回</Button>
+                            </Col>
+                        </Row>
+                        <Row gutter={[16, 16]} style={{ alignItems: 'center' }}>
+                            <Col>
+                                <div style={{margin:'10px'}}>工单详情</div>
                             </Col>
                         </Row>
                         <Row gutter={[16, 16]}>
