@@ -130,7 +130,7 @@ class TicketFilter:
             end_date = parse_datetime(self.end_date) if self.end_date is not None else None
             created_time = parse_datetime(ticket.created_time)
 
-            local_logger.logger.info(f" {start_date}  {end_date}  {created_time}" )
+            local_logger.logger.info(f" {start_date}  {end_date}  {created_time}  {ticket}" )
 
             # 使用逻辑与连接条件
             if (self.search_criteria is None or
