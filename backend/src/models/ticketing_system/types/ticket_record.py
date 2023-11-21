@@ -133,13 +133,14 @@ class TicketFilter:
             local_logger.logger.info(f" {start_date}  {end_date}  {created_time}  {ticket.to_dict()}" )
 
             # 使用逻辑与连接条件
-            if (self.search_criteria is None or
-                (self.search_criteria in ticket.ticket_id or
-                self.search_criteria in ticket.title or
-                self.search_criteria in ticket.assigned_to)) and \
-            (self.status is None or self.status == ticket.status) and \
-            (start_date is None or end_date is None or (start_date <= created_time <= end_date)):
-                result_list.append(ticket)
+            # if (self.search_criteria is None or
+            #     (self.search_criteria in ticket.ticket_id or
+            #     self.search_criteria in ticket.title or
+            #     self.search_criteria in ticket.assigned_to)) and \
+            # (self.status is None or self.status == ticket.status) and \
+            # (start_date is None or end_date is None or (start_date <= created_time <= end_date)):
+            #     result_list.append(ticket)
+            result_list.append(ticket)
 
         return result_list
 
