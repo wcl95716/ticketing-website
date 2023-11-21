@@ -4,6 +4,7 @@ import os
 import markdown2
 
 from models import ticketing_system
+from models.ticketing_system.types.ticket_record import TicketRecord
 from models.ticketing_system.types.user_profile import UserProfile
 from utils import  local_logger
 
@@ -74,8 +75,9 @@ def api_add_ticket():
     try:
         ticket_data = request.get_json()
         local_logger.logger.info("ticket_data : %s", ticket_data)
-        ticketing_system.ticket_api.add_ticket(ticket_data)
-        return jsonify({"message": "Ticket updated successfully"})
+        ticket:TicketRecord = ticketing_system.ticket_api.add_ticket(ticket_data)
+        #return jsonify({"message": "Ticket updated successfully"})
+        return  jsonify(ticket.to_dict())
     except Exception as e:
         return jsonify({"error": str(e)})
 

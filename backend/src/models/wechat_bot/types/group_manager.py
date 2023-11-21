@@ -19,7 +19,6 @@ class GroupChatManager:
         self.actions = actions
         self.current_chat_message_id = 0
         
-        self.chat_messages:list[tuple] = []
         self.tasks = deque()  # 创建一个空的任务双端队列
         pass
     
@@ -40,9 +39,9 @@ class GroupChatManager:
         # self.chat_messages = get_chat_messages(self.group_id)
         pass
     
-    def find_task(self):
+    def find_task(self , chat_messages:list[tuple] = []):
         chat_keyword_handler = ChatCommandHandler(robot_name=self.robot_name, actions=self.actions)
-        for message in self.chat_messages:
+        for message in chat_messages:
             action = chat_keyword_handler.search(message[1])
             if action:
                 result = ChatActionFunctionFactory.get_action_function(action)(message)
@@ -65,9 +64,8 @@ class GroupManager:
 def test():
     group_chat = GroupChatManager(group_id="测试群", robot_name=config.robot_name, actions=[ChatActionsEnum.CREATE_WORK_ORDER])
     messages = [('Panda', '@机器人名 创建工单', '4211805484920'), ('Panda', '@机器人名 创建工单', '4211805484920')]
-    group_chat.chat_messages = messages
-    group_chat.find_task()
-    print(group_chat.tasks )
+    group_chat.find_task(messages)
+    print("tasks ",group_chat.tasks )
     pass
 
 if __name__ == "__main__":

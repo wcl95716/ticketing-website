@@ -4,9 +4,10 @@ from models.ticketing_system.utils import ticket_storage
 
 from models.ticketing_system.types.ticket_record import TicketFilter, TicketRecord, getTestTicket
 
-def add_ticket(ticket: dict):
+def add_ticket(ticket: dict) -> TicketRecord:
     ticketRecord:TicketRecord = TicketRecord.from_dict(ticket)
     ticket_storage.save_ticket_to_file(ticketRecord)
+    return ticketRecord
     pass
 
 def update_ticket(ticket: dict):
