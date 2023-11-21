@@ -38,13 +38,24 @@ def test_get_all_tickets():
     ticket_filter.status = TicketStatus.NEW
     # 使用post
     response = requests.post(url, json=ticket_filter.to_dict())
+
     
     # print(response.json())
+    
+def test_add_ticket():
+    url = 'http://127.0.0.1:8001/test/add_ticket'
+    send_ticket = ticket_record.getTestTicket()
+    
+    send_ticket.ticket_id = None
+    print(send_ticket.to_dict())
+    response = requests.post(url, json=send_ticket.to_dict())
+    print(response.json())
+    pass
 
 if __name__ == "__main__":
     # flask_service.get_app().run(host='127.0.0.1',port=5000,debug=True)
-    test_get_all_tickets()
+    # test_get_all_tickets()
     # test_add_chat_record()
     # test_upload_file()
-    
+    test_add_ticket()
     pass 

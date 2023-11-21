@@ -10,7 +10,7 @@ from models.wechat_bot.types.chat_command_handler import ChatCommandHandler
 robot_name = "机器人名"
 
 
-tianyi = ChatCommandHandler(robot_name=robot_name , actions=[ChatActionsEnum.CREATE_WORK_ORDER])
+tianyi = ChatCommandHandler(robot_name=robot_name , actions=[ChatActionsEnum.WORK_ORDER_CREATE])
 
 
 # tianyi_chat_keywords_dict = {

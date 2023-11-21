@@ -11,7 +11,7 @@ class ChatActionsEnum(Enum):
     
 class ChatActionFunctionFactory:
     @staticmethod
-    def work_order_create(message: tuple = None):
+    def work_order_create(message: tuple = None) -> str:
         # 编写创建工单的操作逻辑
         print("create_work_order message : ",message)
         return f"@{message[0]} 工单已创建 https://www.baidu.com"
