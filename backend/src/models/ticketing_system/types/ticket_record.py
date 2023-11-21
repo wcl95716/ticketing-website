@@ -3,6 +3,7 @@ import json
 import random
 import time
 from typing import List, Optional
+from models.ticketing_system.api.user_api import get_user
 
 from models.ticketing_system.types.enum_type import Priority, TicketStatus
 import uuid
@@ -137,12 +138,12 @@ class TicketFilter:
             created_time = parse_datetime(ticket.created_time)
 
             local_logger.logger.info(f" {start_date}  {end_date}  {created_time}  {ticket.to_dict()}" )
-
+            user_name = get_user(ticket.assigned_to).name if ticket != None else ""
             # 使用逻辑与连接条件
             if (self.search_criteria is None or
                 (self.search_criteria in ticket.ticket_id or
                 self.search_criteria in ticket.title or
-                self.search_criteria in ticket.assigned_to)) and \
+                self.search_criteria in user_name)) and \
             (self.status is None or self.status == ticket.status) and \
             (start_date is None or end_date is None or (start_date <= created_time <= end_date)):
                 result_list.append(ticket)
