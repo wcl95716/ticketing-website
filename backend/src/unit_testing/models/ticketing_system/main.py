@@ -41,4 +41,7 @@ if __name__ == "__main__":
     
     # test_ticket_filter()
     # print(TicketStatus(None))
+    a = "ads"
+    if a in None:
+        print("a")
     pass

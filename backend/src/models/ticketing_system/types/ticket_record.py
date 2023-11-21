@@ -21,9 +21,15 @@ class TicketRecord:
         self.status = status  # 状态
         self.priority = priority  # 优先级
         self.creator = creator  # 创建者
-        self.assigned_to = assigned_to  # 分配给
-        self.ticket_type = ticket_type  # 工单类型
-        self.closed_time = closed_time  # 关闭时间
+        # 使用条件表达式将 assigned_to 为 None 的情况赋值为空字符串
+        self.assigned_to = assigned_to if assigned_to is not None else ""
+        
+        # 使用条件表达式将 closed_time 为 None 的情况赋值为空字符串
+        self.closed_time = closed_time if closed_time is not None else ""
+        
+        # 使用条件表达式将 ticket_type 为 None 的情况赋值为空字符串
+        self.ticket_type = ticket_type if ticket_type is not None else ""
+        
         self.update_time = created_time # 更新时间
 
     @classmethod
@@ -60,7 +66,7 @@ class TicketRecord:
             status=TicketStatus(ticket_data["status"]),
             priority=Priority(ticket_data["priority"]),
             creator=ticket_data["creator"],
-            assigned_to=ticket_data["assigned_to"] if ticket_data["assigned_to"] is not None else None,
+            assigned_to=ticket_data["assigned_to"],
             ticket_type=ticket_data["ticket_type"],
             closed_time=ticket_data["closed_time"]
         )
@@ -133,14 +139,14 @@ class TicketFilter:
             local_logger.logger.info(f" {start_date}  {end_date}  {created_time}  {ticket.to_dict()}" )
 
             # 使用逻辑与连接条件
-            # if (self.search_criteria is None or
-            #     (self.search_criteria in ticket.ticket_id or
-            #     self.search_criteria in ticket.title or
-            #     self.search_criteria in ticket.assigned_to)) and \
-            # (self.status is None or self.status == ticket.status) and \
-            # (start_date is None or end_date is None or (start_date <= created_time <= end_date)):
-            #     result_list.append(ticket)
-            result_list.append(ticket)
+            if (self.search_criteria is None or
+                (self.search_criteria in ticket.ticket_id or
+                self.search_criteria in ticket.title or
+                self.search_criteria in ticket.assigned_to)) and \
+            (self.status is None or self.status == ticket.status) and \
+            (start_date is None or end_date is None or (start_date <= created_time <= end_date)):
+                result_list.append(ticket)
+            # result_list.append(ticket)
 
         return result_list
 
