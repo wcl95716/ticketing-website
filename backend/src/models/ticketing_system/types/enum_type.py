@@ -1,10 +1,11 @@
-from enum import Enum
+from enum import Enum, auto
 
 class TicketStatus(Enum):
     NEW = 0
     IN_PROGRESS = 1
     COMPLETED = 2
     CLOSED = 3
+    DEFAULT = auto()  # 定义默认状态
 
 class Priority(Enum):
     HIGHEST = 0
@@ -39,3 +40,4 @@ class ChatPriority(Enum):
     URGENT = 4
     CUSTOMER = 1000
     SERVICE = 1001
+

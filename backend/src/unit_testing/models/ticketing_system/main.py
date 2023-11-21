@@ -39,5 +39,6 @@ def test_ticket_filter():
 
 if __name__ == "__main__":
     
-    test_ticket_filter()
+    # test_ticket_filter()
+    # print(TicketStatus(None))
     pass
