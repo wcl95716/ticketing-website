@@ -125,21 +125,18 @@ class TicketFilter:
         return self.get_filter_condition_ticket_id(list_ticket)
         pass
 
-    def get_filter_condition_ticket_id(self ,  list_ticket:List[TicketRecord]) -> List[TicketRecord]:
-        # 根据条件筛选出符合条件的工单ID
-        result_list:List[TicketRecord]  = []
-        # 如果传入都为None 则返回所有的工单
-        if self.search_criteria is None and self.status is None and self.start_date is None and self.end_date is None:
-            return list_ticket
+    def get_filter_condition_ticket_id(self, list_ticket: List[TicketRecord]) -> List[TicketRecord]:
+        result_list: List[TicketRecord] = []
+        
         for ticket in list_ticket:
             # 将字符串日期解析为 datetime 对象
             start_date = parse_datetime(self.start_date) if self.start_date is not None else None
             end_date = parse_datetime(self.end_date) if self.end_date is not None else None
             created_time = parse_datetime(ticket.created_time)
 
-            # local_logger.logger.info(f" {start_date}  {end_date}  {created_time}  {ticket.to_dict()}" )
             user_name = get_user(ticket.assigned_to).name if get_user(ticket.assigned_to) is not None else ""
-            # 使用逻辑与连接条件
+            
+            # 使用逻辑与连接条件，只在条件不为 None 时筛选
             if (self.search_criteria is None or
                 (self.search_criteria in ticket.ticket_id or
                 self.search_criteria in ticket.title or
@@ -147,7 +144,7 @@ class TicketFilter:
             (self.status is None or self.status == ticket.status) and \
             (start_date is None or end_date is None or (start_date <= created_time <= end_date)):
                 result_list.append(ticket)
-            # result_list.append(ticket)
+        
         local_logger.logger.info(f"get_filter_condition_ticket_id result_list : {len(result_list)}")
         return result_list
 
