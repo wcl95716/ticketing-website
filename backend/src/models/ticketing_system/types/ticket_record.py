@@ -137,7 +137,7 @@ class TicketFilter:
             end_date = parse_datetime(self.end_date) if self.end_date is not None else None
             created_time = parse_datetime(ticket.created_time)
 
-            local_logger.logger.info(f" {start_date}  {end_date}  {created_time}  {ticket.to_dict()}" )
+            # local_logger.logger.info(f" {start_date}  {end_date}  {created_time}  {ticket.to_dict()}" )
             user_name = get_user(ticket.assigned_to).name if get_user(ticket.assigned_to) is not None else ""
             # 使用逻辑与连接条件
             if (self.search_criteria is None or
@@ -148,7 +148,7 @@ class TicketFilter:
             (start_date is None or end_date is None or (start_date <= created_time <= end_date)):
                 result_list.append(ticket)
             # result_list.append(ticket)
-
+        local_logger.logger.info(f"get_filter_condition_ticket_id result_list : {len(result_list)}")
         return result_list
 
     
