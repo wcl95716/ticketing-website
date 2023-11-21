@@ -17,6 +17,8 @@ def get_users() -> list[dict]:
     pass 
 
 def get_user(user_id: str ) ->  UserProfile:
+    if user_id is None:
+        return None
     return user_storage.get_user_by_id(user_id)
     pass
 
