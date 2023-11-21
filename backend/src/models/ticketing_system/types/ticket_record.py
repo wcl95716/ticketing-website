@@ -125,27 +125,22 @@ class TicketFilter:
         if self.search_criteria is None and self.status is None and self.start_date is None and self.end_date is None:
             return list_ticket
         for ticket in list_ticket:
-            # self.start_date <= ticket.created_time <= self.end_date: 
-            # 它们都是字符串 帮我转换成时间
             # 将字符串日期解析为 datetime 对象
-            start_date = parse_datetime(self.start_date)# datetime.datetime.strptime(self.start_date, "%Y-%m-%d %H:%M:%S")
-            end_date = parse_datetime(self.end_date) #datetime.datetime.strptime(self.end_date, "%Y-%m-%d %H:%M:%S")
-            created_time = parse_datetime(ticket.created_time) # datetime.datetime.strptime(ticket.created_time, "%Y-%m-%d %H:%M:%S")
+            start_date = parse_datetime(self.start_date) if self.start_date is not None else None
+            end_date = parse_datetime(self.end_date) if self.end_date is not None else None
+            created_time = parse_datetime(ticket.created_time)
+
             local_logger.logger.info(f" {start_date}  {end_date}  {created_time}" )
-            if self.search_criteria is not None and  self.search_criteria in ticket.ticket_id:
+
+            # 使用逻辑与连接条件
+            if (self.search_criteria is None or
+                (self.search_criteria in ticket.ticket_id or
+                self.search_criteria in ticket.title or
+                self.search_criteria in ticket.assigned_to)) and \
+            (self.status is None or self.status == ticket.status) and \
+            (start_date is None or end_date is None or (start_date <= created_time <= end_date)):
                 result_list.append(ticket)
-            elif self.search_criteria is not None and self.search_criteria in ticket.title:
-                result_list.append(ticket)
-            elif self.search_criteria is not None and self.search_criteria in ticket.assigned_to:
-                result_list.append(ticket)
-            elif self.status is not None and self.status == ticket.status :
-                result_list.append(ticket)
-                pass 
-            elif start_date is not None and \
-                end_date is not None and \
-                start_date <= created_time <= end_date:
-                result_list.append(ticket)
-                pass
+
         return result_list
 
     
