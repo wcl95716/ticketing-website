@@ -3,11 +3,12 @@
    flex-direction: row;
    align-items: center;
    margin-bottom: 10px;
+   // overflow-y: scroll; /* 将 overflow 属性设置为 scroll */
+   // scroll-behavior: smooth; /* 可选：使滚动平滑进行 */
 }
 
 .message-item.current-user {
    justify-content: flex-end;
-   margin-top: 10px;
 }
 
 .message-item .avatar {
@@ -15,7 +16,7 @@
 }
 
 .message-item.current-user .avatar {
-   margin-left: 10px;
+   // margin-left: 10px;
    margin-right: 0;
 }
 
@@ -27,7 +28,9 @@
 
 /* 聊天内容框 */
 .chat-input {
-   margin-top: 20px;
+   // margin-top: 50px;
+   // background-color: aqua;
+   // display: flex;
    width: 100%; /* 占据80%的宽度 */
 }
 
@@ -37,6 +40,21 @@
    margin: 0 auto; /* 水平居中 */
    margin-bottom: 5px;
 }
+// .avatar {
+//   display: flex;
+//   align-items: center;
+//   justify-content: center;
+//   border-radius: 50%;
+//   overflow: hidden;
+//   width: 40px;
+//   height: 40px;
+//   margin-right: 10px; // 调整头像与文字之间的间距
+// }
+
+// .text {
+//   flex: 1; // 文字部分占据剩余空间
+//   word-wrap: break-word; // 文字自动换行
+// }
 .avatar {
    display: flex;
    flex-direction: column;
@@ -49,7 +67,6 @@
    height: 40px;
    border-radius: 50%; /* 将头像设置为圆形 */
    margin-top: 15px;
-   
  }
  .avatar p {
    text-align: center; /* 用户名居中显示 */
@@ -62,7 +79,6 @@
    align-items: center;
    margin-right: 20px;
    margin-bottom: auto;
-   // background-color: aqua;
  }
  .current-avatar img {
    width: 40px;
@@ -83,6 +99,7 @@
  .model-add-drawer-p {
    color: darkgrey;
    font-size: 10px;
-   // margin-bottom: 0px;
+   // margin-top: 10px;
+   
    margin-left: 40px;
  }

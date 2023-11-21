@@ -23,6 +23,7 @@ const result: IRouter[] = [
          Component: DetailModel,
          meta: {
             title: '工单详情',
+            hidden: true
           },
        },
     ],

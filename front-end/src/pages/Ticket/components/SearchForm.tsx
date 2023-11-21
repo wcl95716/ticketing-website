@@ -22,12 +22,20 @@ const SearchForm: React.FC = () => {
       const end_date = time[1].format('YYYY-MM-DD HH:mm:ss');
       dispatch(
         updateTicketFilter({
-          status: TicketStatus.NEW,
+          search_criteria: values?.search_criteria,
+          status: values?.status,
           start_date,
           end_date,
         }),
       );
       // 在这里处理格式化后的时间值
+    }else{
+      dispatch(
+        updateTicketFilter({
+          search_criteria: values?.search_criteria,
+          status: values?.status,
+        }),
+      );
     }
   };
 
@@ -51,7 +59,7 @@ const SearchForm: React.FC = () => {
               </Col>
               <Col>
                 <Form.Item label='状态' name='status'>
-                  <Select options={CONTRACT_STATUS_OPTIONS} placeholder='请选择状态' />
+                  <Select options={CONTRACT_STATUS_OPTIONS} placeholder='请选择状态' allowClear/>
                 </Form.Item>
               </Col>
               <Col>

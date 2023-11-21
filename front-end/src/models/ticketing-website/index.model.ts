@@ -1,7 +1,8 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 import { ITicketState } from './types/model.type';
-import { IChatRecord, ITicketRecord, TicketFilter, TicketStatus, UserProfile } from './index.type';
+import { IChatRecord, ITicketRecord, TicketFilter, TicketStatus, UserProfile, UserDetail } from './index.type';
 import { RootState } from 'modules/store';
+import { isNull } from 'lodash';
 
 // get state from http://127.0.0.1:8001/getVideosDetail获取列表
 export const getTicketListRequest = createAsyncThunk('test/postTestRequest', async (params?: TicketFilter) => {
@@ -51,6 +52,14 @@ export const getAllUserRequest = createAsyncThunk('test/getAllUser', async () =>
   return response.json() as unknown as ITicketRecord[];
 });
 
+// 根据user_id获取获取用户全部信息
+export const getUserDetail = createAsyncThunk('getUserDetail', async (user_id: string) => {
+  const response = await fetch(`http://47.116.201.99:8001/test/get_user/${user_id}`);
+  return response.json() as unknown as UserDetail;
+});
+
+
+
 // 改变用户更新工单信息
 export const updateTicket = createAsyncThunk('test/updateTicket', async (updatedTicket: IChatRecord) => {
   const response = await fetch(`http://47.116.201.99:8001/test/update_ticket`, {
@@ -68,11 +77,12 @@ const initialState: ITicketState = {
   ticketRecordlist: [],
   chatRecord: [],
   allUser: [],
+  userDetail: {},
   ticket_filter: {
-    search_criteria: undefined,
-    status: undefined,
-    start_date: undefined,
-    end_date: undefined,
+    search_criteria: null,
+    status: null,
+    start_date: null,
+    end_date: null,
   },
 };
 
@@ -94,6 +104,9 @@ const ticketWebsiteSlice = createSlice({
     allUserData: (state, action) => {
       state.allUser = [];
     },
+    userDetail: (state, action) => {
+      state.userDetail = {};
+    },
     // dispatch(updateTicketFilter({ search_criteria: 'test' , status: TicketStatus.NEW}));
     updateTicketFilter: (state, action) => {
       const ticketFilter: TicketFilter  = action.payload as TicketFilter;
@@ -108,17 +121,21 @@ const ticketWebsiteSlice = createSlice({
       .addCase(getChatRequest.fulfilled, (state, action) => {
         state.chatRecord = action.payload;
       })
+      .addCase(getUserDetail.fulfilled, (state, action) => {
+        state.userDetail = action.payload;
+      })
       .addCase(getAllUserRequest.fulfilled, (state, action) => {
         state.allUser = action.payload as unknown as UserProfile[];
       });
   },
 });
 
-export const { init, changeData, changeChatData, updateTicketFilter } = ticketWebsiteSlice.actions;
+export const { init, changeData, changeChatData, updateTicketFilter, userDetail } = ticketWebsiteSlice.actions;
 // selector
 export const selectTicketRecordList = (state: RootState) => state.ticketWebsiteData.ticketRecordlist;
 export const selecChatRecord = (state: RootState) => state.ticketWebsiteData.chatRecord;
 export const selecAllUser = (state: RootState) => state.ticketWebsiteData.allUser;
 export const selecTicketFilter = (state: RootState) => state.ticketWebsiteData.ticket_filter;
+export const selecUserDetail = (state: RootState) => state.ticketWebsiteData.userDetail;
 
 export default ticketWebsiteSlice.reducer;
