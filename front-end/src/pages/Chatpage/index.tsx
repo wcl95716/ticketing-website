@@ -234,12 +234,13 @@ const [messages, setMessages] = useState([]);
 
 
    const listRef = useRef<HTMLDivElement | null>(null);
-   // useEffect(() => {
-   //   // 在数据更新后，滚动到列表底部
-   //   if (listRef.current) {
-   //     listRef.current.scrollTop = listRef.current.scrollHeight;
-   //   }
-   // }, [messages]); // 监听数据的变化
+
+   useEffect(() => {
+     // 在数据更新后，滚动到列表底部
+     if (listRef.current) {
+       listRef.current.scrollTop = listRef.current.scrollHeight;
+     }
+   }, [newMessage]); // 监听数据的变化
 
    return (
       <div style={{ backgroundColor: '#fff', height: '100vh', padding: '10px', display: 'flex', flexDirection: 'column' }}>
@@ -263,12 +264,7 @@ const [messages, setMessages] = useState([]);
                   suffix={<Button type='primary' onClick={
                      ()=>{
                         handleSendMessage();
-                        if (listRef.current) {
-                           listRef.current.scrollTop = listRef.current.scrollHeight;
-                        }
                      }
-
-                    
                   }>发送</Button>}
                   value={newMessage}
                   onChange={(e: any) => 
