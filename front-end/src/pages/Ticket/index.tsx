@@ -60,9 +60,16 @@ const ticketPage: React.FC = () => {
       });
    };
 
-   const onView = (record: DataType) => {
-      navigate('detail', { state: { ticket_id: record?.ticket_id ,record: record} });
-   };
+   // onView 函数
+const onView = (record: DataType) => {
+   // 检查 record 是否存在且包含 ticket_id
+   if (record && record?.ticket_id) {
+       // 构建新的 URL，将 ticket_id 作为查询参数
+       const urlWithTicketId = `/ticket/index/detail?ticket_id=${record.ticket_id}`;
+       // 使用新的 URL 进行导航
+       navigate(urlWithTicketId);
+   }
+};
 
    const renderStatus = (status: any) => {
       let statusText;

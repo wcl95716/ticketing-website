@@ -5,9 +5,10 @@ import {
 } from "antd";
 import { CONTRACT_STATUS_OPTIONS, CONTRACT_TYPE_OPTIONS } from '../consts';
 import { FormInstanceFunctions, SubmitContext } from 'tdesign-react/es/form/type';
-import { getTicketListRequest, getAllUserRequest, getUserDetail, updateTicket, selecAllUser } from 'models/ticketing-website/index.model';
+import { getTicketListRequest, getAllUserRequest, getTicketDetail, getUserDetail, updateTicket, selecAllUser, selecUserDetail, selecTicketDetail } from 'models/ticketing-website/index.model';
 import Style from './DetailSearch.module.less';
 import { useAppDispatch, useAppSelector } from 'modules/store';
+import { useNavigate } from 'react-router-dom';
 
 
 const { RangePicker } = DatePicker;
@@ -28,9 +29,18 @@ export type SearchFormProps = {
 
 const SearchForm: React.FC<SearchFormProps> = (props) => {
     const { record } = props || {}
+    console.log("reeeec",record)
     const dispatch = useAppDispatch();
+    const navigate = useNavigate();
+    const searchParams = new URLSearchParams(location.search);
+    const ticket_id = searchParams.get('ticket_id');
     const formRef = useRef<FormInstanceFunctions>();
+    
     const allUserList = useAppSelector(selecAllUser);
+    const userInfo = useAppSelector(selecUserDetail);
+    // const record = useAppSelector(selecTicketDetail);
+    // console.log("查看search的record",record)
+    
     const userOption = [];
     allUserList.forEach((item) => {
         userOption.push({
@@ -42,7 +52,12 @@ const SearchForm: React.FC<SearchFormProps> = (props) => {
     useEffect(() => {
         dispatch(getTicketListRequest({}))
         dispatch(getAllUserRequest())
-    }, []);
+    }, [ticket_id]);
+
+    useEffect(() => {
+        dispatch(getUserDetail(record?.assigned_to));
+     }, [record])
+
     const onUserChange = (value) => {
         const updateRecord = { ...record, assigned_to: value === undefined ? null : value };
         dispatch(updateTicket(updateRecord)).then(() => {
@@ -60,22 +75,23 @@ const SearchForm: React.FC<SearchFormProps> = (props) => {
     const filterOption = (input: string, option?: { label: string; value: string }) =>
         (option?.label ?? '').toLowerCase().includes(input.toLowerCase());
 
+    const redirectToTicketList = () => {
+        navigate({
+            pathname: '/ticket/index'
+        });
+    }
+
     return (
         <div className={Style.ticketsearch}>
             <Form  >
                 <Row>
                     <Col flex='1'>
-                        <Row gutter={[16, 16]} style={{ alignItems: 'center'}}>
-                            <Col>
-                                <div style={{margin:'10px'}}>工单详情</div>
-                            </Col>
-                            <Col>
-                                <Button size='small'>返回</Button>
-                            </Col>
-                        </Row>
                         <Row gutter={[16, 16]} style={{ alignItems: 'center' }}>
                             <Col>
-                                <div style={{margin:'10px'}}>工单详情</div>
+                                <div style={{ margin: '10px', fontWeight: 'bold' }}>{`${userInfo?.name}的工单详情`}</div>
+                            </Col>
+                            <Col>
+                                <Button size='small' type='primary' onClick={redirectToTicketList}>返回列表</Button>
                             </Col>
                         </Row>
                         <Row gutter={[16, 16]}>

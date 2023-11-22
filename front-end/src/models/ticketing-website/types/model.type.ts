@@ -5,5 +5,6 @@ export interface ITicketState {
     chatRecord: IChatRecord[];
     allUser: UserProfile[];
     userDetail: UserDetail;
+    ticketDetail: UserDetail;
     ticket_filter:TicketFilter,
 }
