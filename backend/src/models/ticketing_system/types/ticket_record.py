@@ -15,6 +15,7 @@ class TicketRecord:
                  creator: str, assigned_to: Optional[str],
                 closed_time: Optional[str],
                 ticket_type: str = None,
+                source:dict = None
                 ):
         self.ticket_id = TicketRecord.generate_ticket_id()
         self.title = title  # 工单标题
@@ -30,6 +31,8 @@ class TicketRecord:
         
         # 使用条件表达式将 ticket_type 为 None 的情况赋值为空字符串
         self.ticket_type = ticket_type if ticket_type is not None else ""
+        
+        self.source = source
         
         self.update_time = created_time # 更新时间
 
@@ -54,13 +57,14 @@ class TicketRecord:
             "ticket_type": self.ticket_type,
             "closed_time": self.closed_time,
             "update_time": self.update_time,
+            "source": self.source
         }
     
     def to_json(self):
         return json.dumps(self.to_dict(), indent=4)
     
     @classmethod
-    def from_dict(cls, ticket_data):
+    def from_dict(cls, ticket_data:dict):
         ticket = cls(
             title=ticket_data["title"],
             created_time=ticket_data["created_time"],
@@ -69,7 +73,8 @@ class TicketRecord:
             creator=ticket_data["creator"],
             assigned_to=ticket_data["assigned_to"],
             ticket_type=ticket_data["ticket_type"],
-            closed_time=ticket_data["closed_time"]
+            closed_time=ticket_data["closed_time"],
+            source=ticket_data["source"],
         )
         ticket.ticket_id = ticket_data.get("ticket_id") or cls.generate_ticket_id()
         ticket.update_time =  ticket_data.get("created_time") or ticket_data["update_time"],
@@ -176,7 +181,9 @@ def getTestTicket():
         sender,
         None,
         "报告问题",
-        None)
+        None,
+        source={"source":"test"}
+        )
     return ticket
     pass 
 

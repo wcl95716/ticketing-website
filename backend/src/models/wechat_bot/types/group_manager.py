@@ -46,7 +46,7 @@ class GroupChatManager:
                     self.tasks.clear()
                     break
                 
-                result:str = ChatActionFunctionFactory.get_action_function(action)(message)
+                result:str = ChatActionFunctionFactory.get_action_function(action)(self.group_id,message)
                 self.tasks.append(result)
                 self.current_chat_message_id = message[2]
 
