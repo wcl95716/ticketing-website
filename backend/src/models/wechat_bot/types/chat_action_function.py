@@ -14,6 +14,8 @@ class ChatActionsEnum(Enum):
     
 class ChatActionFunctionFactory:
     
+    url = "http://47.116.201.99:4000/user_chat_page"
+    # ticket_id=2023-11-17-211224191561&customer_id=%E4%BD%A0%E6%98%AF
     def add_ticket_to_website(ticket_record: dict = None) -> dict:
         url = 'http://47.116.201.99:8001/test/add_ticket'
         response = requests.post(url, json=ticket_record)
@@ -35,7 +37,7 @@ class ChatActionFunctionFactory:
 
     @staticmethod
     def get_work_order_link(ticket_id: str ,customer_id ) -> str:
-        return f"@{customer_id} 工单通知  https://test?ticket_id = {ticket_id} & customer_id = {customer_id}"
+        return f"@{customer_id} 工单通知  {ChatActionFunctionFactory.url}?ticket_id={ticket_id}&customer_id={customer_id}"
     
     @staticmethod
     def work_order_create(group_id, message: tuple = None) -> tuple[str]:
