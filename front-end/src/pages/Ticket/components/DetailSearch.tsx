@@ -41,7 +41,7 @@ const SearchForm: React.FC<SearchFormProps> = (props) => {
     const formRef = useRef<FormInstanceFunctions>();
     
     const allUserList = useAppSelector(selecAllUser);
-    const userInfo = useAppSelector(selecUserDetail);
+    // const userInfo = useAppSelector(selecUserDetail);
     // const record = useAppSelector(selecTicketDetail);
     // console.log("查看search的record",record)
 
@@ -72,7 +72,7 @@ const SearchForm: React.FC<SearchFormProps> = (props) => {
 
     useEffect(() => {
         setSelectedUser(record?.assigned_to);
-        dispatch(getUserDetail(record?.assigned_to));
+        // dispatch(getUserDetail(record?.assigned_to));
     }, [record]);
     // useEffect(() => {
     //     dispatch(getUserDetail(record?.assigned_to));
@@ -83,7 +83,7 @@ const SearchForm: React.FC<SearchFormProps> = (props) => {
         setSelectedUser(value);
         const updateRecord = { ...record, assigned_to: value === undefined ? null : value };
         dispatch(updateTicket(updateRecord)).then(() => {
-            dispatch(getUserDetail(value));
+            // dispatch(getUserDetail(value));
             dispatch(getTicketListRequest({}));
         });
     }

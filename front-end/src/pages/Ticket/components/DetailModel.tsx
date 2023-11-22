@@ -44,6 +44,7 @@ const DetailModel = () => {
 
    const dispatch = useAppDispatch();
    const chatRecord = useAppSelector(selecChatRecord);
+   const ifUserDetail = useAppSelector(selecUserDetail);
    // const record = useAppSelector(selecTicketDetail);
    const userInfo = useAppSelector(selecUserDetail);
    useEffect(()=>{
@@ -62,7 +63,7 @@ const DetailModel = () => {
          getRecord();
        }
    },[])
-   // console.log("查看record",record)
+   console.log("查看ifUserDetail")
 
    // const fetchMessages = async () => {
    //    if (ticket_id) {
@@ -106,7 +107,7 @@ const DetailModel = () => {
 
          const interval = setInterval(() => {
             dispatch(getChatRequest(ticket_id));
-         }, 20000);
+         }, 2000);
 
          return () => {
             clearInterval(interval); // 在组件卸载时清除定时器
