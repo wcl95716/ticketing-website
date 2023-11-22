@@ -19,7 +19,7 @@ import { useLocation } from 'react-router-dom';
 import type { UploadFile } from 'antd/es/upload/interface';
 import dayjs, { Dayjs } from 'dayjs';
 import DetailSearch from './DetailSearch';
-import { IChatRecord, MessageType, ChatPriority } from 'models/ticketing-website/index.type';
+import { IChatRecord, MessageType, ChatPriority, ITicketRecord, TicketStatus, Priority } from 'models/ticketing-website/index.type';
 
 
 
@@ -27,7 +27,18 @@ import { IChatRecord, MessageType, ChatPriority } from 'models/ticketing-website
 const DetailModel = () => {
    const location = useLocation();
    const now = new Date();
-   const [record,setRecord] = useState({})
+   const ad:ITicketRecord = {
+      ticket_id: '',
+      title: '',
+      created_time: '',
+      status: TicketStatus.NEW,
+      priority: Priority.HIGHEST,
+      creator: '',
+      assigned_to: null,
+      ticket_type: '',
+      closed_time: null
+   }
+   const [record,setRecord] = useState<ITicketRecord|undefined>(undefined)
    const searchParams = new URLSearchParams(location.search);
    const ticket_id = searchParams.get('ticket_id');
 
@@ -284,7 +295,9 @@ const DetailModel = () => {
    return (
       <div>
          <Row justify='start' style={{ marginBottom: '20px', width: '100%' }}>
-            <div style={{ width: '100%', backgroundColor: '#fff' }}>
+            {record&&
+                        <div style={{ width: '100%', backgroundColor: '#fff' }}>
+               
                <DetailSearch
                   onSubmit={async (value) => {
                      console.log(value);
@@ -293,6 +306,8 @@ const DetailModel = () => {
                   record = {record}
                />
             </div>
+            }
+
          </Row>
          <div style={{ width: '100%', height: '100%', backgroundColor: '#fff', paddingBottom: '20px' }}>
             <div style={{ paddingLeft: '4%', paddingTop: '10px', marginTop: '10px', marginBottom: '10px' }}>沟通记录</div>

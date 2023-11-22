@@ -3,12 +3,13 @@ import {
     Row, Col,
     Breadcrumb, Layout, Menu, theme, Table, Form, Input, Button, Select, DatePicker
 } from "antd";
-import { CONTRACT_STATUS_OPTIONS, CONTRACT_TYPE_OPTIONS } from '../consts';
+import { CONTRACT_STATUS_OPTIONS, CONTRACT_TYPE_OPTIONS, IOption } from '../consts';
 import { FormInstanceFunctions, SubmitContext } from 'tdesign-react/es/form/type';
 import { getTicketListRequest, getAllUserRequest, getTicketDetail, getUserDetail, updateTicket, selecAllUser, selecUserDetail, selecTicketDetail } from 'models/ticketing-website/index.model';
 import Style from './DetailSearch.module.less';
 import { useAppDispatch, useAppSelector } from 'modules/store';
 import { useNavigate } from 'react-router-dom';
+import { ITicketRecord } from 'models/ticketing-website/index.type';
 
 
 const { RangePicker } = DatePicker;
@@ -25,7 +26,7 @@ export type FormValueType = {
 export type SearchFormProps = {
     onCancel: () => void;
     onSubmit: (values: FormValueType) => Promise<void>;
-    record:{};
+    record:ITicketRecord;
 };
 
 const SearchForm: React.FC<SearchFormProps> = (props) => {
@@ -43,15 +44,27 @@ const SearchForm: React.FC<SearchFormProps> = (props) => {
     const userInfo = useAppSelector(selecUserDetail);
     // const record = useAppSelector(selecTicketDetail);
     // console.log("查看search的record",record)
-    
-    const userOption = [];
-    allUserList.forEach((item) => {
-        userOption.push({
-            label: item?.name,
-            value: item?.user_id
-        })
-    })
 
+    // const userOption: { label: string; value: string; }[] = [];
+    // allUserList.forEach((item) => {
+    //     userOption.push({
+    //         label: item?.name || '',
+    //         value: item?.user_id || ''
+    //     });
+    // });
+    const [userOption, setUserOption] = useState<Array<IOption>>([]);
+
+    useEffect(() => {
+      // 在组件挂载或 allUserList 发生变化时更新 userOption
+      const updatedUserOption = allUserList.map((item) => ({
+        label: item?.name || '',
+        value: item?.user_id || ''
+      }));
+      setUserOption(updatedUserOption);
+      console.log("查看userOption",userOption)
+    }, [allUserList,record]); // 监听 allUserList 的变化
+    
+    
     useEffect(() => {
         dispatch(getTicketListRequest({}))
         dispatch(getAllUserRequest())
@@ -107,7 +120,7 @@ const SearchForm: React.FC<SearchFormProps> = (props) => {
                         <Row gutter={[16, 16]}>
                             <Col >
                                 <Form.Item label='' name='name' >
-                                    <Select value={selectedUser} style={{ width: 120 }} placeholder="无处理人" allowClear showSearch filterOption={filterOption}
+                                    <Select  defaultValue={record?.assigned_to} style={{ width: 120 }} placeholder="无处理人" allowClear showSearch filterOption={filterOption}
                                         options={userOption} onChange={onUserChange}
                                     >
                                     </Select>
@@ -116,7 +129,7 @@ const SearchForm: React.FC<SearchFormProps> = (props) => {
                             </Col>
                             <Col >
                                 <Form.Item name='status' >
-                                    <Select value={record?.status} style={{ width: 120 }} placeholder="请选择处理状态" allowClear showSearch filterOption={filterOption}
+                                    <Select defaultValue={record?.status} style={{ width: 120 }} placeholder="请选择处理状态" allowClear showSearch filterOption={filterOption}
                                         options={CONTRACT_STATUS_OPTIONS} onChange={onStatusChange}
                                     >
                                     </Select>
