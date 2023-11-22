@@ -7,41 +7,51 @@ import {
    getTicketListRequest,
    getChatRequest,
    getUserDetail,
+   getTicketDetail,
    postChatRequest,
    selectTicketRecordList,
    selecChatRecord,
    selecUserDetail,
+   selecTicketDetail,
 } from 'models/ticketing-website/index.model';
 import { useAppDispatch, useAppSelector } from 'modules/store';
 import { useLocation } from 'react-router-dom';
 import type { UploadFile } from 'antd/es/upload/interface';
 import dayjs, { Dayjs } from 'dayjs';
 import DetailSearch from './DetailSearch';
-import { IChatRecord, MessageType, ChatPriority } from 'models/ticketing-website/index.type';
+import { IChatRecord, MessageType, ChatPriority, ITicketRecord, TicketStatus, Priority } from 'models/ticketing-website/index.type';
 
 
-// const getBase64 = (file: RcFile): Promise<string> =>
-//    new Promise((resolve, reject) => {
-//       const reader = new FileReader();
-//       reader.readAsDataURL(file);
-//       reader.onload = () => resolve(reader.result as string);
-//       reader.onerror = (error) => reject(error);
-//    });
 
 
 const DetailModel = () => {
    const location = useLocation();
    const now = new Date();
-   const { ticket_id, record } = location.state || {};
-
+   const [record,setRecord] = useState<ITicketRecord|undefined>(undefined)
+   const searchParams = new URLSearchParams(location.search);
+   const ticket_id = searchParams.get('ticket_id');
 
    const dispatch = useAppDispatch();
    const chatRecord = useAppSelector(selecChatRecord);
-
+   // const record = useAppSelector(selecTicketDetail);
    const userInfo = useAppSelector(selecUserDetail);
+   useEffect(()=>{
+      const getRecord = async () => {
+         try {
+           const response = await fetch(`http://47.116.201.99:8001/test/get_ticket/${ticket_id}`);
+           const record = await response.json();
+           setRecord(record); // 更新详情
+         } catch (error) {
+           console.error("Error fetching messages:", error);
+           message.error('获取信息失败');
+         }
+       }
 
-
-
+       if (ticket_id) {
+         getRecord();
+       }
+   },[])
+   // console.log("查看record",record)
 
    // const fetchMessages = async () => {
    //    if (ticket_id) {
@@ -79,7 +89,9 @@ const DetailModel = () => {
    useEffect(() => {
       if (ticket_id) {
          dispatch(getChatRequest(ticket_id));
-         dispatch(getUserDetail(record?.assigned_to));
+         // dispatch(getTicketDetail(ticket_id)).then(()=>{
+         //    dispatch(getUserDetail(record?.assigned_to));
+         // });
 
          const interval = setInterval(() => {
             dispatch(getChatRequest(ticket_id));
@@ -91,15 +103,19 @@ const DetailModel = () => {
       }
    }, [ticket_id]);
 
+   // useEffect(() => {
+   //    dispatch(getUserDetail(record?.assigned_to));
+   // }, [record])
+
 
    useEffect(() => {
       setMessages(chatRecord);
    }, [chatRecord]);
 
-
    const [messages, setMessages] = useState([]);
    const [newMessage, setNewMessage] = useState('');
    const handleSendMessage = () => {
+      
       if (newMessage.trim() !== '') {
          const newMessages = [
             ...messages,
@@ -268,15 +284,19 @@ const DetailModel = () => {
    return (
       <div>
          <Row justify='start' style={{ marginBottom: '20px', width: '100%' }}>
-            <div style={{ width: '100%', backgroundColor: '#fff' }}>
+            {record&&
+                        <div style={{ width: '100%', backgroundColor: '#fff' }}>
+               
                <DetailSearch
                   onSubmit={async (value) => {
                      console.log(value);
                   }}
                   onCancel={() => { }}
-                  record={record}
+                  record = {record}
                />
             </div>
+            }
+
          </Row>
          <div style={{ width: '100%', height: '100%', backgroundColor: '#fff', paddingBottom: '20px' }}>
             <div style={{ paddingLeft: '4%', paddingTop: '10px', marginTop: '10px', marginBottom: '10px' }}>沟通记录</div>
@@ -312,4 +332,4 @@ const DetailModel = () => {
    );
 };
 
-export default DetailModel;
+export default DetailModel;  

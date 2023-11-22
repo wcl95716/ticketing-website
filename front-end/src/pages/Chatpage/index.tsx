@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { Input, Button, List, message, Upload, Modal, Row, Col, Image } from 'antd';
 import { PictureOutlined, UploadOutlined, PlusOutlined } from '@ant-design/icons';
 import Style from './index.module.less';
@@ -18,7 +18,6 @@ import {
 import { useAppDispatch, useAppSelector } from 'modules/store';
 import type { UploadFile } from 'antd/es/upload/interface';
 
-const { TextArea } = Input;
 
 
 const getBase64 = (file: RcFile): Promise<string> =>
@@ -31,48 +30,30 @@ const getBase64 = (file: RcFile): Promise<string> =>
 const PChart = () => {
    const dispatch = useAppDispatch();
    const chatRecord = useAppSelector(selecChatRecord);
+   const endOfMessagesRef = useRef(null);
 
    const location = useLocation();
    const queryParams = new URLSearchParams(location.search);
    const ticket_id = queryParams.get('ticket_id');
-   const user_id = queryParams.get('user_id');
+   const customer_id = queryParams.get('customer_id');
 
    const now = new Date();
+  /*  */
    
-   //  const fetchMessages = async () => {
-   //      if (ticket_id) {
-   //          try {
-   //              const response = await fetch(`http://47.103.45.149:8001/test/get_all_tickets/${ticket_id}`);
-   //              const data = await response.json();
-   //              setMessages(data); // 更新消息列表
-   //          } catch (error) {
-   //              console.error("Error fetching messages:", error);
-   //              message.error('获取消息列表失败');
-   //          }
-   //      }
-   //  };
-
-   //  const addTicket = async (newMessageContent: any) => {
-   //      try {
-   //          const response = await fetch('http://47.103.45.149:8001/test/add_ticket', {
-   //              method: 'POST',
-   //              headers: {
-   //                  'Content-Type': 'application/json',
-   //              },
-   //              body: JSON.stringify({ message: newMessageContent }),
-   //          });
-
-   //          if (!response.ok) throw new Error('Network response was not ok.');
-   //          // 假设POST请求成功后立即调用GET请求更新列表
-   //          fetchMessages();
-   //      } catch (error) {
-   //          console.error("Error posting new ticket:", error);
-   //          message.error('发送消息失败');
-   //      }
-   //  };
    useEffect(() => {
       if (ticket_id) {
-         dispatch(getChatRequest(ticket_id))
+         dispatch(getChatRequest(ticket_id));
+         // dispatch(getTicketDetail(ticket_id)).then(()=>{
+         //    dispatch(getUserDetail(record?.assigned_to));
+         // });
+
+         const interval = setInterval(() => {
+            dispatch(getChatRequest(ticket_id));
+         }, 2000);
+
+         return () => {
+            clearInterval(interval); // 在组件卸载时清除定时器
+         };
       }
    }, [ticket_id]);
 
@@ -80,17 +61,17 @@ const PChart = () => {
       setMessages(chatRecord);
    }, [chatRecord]);
 
-   const [messages, setMessages] = useState([
-      {
-         ticket_id: ticket_id,
-         text: '你好，有什么可以帮你的？可以在此留言',
-         avatar: 'https://zos.alipayobjects.com/rmsportal/jkjgkEfvpUPVyRjUImniVslZfWPnJuuZ.png',
-         sender: '系统消息',
-         time: dayjs(now).format('YYYY-MM-DD HH:mm:ss'),
-         chat_profile: ChatPriority.SERVICE,
-      },
-
-   ]);
+//    const [messages, setMessages] = useState([
+//       {
+//          ticket_id: ticket_id,
+//          text: '你好，有什么可以帮你的？可以在此留言',
+//          avatar: 'https://zos.alipayobjects.com/rmsportal/jkjgkEfvpUPVyRjUImniVslZfWPnJuuZ.png',
+//          sender: '系统消息',
+//          time: dayjs(now).format('YYYY-MM-DD HH:mm:ss'),
+//          chat_profile: ChatPriority.SERVICE,/*  */
+//       },
+//    ]);
+const [messages, setMessages] = useState([]);
    const [newMessage, setNewMessage] = useState('');
    const handleSendMessage = () => {
       if (newMessage.trim() !== '') {
@@ -102,7 +83,7 @@ const PChart = () => {
                message_id: '',
                content: newMessage.trim(),
                message_time: dayjs(now).format('YYYY-MM-DD HH:mm:ss'),
-               sender: "用户1",
+               sender: customer_id,
                message_type: MessageType.TEXT,
                chat_profile: ChatPriority.CUSTOMER,
                avatar_url: "https://zos.alipayobjects.com/rmsportal/jkjgkEfvpUPVyRjUImniVslZfWPnJuuZ.png",
@@ -115,7 +96,7 @@ const PChart = () => {
             message_id: '',
             content: newMessage.trim(),
             message_time: dayjs(now).format('YYYY-MM-DD HH:mm:ss'),
-            sender: "用户1",
+            sender: customer_id,
             message_type: MessageType.TEXT,
             chat_profile: ChatPriority.CUSTOMER,
             avatar_url: "https://zos.alipayobjects.com/rmsportal/jkjgkEfvpUPVyRjUImniVslZfWPnJuuZ.png",
@@ -126,6 +107,7 @@ const PChart = () => {
          });
          setNewMessage('');
       }
+      // scrollToBottom();
    };
    const handleUpload = (file) => {
       // 取出文件名中的后缀
@@ -136,7 +118,7 @@ const PChart = () => {
             message_id: '',
             content: '',
             message_time: dayjs(now).format('YYYY-MM-DD HH:mm:ss'),
-            sender: "用户1",
+            sender: customer_id,
             message_type: fileExtension === 'png' || fileExtension === 'jpg' ? MessageType.IMAGE : fileExtension === 'mp4' ? MessageType.VIDEO : '',
             file_url: file.file_url,
             file_id: file.file_id,
@@ -151,7 +133,7 @@ const PChart = () => {
          message_id: '',
          content: '',
          message_time: dayjs(now).format('YYYY-MM-DD HH:mm:ss'),
-         sender: "用户1",
+         sender: customer_id,
          message_type: fileExtension === 'png' || fileExtension === 'jpg' ? MessageType.IMAGE : fileExtension === 'mp4' ? MessageType.VIDEO : '',
          file_url: file.file_url,
          file_id: file.file_id,
@@ -255,9 +237,12 @@ const PChart = () => {
          <List
             dataSource={messages}
             renderItem={renderMessageItem}  // 使用修改后的renderItem函数
+            style={{ flex: 1, overflow: 'auto' }}
          />
-         <div className={Style['chat-input']} style={{ marginTop: 'auto', padding: '10px' }}>
-            <div style={{ display: 'flex', width: '100%' }}>
+         {/* 添加一个用于滚动到底部的占位元素 */}
+         {/* <div ref={endOfMessagesRef} /> */}
+         <div className={Style['chat-input']} style={{ marginTop: 'auto', padding: '10px' , width:'auto'}}>
+            <div style={{ display: 'flex', width: 'auto' }}>
                <Input
                   style={{ flex: 1, marginRight: '10px' }}
                   placeholder="请输入聊天内容"
@@ -265,8 +250,8 @@ const PChart = () => {
                   value={newMessage}
                   onChange={(e: any) => setNewMessage(e.target.value)}
                />
-               <Upload {...props} showUploadList={false}>
-                  <Button style={{ flex: '0 0 auto' }} shape="circle" icon={<PlusOutlined style={{ color: 'grey' }} />} />
+               <Upload {...props} showUploadList={false} >
+                  <Button style={{ flex: '0 0 auto' ,marginTop:'5px'}} shape="circle" icon={<PlusOutlined style={{ color: 'grey' }} />} />
                </Upload>
             </div>
          </div>

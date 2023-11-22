@@ -20,10 +20,17 @@ export const getTicketListRequest = createAsyncThunk('test/postTestRequest', asy
   // return response.json() as unknown as ITicketRecord[];
 });
 
+// 根据ticket_id获取工单详情
+export const getTicketDetail = createAsyncThunk('getticketDetail', async (ticket_id: string) => {
+  const response = await fetch(`http://47.116.201.99:8001/test/get_ticket/${ticket_id}`);
+  return response.json() as unknown as UserDetail;
+});
+
+
 // 根据id删除列表信息
-export const deleteTicketListRequest = createAsyncThunk('paramsTest', async (ticket_id: string) => {
+export const deleteTicketListRequest = createAsyncThunk('paramsDeleteTest', async (ticket_id: string) => {
   const response = await fetch(`http://47.116.201.99:8001/test/delete_ticket/${ticket_id}`);
-  console.log('查看删除之后的response', response);
+  // console.log('查看删除之后的response', response);
   return response.json() as unknown as IChatRecord[];
 });
 
@@ -78,6 +85,7 @@ const initialState: ITicketState = {
   chatRecord: [],
   allUser: [],
   userDetail: {},
+  ticketDetail : {},
   ticket_filter: {
     search_criteria: null,
     status: null,
@@ -104,6 +112,9 @@ const ticketWebsiteSlice = createSlice({
     allUserData: (state, action) => {
       state.allUser = [];
     },
+    ticketDetail:(state, action) => {
+      state.ticketDetail = {};
+    },
     userDetail: (state, action) => {
       state.userDetail = {};
     },
@@ -121,6 +132,9 @@ const ticketWebsiteSlice = createSlice({
       .addCase(getChatRequest.fulfilled, (state, action) => {
         state.chatRecord = action.payload;
       })
+      .addCase(getTicketDetail.fulfilled, (state, action) => {
+        state.ticketDetail = action.payload;
+      })
       .addCase(getUserDetail.fulfilled, (state, action) => {
         state.userDetail = action.payload;
       })
@@ -130,12 +144,13 @@ const ticketWebsiteSlice = createSlice({
   },
 });
 
-export const { init, changeData, changeChatData, updateTicketFilter, userDetail } = ticketWebsiteSlice.actions;
+export const { init, changeData, changeChatData, updateTicketFilter, userDetail, ticketDetail } = ticketWebsiteSlice.actions;
 // selector
 export const selectTicketRecordList = (state: RootState) => state.ticketWebsiteData.ticketRecordlist;
 export const selecChatRecord = (state: RootState) => state.ticketWebsiteData.chatRecord;
 export const selecAllUser = (state: RootState) => state.ticketWebsiteData.allUser;
 export const selecTicketFilter = (state: RootState) => state.ticketWebsiteData.ticket_filter;
 export const selecUserDetail = (state: RootState) => state.ticketWebsiteData.userDetail;
+export const selecTicketDetail = (state: RootState) => state.ticketWebsiteData.ticketDetail;
 
 export default ticketWebsiteSlice.reducer;
