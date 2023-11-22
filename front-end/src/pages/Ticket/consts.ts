@@ -14,10 +14,10 @@ export const CONTRACT_STATUS = {
 };
 
 export const CONTRACT_STATUS_OPTIONS: IOption[] = [
-  { value: TicketStatus.NEW.toString(), label: '待处理' },
-  { value: TicketStatus.IN_PROGRESS.toString(), label: '处理中' },
-  { value: TicketStatus.COMPLETED.toString(), label: '完成' },
-  { value: TicketStatus.CLOSED.toString(), label: '关闭' },
+  { value: TicketStatus.NEW, label: '待处理' },
+  { value: TicketStatus.IN_PROGRESS, label: '处理中' },
+  { value: TicketStatus.COMPLETED, label: '完成' },
+  { value: TicketStatus.CLOSED, label: '关闭' },
 ];
 
 // 合同类型枚举

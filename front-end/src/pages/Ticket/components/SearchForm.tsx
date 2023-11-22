@@ -5,7 +5,7 @@ import Style from './SearchForm.module.less';
 import { useAppDispatch, useAppSelector } from 'modules/store';
 import { getTicketListRequest, selecTicketFilter, updateTicketFilter } from 'models/ticketing-website/index.model';
 import { TicketStatus } from 'models/ticketing-website/index.type';
-import { use } from 'echarts';
+import { number, use } from 'echarts';
 
 const { RangePicker } = DatePicker;
 
@@ -44,27 +44,37 @@ const SearchForm: React.FC = () => {
   }, [ticketFilter]);
   const onReset = () => {
     form.resetFields();
+
+    // dispatch(
+    //   updateTicketFilter({
+    //     // 假设初始状态是空的
+    //     search_criteria: '',
+    //     status: null,
+    //     start_date: null,
+    //     end_date: null,
+    //   }),
+    // );
   };
 
   return (
     <div className={Style.ticketsearch}>
-      <Form name='control-hooks' onFinish={onFinish}>
+      <Form  form={form} name='control-hooks' onFinish={onFinish}>
         <Row>
           <Col flex='1'>
             <Row gutter={[16, 16]}>
               <Col>
                 <Form.Item label='关键字' name='search_criteria'>
-                  <Input placeholder='请输入关键字' />
+                  <Input value="search_criteria" placeholder='请输入关键字' />
                 </Form.Item>
               </Col>
               <Col>
                 <Form.Item label='状态' name='status'>
-                  <Select options={CONTRACT_STATUS_OPTIONS} placeholder='请选择状态' allowClear/>
+                  <Select value="status" options={CONTRACT_STATUS_OPTIONS} placeholder='请选择状态' allowClear/>
                 </Form.Item>
               </Col>
               <Col>
                 <Form.Item label='日期' name='time'>
-                  <RangePicker placeholder={['开始时间', '结束时间']} format='YYYY-MM-DD' />
+                  <RangePicker value="time" placeholder={['开始时间', '结束时间']} format='YYYY-MM-DD' />
                 </Form.Item>
               </Col>
             </Row>
