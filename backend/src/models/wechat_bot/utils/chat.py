@@ -10,6 +10,8 @@ from PyOfficeRobot.lib.decorator_utils.instruction_url import instruction
 
 wx = WeChat()
 
+import PyOfficeRobot
+
 
 
 def get_chat_messages(who:str) -> list:
@@ -18,28 +20,10 @@ def get_chat_messages(who:str) -> list:
     return wx.GetAllMessage()  # 获取所有消息
     pass 
 
-# def is_find_customer_service(messages , customer_service_names = []):
-#     result = None
-#     # 查看messages 中 是否有@客服 的消息
-#     for message in messages:
-#         # message[1] 为消息内容
-#         # 查找 message[1] 中是否有 @customer_service_names 中的内容
-#         print(message , customer_service_names)
-#         if "客服回复" in message[1]:
-#             result = None
-#         for customer_service_name in customer_service_names:
-#             if "@"+customer_service_name in message[1]:
-#                 result = message
-#     return result
-#     pass 
-
-def chat_find_task(keywords: dict , messages: list):
-    result_tasks:[] = []
-    for message in messages:
-        for keyword, value in keywords.items():
-            if value in message:
-                result_tasks.append((message, keyword))
+def send_message(who:str, message):
+    PyOfficeRobot.chat.send_message(who=who, message=message)
     pass 
+
 
 
 

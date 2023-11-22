@@ -3,6 +3,8 @@ import requests
 import datetime
 from enum import Enum
 
+from utils import local_logger
+
 class ChatActionsEnum(Enum):
     WORK_ORDER_CREATE = "创建工单"
     WORK_ORDER_UPDATE = "工单更新"
@@ -19,11 +21,14 @@ class ChatActionFunctionFactory:
         if response.status_code == 200:
             # 如果响应状态码为200，表示成功添加工单
             ticket_info = response.json()
+            # print("Success:", ticket_info)
+            
+            local_logger.logger.info("add_ticket_to_website ticket_info : %s", ticket_info)
             return ticket_info
         else:
             # 如果响应状态码不是200，表示添加工单时出现错误
             error_info = response.json()
-            print("Error:", error_info)
+            local_logger.logger.info ("Error:", error_info)
             return None
     pass
 
@@ -35,7 +40,7 @@ class ChatActionFunctionFactory:
     @staticmethod
     def work_order_create(group_id, message: tuple = None) -> tuple[str]:
         # 编写创建工单的操作逻辑
-        print("create_work_order message : ",message)
+        local_logger.logger.info("work_order_create begin ")
         if message is None:
             return None
         # return f"@{message[0]} 工单已创建 https://www.baidu.com"
@@ -55,6 +60,8 @@ class ChatActionFunctionFactory:
         }
         
         ticket_response = ChatActionFunctionFactory.add_ticket_to_website(ticket_data)
+        
+        local_logger.logger.info("work_order_create ticket_response : %s", ticket_response)
         if ticket_response is None:
             return None
         
