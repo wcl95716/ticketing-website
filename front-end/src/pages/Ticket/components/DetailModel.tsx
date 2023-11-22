@@ -27,17 +27,6 @@ import { IChatRecord, MessageType, ChatPriority, ITicketRecord, TicketStatus, Pr
 const DetailModel = () => {
    const location = useLocation();
    const now = new Date();
-   const ad:ITicketRecord = {
-      ticket_id: '',
-      title: '',
-      created_time: '',
-      status: TicketStatus.NEW,
-      priority: Priority.HIGHEST,
-      creator: '',
-      assigned_to: null,
-      ticket_type: '',
-      closed_time: null
-   }
    const [record,setRecord] = useState<ITicketRecord|undefined>(undefined)
    const searchParams = new URLSearchParams(location.search);
    const ticket_id = searchParams.get('ticket_id');
