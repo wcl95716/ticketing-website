@@ -45,7 +45,7 @@ class ChatActionFunctionFactory:
             return None
         # return f"@{message[0]} 工单已创建 https://www.baidu.com"
         ticket_data = {
-            "title": message[0] + " " + message[1],
+            "title":group_id+ " " +  message[0] + " " + message[1],
             "created_time": datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S"),
             "status": 0,
             "priority": 0,

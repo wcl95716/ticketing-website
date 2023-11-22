@@ -44,9 +44,12 @@ class GroupChatManager:
 
 
 def test():
+    print("test")
     group_chat = GroupChatManager(group_id="测试群1")
     messages = [('Panda', '@机器人名 创建工单', '4211805484920'), ('Panda', '@机器人名 创建工单123123', '4211805484920')]
-    tasks = group_chat.find_task(messages)
+    
+    chat_keyword_handler = ChatCommandHandler(robot_name=config.robot_name, actions=[ChatActionsEnum.WORK_ORDER_CREATE])
+    tasks = group_chat.find_task(chat_keyword_handler , messages)
     # print("tasks ",group_chat.tasks )
     
     for task in tasks:

@@ -74,7 +74,7 @@ class TicketRecord:
             assigned_to=ticket_data["assigned_to"],
             ticket_type=ticket_data["ticket_type"],
             closed_time=ticket_data["closed_time"],
-            source=ticket_data["source"],
+            source=ticket_data["source"] if "source" in ticket_data else None,
         )
         ticket.ticket_id = ticket_data.get("ticket_id") or cls.generate_ticket_id()
         ticket.update_time =  ticket_data.get("created_time") or ticket_data["update_time"],
