@@ -57,7 +57,7 @@ export default memo(() => {
 
 
   const onUserChange = (value) => {
-    // console.log("登陆人value",value)
+    console.log("登陆人value",value)
     dispatch(getUserDetail(value));
   }
 
@@ -88,7 +88,7 @@ export default memo(() => {
         />
       </Popup> */}
 
-      <Select style={{ width: 120 }} placeholder="登陆人" allowClear showSearch filterOption={filterOption}
+      <Select style={{ width: 120 }} placeholder="登陆人" showSearch filterOption={filterOption}
         options={userOption} onChange={onUserChange}
       ></Select>
       {/* <Dropdown trigger={'click'} onClick={clickHandler}>

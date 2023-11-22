@@ -27,17 +27,6 @@ import { IChatRecord, MessageType, ChatPriority, ITicketRecord, TicketStatus, Pr
 const DetailModel = () => {
    const location = useLocation();
    const now = new Date();
-   const ad:ITicketRecord = {
-      ticket_id: '',
-      title: '',
-      created_time: '',
-      status: TicketStatus.NEW,
-      priority: Priority.HIGHEST,
-      creator: '',
-      assigned_to: null,
-      ticket_type: '',
-      closed_time: null
-   }
    const [record,setRecord] = useState<ITicketRecord|undefined>(undefined)
    const searchParams = new URLSearchParams(location.search);
    const ticket_id = searchParams.get('ticket_id');
@@ -47,6 +36,9 @@ const DetailModel = () => {
    const ifUserDetail = useAppSelector(selecUserDetail);
    // const record = useAppSelector(selecTicketDetail);
    const userInfo = useAppSelector(selecUserDetail);
+   const isObjectEmpty = (obj) => {
+      return Object.keys(obj).length === 0;
+  };
    useEffect(()=>{
       const getRecord = async () => {
          try {
@@ -63,7 +55,7 @@ const DetailModel = () => {
          getRecord();
        }
    },[])
-   console.log("查看ifUserDetail")
+   console.log("查看ifUserDetail",ifUserDetail)
 
    // const fetchMessages = async () => {
    //    if (ticket_id) {
@@ -127,8 +119,10 @@ const DetailModel = () => {
    const [messages, setMessages] = useState([]);
    const [newMessage, setNewMessage] = useState('');
    const handleSendMessage = () => {
-      
-      if (newMessage.trim() !== '') {
+      if (isObjectEmpty(ifUserDetail)) {
+         message.error('请选择登陆人');
+     } else{
+        if (newMessage.trim() !== '') {
          const newMessages = [
             ...messages,
             {
@@ -160,8 +154,13 @@ const DetailModel = () => {
          });
          setNewMessage('');
       }
+     }
+      
    };
    const handleUpload = (file) => {
+      if (isObjectEmpty(ifUserDetail)) {
+         message.error('请选择登陆人');
+     } else{
       // 取出文件名中的后缀
       const fileExtension = file.file_id.split('.').pop().toLowerCase();
       const newMessages = [
@@ -196,6 +195,7 @@ const DetailModel = () => {
          dispatch(getChatRequest(ticket_id));
       });
       setNewMessage(''); // 清空输入框
+   }
    };
 
    const handleKeyPress = (e) => {
@@ -205,12 +205,10 @@ const DetailModel = () => {
    };
 
    const handleChange: UploadProps['onChange'] = ({ file }) => {
-      //接口备用
       if (file.status === 'done') {
          handleUpload(file?.response);
       }
    };
-
    const props = {
       action: 'http://47.116.201.99:8001/test/upload_file',
       onChange: handleChange,

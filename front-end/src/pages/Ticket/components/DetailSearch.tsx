@@ -31,7 +31,7 @@ export type SearchFormProps = {
 
 const SearchForm: React.FC<SearchFormProps> = (props) => {
     
-    const { record } = props || {}
+    const { record } = props;
     const [selectedUser, setSelectedUser] = useState(record?.assigned_to);
     console.log("reeeec",record)
     const dispatch = useAppDispatch();
@@ -52,7 +52,7 @@ const SearchForm: React.FC<SearchFormProps> = (props) => {
     //         value: item?.user_id || ''
     //     });
     // });
-    const [userOption, setUserOption] = useState<Array<IOption>>([]);
+    const [userOption, setUserOption] = useState<IOption[]>([]);
 
     useEffect(() => {
       // 在组件挂载或 allUserList 发生变化时更新 userOption
@@ -71,15 +71,14 @@ const SearchForm: React.FC<SearchFormProps> = (props) => {
     }, [ticket_id]);
 
     useEffect(() => {
-        setSelectedUser(record?.assigned_to);
-        // dispatch(getUserDetail(record?.assigned_to));
+        setSelectedUser(record.assigned_to);
+        // dispatch(getUserDetail(record.assigned_to || ''));
     }, [record]);
     // useEffect(() => {
     //     dispatch(getUserDetail(record?.assigned_to));
     //  }, [record])
 
     const onUserChange = (value) => {
-        console.log("111",value)
         setSelectedUser(value);
         const updateRecord = { ...record, assigned_to: value === undefined ? null : value };
         dispatch(updateTicket(updateRecord)).then(() => {
@@ -102,7 +101,6 @@ const SearchForm: React.FC<SearchFormProps> = (props) => {
             pathname: '/ticket/index'
         });
     }
-    console.log("selectedUserselectedUser",selectedUser)
 
     return (
         <div className={Style.ticketsearch}>
@@ -120,7 +118,7 @@ const SearchForm: React.FC<SearchFormProps> = (props) => {
                         <Row gutter={[16, 16]}>
                             <Col >
                                 <Form.Item label='' name='name' >
-                                    <Select  defaultValue={record?.assigned_to} style={{ width: 120 }} placeholder="无处理人" allowClear showSearch filterOption={filterOption}
+                                    <Select  defaultValue={record.assigned_to} style={{ width: 120 }} placeholder="无处理人" allowClear showSearch filterOption={filterOption}
                                         options={userOption} onChange={onUserChange}
                                     >
                                     </Select>
@@ -129,7 +127,7 @@ const SearchForm: React.FC<SearchFormProps> = (props) => {
                             </Col>
                             <Col >
                                 <Form.Item name='status' >
-                                    <Select defaultValue={record?.status} style={{ width: 120 }} placeholder="请选择处理状态" allowClear showSearch filterOption={filterOption}
+                                    <Select defaultValue={record.status.toString()} style={{ width: 120 }} placeholder="请选择处理状态" allowClear showSearch filterOption={filterOption}
                                         options={CONTRACT_STATUS_OPTIONS} onChange={onStatusChange}
                                     >
                                     </Select>
