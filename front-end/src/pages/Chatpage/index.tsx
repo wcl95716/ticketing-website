@@ -235,14 +235,14 @@ const [messages, setMessages] = useState([]);
    return (
       <div style={{ backgroundColor: '#fff', height: '100vh', padding: '10px', display: 'flex', flexDirection: 'column' }}>
 
-         <div style={{ overflowY: 'scroll', height: '80vh' }}>
+         <div style={{ overflowY: 'scroll', height: '75vh' }}>
                <List
                   dataSource={messages}
                   renderItem={renderMessageItem}  // 使用修改后的renderItem函数
                   style={{ flex: 1, overflow: 'auto' }}
                />
          </div>
-         <div style={{ overflowY: 'scroll', height: '10vh' }}>
+         <div style={{ overflowY: 'scroll', height: '2vh' }}>
          </div>
          {/* 添加一个用于滚动到底部的占位元素 */}
          {/* <div ref={endOfMessagesRef} /> */}
