@@ -29,7 +29,9 @@ export type SearchFormProps = {
 };
 
 const SearchForm: React.FC<SearchFormProps> = (props) => {
+    
     const { record } = props || {}
+    const [selectedUser, setSelectedUser] = useState(record?.assigned_to);
     console.log("reeeec",record)
     const dispatch = useAppDispatch();
     const navigate = useNavigate();
@@ -56,10 +58,14 @@ const SearchForm: React.FC<SearchFormProps> = (props) => {
     }, [ticket_id]);
 
     useEffect(() => {
+        setSelectedUser(record?.assigned_to);
+    }, [record]);
+    useEffect(() => {
         dispatch(getUserDetail(record?.assigned_to));
      }, [record])
 
     const onUserChange = (value) => {
+        setSelectedUser(value);
         const updateRecord = { ...record, assigned_to: value === undefined ? null : value };
         dispatch(updateTicket(updateRecord)).then(() => {
             dispatch(getUserDetail(value));
@@ -89,7 +95,7 @@ const SearchForm: React.FC<SearchFormProps> = (props) => {
                     <Col flex='1'>
                         <Row gutter={[16, 16]} style={{ alignItems: 'center' }}>
                             <Col>
-                                <div style={{ margin: '10px', fontWeight: 'bold' }}>{`${userInfo?.name}的工单详情`}</div>
+                                <div style={{ margin: '10px', fontWeight: 'bold' }}>{`${record?.title}`}</div>
                             </Col>
                             <Col>
                                 <Button size='small' type='primary' onClick={redirectToTicketList}>返回列表</Button>
@@ -98,7 +104,7 @@ const SearchForm: React.FC<SearchFormProps> = (props) => {
                         <Row gutter={[16, 16]}>
                             <Col >
                                 <Form.Item label='' name='name' >
-                                    <Select defaultValue={record?.assigned_to} style={{ width: 120 }} placeholder="无处理人" allowClear showSearch filterOption={filterOption}
+                                    <Select value={selectedUser} style={{ width: 120 }} placeholder="无处理人" allowClear showSearch filterOption={filterOption}
                                         options={userOption} onChange={onUserChange}
                                     >
                                     </Select>

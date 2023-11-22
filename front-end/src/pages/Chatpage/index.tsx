@@ -35,10 +35,10 @@ const PChart = () => {
    const location = useLocation();
    const queryParams = new URLSearchParams(location.search);
    const ticket_id = queryParams.get('ticket_id');
-   const user_id = queryParams.get('user_id');
+   const customer_id = queryParams.get('customer_id');
 
    const now = new Date();
-  
+  /*  */
    
    useEffect(() => {
       if (ticket_id) {
@@ -49,7 +49,7 @@ const PChart = () => {
 
          const interval = setInterval(() => {
             dispatch(getChatRequest(ticket_id));
-         }, 20000);
+         }, 2000);
 
          return () => {
             clearInterval(interval); // 在组件卸载时清除定时器
@@ -61,22 +61,17 @@ const PChart = () => {
       setMessages(chatRecord);
    }, [chatRecord]);
 
-   const scrollToBottom = () => {
-      if (endOfMessagesRef.current) {
-         endOfMessagesRef.current.scrollIntoView({ behavior: 'smooth' });
-      }
-   };
-   const [messages, setMessages] = useState([
-      {
-         ticket_id: ticket_id,
-         text: '你好，有什么可以帮你的？可以在此留言',
-         avatar: 'https://zos.alipayobjects.com/rmsportal/jkjgkEfvpUPVyRjUImniVslZfWPnJuuZ.png',
-         sender: '系统消息',
-         time: dayjs(now).format('YYYY-MM-DD HH:mm:ss'),
-         chat_profile: ChatPriority.SERVICE,
-      },
-
-   ]);
+//    const [messages, setMessages] = useState([
+//       {
+//          ticket_id: ticket_id,
+//          text: '你好，有什么可以帮你的？可以在此留言',
+//          avatar: 'https://zos.alipayobjects.com/rmsportal/jkjgkEfvpUPVyRjUImniVslZfWPnJuuZ.png',
+//          sender: '系统消息',
+//          time: dayjs(now).format('YYYY-MM-DD HH:mm:ss'),
+//          chat_profile: ChatPriority.SERVICE,/*  */
+//       },
+//    ]);
+const [messages, setMessages] = useState([]);
    const [newMessage, setNewMessage] = useState('');
    const handleSendMessage = () => {
       if (newMessage.trim() !== '') {
@@ -88,7 +83,7 @@ const PChart = () => {
                message_id: '',
                content: newMessage.trim(),
                message_time: dayjs(now).format('YYYY-MM-DD HH:mm:ss'),
-               sender: "用户1",
+               sender: customer_id,
                message_type: MessageType.TEXT,
                chat_profile: ChatPriority.CUSTOMER,
                avatar_url: "https://zos.alipayobjects.com/rmsportal/jkjgkEfvpUPVyRjUImniVslZfWPnJuuZ.png",
@@ -101,7 +96,7 @@ const PChart = () => {
             message_id: '',
             content: newMessage.trim(),
             message_time: dayjs(now).format('YYYY-MM-DD HH:mm:ss'),
-            sender: "用户1",
+            sender: customer_id,
             message_type: MessageType.TEXT,
             chat_profile: ChatPriority.CUSTOMER,
             avatar_url: "https://zos.alipayobjects.com/rmsportal/jkjgkEfvpUPVyRjUImniVslZfWPnJuuZ.png",
@@ -123,7 +118,7 @@ const PChart = () => {
             message_id: '',
             content: '',
             message_time: dayjs(now).format('YYYY-MM-DD HH:mm:ss'),
-            sender: "用户1",
+            sender: customer_id,
             message_type: fileExtension === 'png' || fileExtension === 'jpg' ? MessageType.IMAGE : fileExtension === 'mp4' ? MessageType.VIDEO : '',
             file_url: file.file_url,
             file_id: file.file_id,
@@ -138,7 +133,7 @@ const PChart = () => {
          message_id: '',
          content: '',
          message_time: dayjs(now).format('YYYY-MM-DD HH:mm:ss'),
-         sender: "用户1",
+         sender: customer_id,
          message_type: fileExtension === 'png' || fileExtension === 'jpg' ? MessageType.IMAGE : fileExtension === 'mp4' ? MessageType.VIDEO : '',
          file_url: file.file_url,
          file_id: file.file_id,
