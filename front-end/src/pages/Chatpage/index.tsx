@@ -232,10 +232,19 @@ const [messages, setMessages] = useState([]);
       onChange: handleChange,
    };
 
+
+   const listRef = useRef<HTMLDivElement | null>(null);
+   useEffect(() => {
+     // 在数据更新后，滚动到列表底部
+     if (listRef.current) {
+       listRef.current.scrollTop = listRef.current.scrollHeight;
+     }
+   }, [messages]); // 监听数据的变化
+
    return (
       <div style={{ backgroundColor: '#fff', height: '100vh', padding: '10px', display: 'flex', flexDirection: 'column' }}>
 
-         <div style={{ overflowY: 'scroll', height: '85vh' }}>
+         <div style={{ overflowY: 'scroll', height: '85vh' }} ref={listRef}>
                <List
                   dataSource={messages}
                   renderItem={renderMessageItem}  // 使用修改后的renderItem函数
