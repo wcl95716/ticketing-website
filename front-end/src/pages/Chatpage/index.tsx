@@ -234,12 +234,12 @@ const [messages, setMessages] = useState([]);
 
 
    const listRef = useRef<HTMLDivElement | null>(null);
-   useEffect(() => {
-     // 在数据更新后，滚动到列表底部
-     if (listRef.current) {
-       listRef.current.scrollTop = listRef.current.scrollHeight;
-     }
-   }, [messages]); // 监听数据的变化
+   // useEffect(() => {
+   //   // 在数据更新后，滚动到列表底部
+   //   if (listRef.current) {
+   //     listRef.current.scrollTop = listRef.current.scrollHeight;
+   //   }
+   // }, [messages]); // 监听数据的变化
 
    return (
       <div style={{ backgroundColor: '#fff', height: '100vh', padding: '10px', display: 'flex', flexDirection: 'column' }}>
@@ -260,9 +260,22 @@ const [messages, setMessages] = useState([]);
                <Input
                   style={{ flex: 1, marginRight: '2vh' }}
                   placeholder="请输入聊天内容"
-                  suffix={<Button type='primary' onClick={handleSendMessage}>发送</Button>}
+                  suffix={<Button type='primary' onClick={
+                     ()=>{
+                        handleSendMessage();
+                        if (listRef.current) {
+                           listRef.current.scrollTop = listRef.current.scrollHeight;
+                        }
+                     }
+
+                    
+                  }>发送</Button>}
                   value={newMessage}
-                  onChange={(e: any) => setNewMessage(e.target.value)}
+                  onChange={(e: any) => 
+                     {
+                        setNewMessage(e.target.value);
+                     }
+                  }
                />
                <Upload {...props} showUploadList={false} >
                   <Button style={{ flex: '0 0 auto' ,marginTop:'5px'}} shape="circle" icon={<PlusOutlined style={{ color: 'grey' }} />} />
