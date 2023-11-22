@@ -29,7 +29,7 @@ const SearchForm: React.FC = () => {
         }),
       );
       // 在这里处理格式化后的时间值
-    }else{
+    } else {
       dispatch(
         updateTicketFilter({
           search_criteria: values?.search_criteria,
@@ -44,7 +44,7 @@ const SearchForm: React.FC = () => {
   }, [ticketFilter]);
   const onReset = () => {
     form.resetFields();
-
+    dispatch(getTicketListRequest({}))
     // dispatch(
     //   updateTicketFilter({
     //     // 假设初始状态是空的
@@ -58,7 +58,7 @@ const SearchForm: React.FC = () => {
 
   return (
     <div className={Style.ticketsearch}>
-      <Form  form={form} name='control-hooks' onFinish={onFinish}>
+      <Form form={form} name='control-hooks' onFinish={onFinish}>
         <Row>
           <Col flex='1'>
             <Row gutter={[16, 16]}>
@@ -69,7 +69,7 @@ const SearchForm: React.FC = () => {
               </Col>
               <Col>
                 <Form.Item label='状态' name='status'>
-                  <Select value="status" options={CONTRACT_STATUS_OPTIONS} placeholder='请选择状态' allowClear/>
+                  <Select value="status" options={CONTRACT_STATUS_OPTIONS} placeholder='请选择状态' allowClear />
                 </Form.Item>
               </Col>
               <Col>
@@ -80,12 +80,15 @@ const SearchForm: React.FC = () => {
             </Row>
           </Col>
           <Col>
-            <Button type='primary' htmlType='submit' style={{ margin: '0px 20px' }}>
-              查询
-            </Button>
-            <Button htmlType='button' onClick={onReset}>
-              重置
-            </Button>
+            <Form.Item>
+              <Button type='primary' htmlType='submit' style={{ margin: '0px 20px' }}>
+                查询
+              </Button>
+              <Button htmlType='button' onClick={onReset}>
+                重置
+              </Button>
+            </Form.Item>
+
           </Col>
         </Row>
       </Form>

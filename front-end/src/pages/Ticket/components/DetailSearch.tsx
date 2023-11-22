@@ -104,7 +104,7 @@ const SearchForm: React.FC<SearchFormProps> = (props) => {
 
     return (
         <div className={Style.ticketsearch}>
-            <Form  >
+            <Form>
                 <Row>
                     <Col flex='1'>
                         <Row gutter={[16, 16]} style={{ alignItems: 'center' }}>
