@@ -59,12 +59,14 @@ const SearchForm: React.FC<SearchFormProps> = (props) => {
 
     useEffect(() => {
         setSelectedUser(record?.assigned_to);
-    }, [record]);
-    useEffect(() => {
         dispatch(getUserDetail(record?.assigned_to));
-     }, [record])
+    }, [record]);
+    // useEffect(() => {
+    //     dispatch(getUserDetail(record?.assigned_to));
+    //  }, [record])
 
     const onUserChange = (value) => {
+        console.log("111",value)
         setSelectedUser(value);
         const updateRecord = { ...record, assigned_to: value === undefined ? null : value };
         dispatch(updateTicket(updateRecord)).then(() => {
@@ -87,6 +89,7 @@ const SearchForm: React.FC<SearchFormProps> = (props) => {
             pathname: '/ticket/index'
         });
     }
+    console.log("selectedUserselectedUser",selectedUser)
 
     return (
         <div className={Style.ticketsearch}>
@@ -113,7 +116,7 @@ const SearchForm: React.FC<SearchFormProps> = (props) => {
                             </Col>
                             <Col >
                                 <Form.Item name='status' >
-                                    <Select defaultValue={record?.status} style={{ width: 120 }} placeholder="请选择处理状态" allowClear showSearch filterOption={filterOption}
+                                    <Select value={record?.status} style={{ width: 120 }} placeholder="请选择处理状态" allowClear showSearch filterOption={filterOption}
                                         options={CONTRACT_STATUS_OPTIONS} onChange={onStatusChange}
                                     >
                                     </Select>
