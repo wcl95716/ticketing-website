@@ -233,9 +233,9 @@ const [messages, setMessages] = useState([]);
    };
 
    return (
-      <div style={{ backgroundColor: '#fff', height: '90vh', padding: '10px', display: 'flex', flexDirection: 'column' }}>
+      <div style={{ backgroundColor: '#fff', height: '95vh', padding: '10px', display: 'flex', flexDirection: 'column' }}>
 
-         <div style={{ overflowY: 'scroll', height: '75vh' }}>
+         <div style={{ overflowY: 'scroll', height: '80vh' }}>
                <List
                   dataSource={messages}
                   renderItem={renderMessageItem}  // 使用修改后的renderItem函数
@@ -260,7 +260,7 @@ const [messages, setMessages] = useState([]);
                </Upload>
             </div>
          </div>
-         <div style={{ overflowY: 'scroll', height: '10vh' }}>
+         <div style={{ overflowY: 'scroll', height: '5vh' }}>
          </div>
       </div>
    );
