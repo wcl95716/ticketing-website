@@ -25,6 +25,7 @@ export type FormValueType = {
 export type SearchFormProps = {
     onCancel: () => void;
     onSubmit: (values: FormValueType) => Promise<void>;
+    record:{};
 };
 
 const SearchForm: React.FC<SearchFormProps> = (props) => {
