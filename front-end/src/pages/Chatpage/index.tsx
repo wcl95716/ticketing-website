@@ -233,7 +233,7 @@ const [messages, setMessages] = useState([]);
    };
 
    return (
-      <div style={{ backgroundColor: '#fff', height: '100vh', padding: '10px', display: 'flex', flexDirection: 'column' }}>
+      <div style={{ backgroundColor: '#fff', height: '90vh', padding: '10px', display: 'flex', flexDirection: 'column' }}>
 
          <div style={{ overflowY: 'scroll', height: '75vh' }}>
                <List
