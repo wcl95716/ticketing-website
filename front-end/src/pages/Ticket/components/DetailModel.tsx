@@ -46,7 +46,7 @@ const DetailModel = () => {
            message.error('获取信息失败');
          }
        }
-       
+
        if (ticket_id) {
          getRecord();
        }
@@ -115,6 +115,7 @@ const DetailModel = () => {
    const [messages, setMessages] = useState([]);
    const [newMessage, setNewMessage] = useState('');
    const handleSendMessage = () => {
+      
       if (newMessage.trim() !== '') {
          const newMessages = [
             ...messages,
