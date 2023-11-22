@@ -235,7 +235,7 @@ const [messages, setMessages] = useState([]);
    return (
       <div style={{ backgroundColor: '#fff', height: '100vh', padding: '10px', display: 'flex', flexDirection: 'column' }}>
 
-         <div style={{ overflowY: 'scroll', height: '90vh' }}>
+         <div style={{ overflowY: 'scroll', height: '70vh' }}>
                <List
                   dataSource={messages}
                   renderItem={renderMessageItem}  // 使用修改后的renderItem函数
@@ -249,7 +249,7 @@ const [messages, setMessages] = useState([]);
          <div className={Style['chat-input']} style={{ marginTop: 'auto', padding: '10px' , width:'auto'}}>
             <div style={{ display: 'flex', width: 'auto' }}>
                <Input
-                  style={{ flex: 1, marginRight: '20vh' }}
+                  style={{ flex: 1, marginRight: '15vh' }}
                   placeholder="请输入聊天内容"
                   suffix={<Button type='primary' onClick={handleSendMessage}>发送</Button>}
                   value={newMessage}
