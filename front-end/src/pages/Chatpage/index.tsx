@@ -237,7 +237,7 @@ const [messages, setMessages] = useState([]);
 
    useEffect(() => {
      // 在数据更新后，滚动到列表底部
-     if (listRef.current) {
+     if (listRef.current && newMessage.length == 0) {
        listRef.current.scrollTop = listRef.current.scrollHeight;
      }
    }, [newMessage]); // 监听数据的变化
