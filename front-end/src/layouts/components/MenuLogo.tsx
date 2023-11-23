@@ -16,8 +16,9 @@ export default memo((props: IProps) => {
   };
 
   return (
-    <div className={Style.menuLogo} onClick={handleClick}>
-      {props.collapsed ? <MiniLogo /> : <FullLogo />}
+    <div style={{fontStyle: 'italic',fontWeight:'bold',fontSize:'25px'}} className={Style.menuLogo} onClick={handleClick}>
+      工单系统
+      {/* {props.collapsed ? <MiniLogo /> : <FullLogo />} */}
     </div>
   );
 });

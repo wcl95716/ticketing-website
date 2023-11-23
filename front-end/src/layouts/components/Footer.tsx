@@ -13,7 +13,7 @@ const Footer = () => {
 
   return (
     <TFooter>
-      <Row justify='center'>Copyright © 2022-{new Date().getFullYear()} Tencent. All Rights Reserved</Row>
+      <Row justify='center'>天熠北斗工单系统 © 2023-{new Date().getFullYear()}</Row>
     </TFooter>
   );
 };
