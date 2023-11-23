@@ -1,7 +1,9 @@
 import time
 # import keyboard
 
-import sys 
+import sys
+
+from models.wechat_bot.utils.chat import get_chat_messages 
 sys.path.append("./src")
 
 
@@ -38,8 +40,8 @@ class GroupManager:
         chat_keyword_handler = ChatCommandHandler(robot_name=self.robot_name, actions=self.actions)
         for group_id in self.group_list:
             group = GroupChatManager(group_id=group_id)
-            chat_messages = []
-            # chat_messages = get_chat_messages(group.group_id)
+            # chat_messages = []
+            chat_messages = get_chat_messages(group.group_id)
             tasks:[] = group.find_task(chat_keyword_handler,chat_messages)
             self.fix_group_task(group_id,tasks)
         pass
