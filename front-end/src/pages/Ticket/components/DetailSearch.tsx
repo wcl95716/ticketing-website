@@ -127,7 +127,7 @@ const SearchForm: React.FC<SearchFormProps> = (props) => {
                             </Col>
                             <Col >
                                 <Form.Item name='status' >
-                                    <Select defaultValue={record.status.toString()} style={{ width: 120 }} placeholder="请选择处理状态" allowClear showSearch filterOption={filterOption}
+                                    <Select defaultValue={record.status} style={{ width: 120 }} placeholder="请选择处理状态" allowClear showSearch filterOption={filterOption}
                                         options={CONTRACT_STATUS_OPTIONS} onChange={onStatusChange}
                                     >
                                     </Select>
