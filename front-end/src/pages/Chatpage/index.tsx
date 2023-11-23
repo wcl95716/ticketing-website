@@ -252,12 +252,10 @@ const [messages, setMessages] = useState([]);
                   style={{ flex: 1, overflow: 'auto' }}
                />
          </div>
-         <div style={{ overflowY: 'scroll', height: '2vh' }}>
-         </div>
-         {/* 添加一个用于滚动到底部的占位元素 */}
-         {/* <div ref={endOfMessagesRef} /> */}
-         <div className={Style['chat-input']} style={{ marginTop: 'auto', padding: '10px' , width:'auto'}}>
-            <div style={{ display: 'flex', width: 'auto' }}>
+         {/* <div style={{ overflowY: 'scroll', height: '2vh' }}>
+         </div> */}
+         <div className={Style['chat-input']} style={{ marginTop: 'auto', paddingBottom: '15px', width:'auto'}}>
+            <div style={{ display: 'flex', width: 'auto' ,marginBottom: '30px'}}>
                <Input
                   style={{ flex: 1, marginRight: '2vh' }}
                   placeholder="请输入聊天内容"
@@ -277,8 +275,6 @@ const [messages, setMessages] = useState([]);
                   <Button style={{ flex: '0 0 auto' ,marginTop:'5px'}} shape="circle" icon={<PlusOutlined style={{ color: 'grey' }} />} />
                </Upload>
             </div>
-         </div>
-         <div style={{ overflowY: 'scroll', height: '5vh' }}>
          </div>
       </div>
    );
