@@ -1,7 +1,9 @@
 import sys
-
 sys.path.append("./src")
-from models.ticketing_system.storage.user_storage import add_user_to_file, get_users_to_file
+from models.ticketing_system.api.user_api import get_user
+
+
+from models.ticketing_system.utils.user_storage import add_user_to_file, get_users_to_file
 
 from models.ticketing_system.types import user_profile, chat_record,ticket_record
 from models.ticketing_system.types.enum_type import Priority, TicketStatus
@@ -26,8 +28,22 @@ def test_add_user():
         
         print(users)
     
+def test_ticket_filter():
+    ticket_filter = ticket_record.TicketFilter()
     
+    print(ticket_filter.to_dict())
+    
+    tes2 = ticket_record.TicketFilter.from_dict(ticket_filter.to_dict())
+    
+    print(tes2.to_dict())
+    
+    pass 
+
 if __name__ == "__main__":
     
-    test_add_user()
+    # test_ticket_filter()
+    # print(TicketStatus(None))
+    # test_add_user()
+    
+    test()
     pass

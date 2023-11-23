@@ -1,12 +1,13 @@
 import os
 import json
-from models.ticketing_system.storage import ticket_storage
+from models.ticketing_system.utils import ticket_storage
 
 from models.ticketing_system.types.ticket_record import TicketFilter, TicketRecord, getTestTicket
 
-def add_ticket(ticket: dict):
+def add_ticket(ticket: dict) -> TicketRecord:
     ticketRecord:TicketRecord = TicketRecord.from_dict(ticket)
     ticket_storage.save_ticket_to_file(ticketRecord)
+    return ticketRecord
     pass
 
 def update_ticket(ticket: dict):
@@ -33,6 +34,7 @@ def get_test_ticket() -> TicketRecord:
 
 def get_ticket_filter(ticket_filter_dict:dict):
     ticket_filter = TicketFilter.from_dict(ticket_filter_dict)
+    
     ticket_reord_list:list[TicketRecord] = get_all_tickets()
     
     result:list[TicketRecord] = ticket_filter.get_filter_condition_ticket(ticket_reord_list)

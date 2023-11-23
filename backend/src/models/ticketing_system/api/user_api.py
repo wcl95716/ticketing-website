@@ -2,7 +2,7 @@
 
 
 
-from models.ticketing_system.storage import user_storage
+from models.ticketing_system.utils import user_storage
 from models.ticketing_system.types import user_profile
 from models.ticketing_system.types.user_profile import UserProfile
 
@@ -17,6 +17,8 @@ def get_users() -> list[dict]:
     pass 
 
 def get_user(user_id: str ) ->  UserProfile:
+    if user_id is None:
+        return None
     return user_storage.get_user_by_id(user_id)
     pass
 

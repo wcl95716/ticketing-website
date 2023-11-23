@@ -232,28 +232,53 @@ const [messages, setMessages] = useState([]);
       onChange: handleChange,
    };
 
+
+   const listRef = useRef<HTMLDivElement | null>(null);
+
+   useEffect(() => {
+     // 在数据更新后，滚动到列表底部
+     if (listRef.current && newMessage.length == 0) {
+       listRef.current.scrollTop = listRef.current.scrollHeight;
+     }
+   }, [newMessage]); // 监听数据的变化
+
    return (
       <div style={{ backgroundColor: '#fff', height: '100vh', padding: '10px', display: 'flex', flexDirection: 'column' }}>
-         <List
-            dataSource={messages}
-            renderItem={renderMessageItem}  // 使用修改后的renderItem函数
-            style={{ flex: 1, overflow: 'auto' }}
-         />
+
+         <div style={{ overflowY: 'scroll', height: '85vh' }} ref={listRef}>
+               <List
+                  dataSource={messages}
+                  renderItem={renderMessageItem}  // 使用修改后的renderItem函数
+                  style={{ flex: 1, overflow: 'auto' }}
+               />
+         </div>
+         <div style={{ overflowY: 'scroll', height: '2vh' }}>
+         </div>
          {/* 添加一个用于滚动到底部的占位元素 */}
          {/* <div ref={endOfMessagesRef} /> */}
          <div className={Style['chat-input']} style={{ marginTop: 'auto', padding: '10px' , width:'auto'}}>
             <div style={{ display: 'flex', width: 'auto' }}>
                <Input
-                  style={{ flex: 1, marginRight: '10px' }}
+                  style={{ flex: 1, marginRight: '2vh' }}
                   placeholder="请输入聊天内容"
-                  suffix={<Button type='primary' onClick={handleSendMessage}>发送</Button>}
+                  suffix={<Button type='primary' onClick={
+                     ()=>{
+                        handleSendMessage();
+                     }
+                  }>发送</Button>}
                   value={newMessage}
-                  onChange={(e: any) => setNewMessage(e.target.value)}
+                  onChange={(e: any) => 
+                     {
+                        setNewMessage(e.target.value);
+                     }
+                  }
                />
                <Upload {...props} showUploadList={false} >
                   <Button style={{ flex: '0 0 auto' ,marginTop:'5px'}} shape="circle" icon={<PlusOutlined style={{ color: 'grey' }} />} />
                </Upload>
             </div>
+         </div>
+         <div style={{ overflowY: 'scroll', height: '5vh' }}>
          </div>
       </div>
    );

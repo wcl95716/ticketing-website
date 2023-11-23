@@ -4,6 +4,7 @@ import os
 import markdown2
 
 from models import ticketing_system
+from models.ticketing_system.types.ticket_record import TicketRecord
 from models.ticketing_system.types.user_profile import UserProfile
 from utils import  local_logger
 
@@ -38,6 +39,7 @@ def api_add_chat_record():
         local_logger.logger.info("api_add_chat_record  successfully")
         return jsonify({"message": "Chat record added successfully"})
     except Exception as e:
+        local_logger.logger.info("api_add_chat_record error : %s", str(e))
         return jsonify({"error": str(e)})
 
 
@@ -73,8 +75,9 @@ def api_add_ticket():
     try:
         ticket_data = request.get_json()
         local_logger.logger.info("ticket_data : %s", ticket_data)
-        ticketing_system.ticket_api.add_ticket(ticket_data)
-        return jsonify({"message": "Ticket updated successfully"})
+        ticket:TicketRecord = ticketing_system.ticket_api.add_ticket(ticket_data)
+        #return jsonify({"message": "Ticket updated successfully"})
+        return  jsonify(ticket.to_dict())
     except Exception as e:
         return jsonify({"error": str(e)})
 
@@ -123,9 +126,11 @@ def api_get_all_tickets():
         # 如果没有传递任何筛选条件，则返回所有工单
         if not ticket_filter_data:
             all_tickets = ticketing_system.ticket_api.get_all_tickets()
+            local_logger.logger.info("all_tickets : %d ", len(all_tickets))
             return jsonify([ticket.to_dict() for ticket in all_tickets])
         # 如果传递了筛选条件，则返回符合条件的工单
         result = ticketing_system.ticket_api.get_ticket_filter(ticket_filter_data)
+        local_logger.logger.info("ticket_filter result : %d ", len(result))
         return jsonify([ticket.to_dict() for ticket in result])
         # all_tickets = ticketing_system.ticket_api.get_all_tickets()
         # # 请确保将所有票证数据转换为 JSON 格式并返回
