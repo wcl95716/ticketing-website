@@ -250,7 +250,20 @@ const DetailModel = () => {
                <div className={Style['message-content']} style={{ flexDirection: item.chat_profile === ChatPriority.SERVICE ? 'row-reverse' : 'row' }}>
                   <p className={Style['message-time']} style={{ textAlign: item.chat_profile === ChatPriority.SERVICE ? 'right' : 'left' }}>{item.message_time}</p>
                   <div className={Style['text']} style={{ flexDirection: item.chat_profile === ChatPriority.SERVICE ? 'row-reverse' : 'row' }}>
-                     <video muted controls src={item.file_url} width="100px" height="100px" />
+                     {/* <video muted controls src={item.file_url} width="100px" height="100px" /> */}
+                     <div className={Style['video-container']}>
+                                <video
+                                    controls
+                                    src={item.file_url}
+                                    poster="封面图片URL" // 设置视频封面
+                                    preload="metadata"
+                                >
+                                    <source src={item.file_url} type="video/mp4" />
+                                    您的浏览器不支持视频标签。
+                                </video>
+                                {/* 如果使用自定义播放按钮 */}
+                                {/* <div className="custom-play-button"></div> */}
+                            </div>
                   </div>
                </div>
 

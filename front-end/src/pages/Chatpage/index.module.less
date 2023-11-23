@@ -81,3 +81,33 @@
    font-size: 10px;
    margin-left: 40px;
  }
+
+ /* 设置视频容器的基本样式 */
+.video-container {
+   position: relative;
+   width: 100%; /* 容器宽度占满父元素 */
+   max-width: 200px; /* 最大宽度 */
+   margin: auto; /* 水平居中 */
+}
+/* 响应式设计：在小屏幕上调整视频大小 */
+@media (max-width: 480px) {
+   .video-container {
+       max-width: 150px; /* 在小屏幕上减小最大宽度 */
+   }
+}
+
+/* 视频元素样式 */
+.video-container video {
+   width: 100%;
+   height: auto; /* 保持原始宽高比 */
+   display: block;
+}
+
+/* 自定义播放按钮样式（如果需要） */
+.custom-play-button {
+   position: absolute;
+   top: 50%;
+   left: 50%;
+   transform: translate(-50%, -50%);
+   /* 更多样式... */
+}
