@@ -285,14 +285,14 @@ const PChart = () => {
                         placeholder="请输入聊天内容"
                         suffix={
                            <div>
-                                                      <Button type='primary' onClick={
-                            () => {
-                                handleSendMessage();
-                            }
-                        }>发送</Button>
-                                            {/* <Upload {...props} showUploadList={false} >
-                        <Button style={{ flex: '0 0 auto', marginTop: '5px' }} shape="circle" icon={<PlusOutlined style={{ color: 'grey' }} />} />
-                    </Upload> */}
+                              <Button type='primary' onClick={
+                                    () => {
+                                       handleSendMessage();
+                                    }
+                              }>发送</Button>
+                              <Upload {...props} showUploadList={false} >
+                                    <Button style={{ flex: '0 0 auto', marginTop: '5px', marginLeft:"1vh" }} shape="circle" icon={<PlusOutlined style={{ color: 'grey' }} />} />
+                              </Upload>
                            </div>
 
                         
@@ -303,9 +303,9 @@ const PChart = () => {
                         }
                         }
                     />
-                    <Upload {...props} showUploadList={false} >
+                    {/* <Upload {...props} showUploadList={false} >
                         <Button style={{ flex: '0 0 auto', marginTop: '5px' }} shape="circle" icon={<PlusOutlined style={{ color: 'grey' }} />} />
-                    </Upload>
+                    </Upload> */}
                 </div>
             </div>
         </div>
