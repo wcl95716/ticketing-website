@@ -290,12 +290,11 @@ const PChart = () => {
                                        handleSendMessage();
                                     }
                               }>发送</Button>
-                              <Upload {...props} showUploadList={false} >
+                              {/* <Upload 
+                                 {...props} showUploadList={false} >
                                     <Button style={{ flex: '0 0 auto', marginTop: '5px', marginLeft:"1vh" }} shape="circle" icon={<PlusOutlined style={{ color: 'grey' }} />} />
-                              </Upload>
-                           </div>
-
-                        
+                              </Upload> */}
+                           </div>        
                      }
                         value={newMessage}
                         onChange={(e: any) => {
@@ -303,9 +302,9 @@ const PChart = () => {
                         }
                         }
                     />
-                    {/* <Upload {...props} showUploadList={false} >
+                    <Upload {...props} showUploadList={false} >
                         <Button style={{ flex: '0 0 auto', marginTop: '5px' }} shape="circle" icon={<PlusOutlined style={{ color: 'grey' }} />} />
-                    </Upload> */}
+                    </Upload>
                 </div>
             </div>
         </div>
