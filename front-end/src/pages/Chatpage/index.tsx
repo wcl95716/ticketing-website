@@ -280,6 +280,7 @@ const PChart = () => {
             <div className={Style['chat-input']} style={{ marginTop: 'auto', paddingBottom: '15px', width: 'auto' }}>
                 <div style={{ display: 'flex', width: 'auto', marginBottom: '30px' }}>
                     <Input
+                        inputMode="none" // 添加这一行
                         style={{ flex: 1, marginRight: '2vh' }}
                         placeholder="请输入聊天内容"
                         suffix={<Button type='primary' onClick={
