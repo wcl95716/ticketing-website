@@ -16,17 +16,17 @@ class ChatCommandHandler:
     
     def create_patterns(self):
         # 使用正则表达式模式
-        patterns = [rf'@{re.escape(self._robot_name)} ({re.escape(action.value)})' for action in self._actions]
+        patterns = [rf'@{re.escape(self._robot_name)}\s*({re.escape(action.value)})' for action in self._actions]
         return patterns
     
     def search(self, message:str):
         for pattern,action in zip(self.create_patterns(), self._actions):
             match = re.search(pattern, message)
-            # print("pattern : ",pattern)
-            # print("action : ",action)
-            # print("message : ",message)
-            # print("match : ",match)
-            # print("")
+            print("pattern : ",pattern)
+            print("action : ",action)
+            print("message : ",message)
+            print("match : ",match)
+            print("")
             if match:
                 return action
         return None

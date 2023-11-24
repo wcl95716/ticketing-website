@@ -1,6 +1,6 @@
 import sys
-
 sys.path.append("./src")
+from utils import local_logger
 
 from collections import deque
 # import PyOfficeRobot
@@ -23,19 +23,22 @@ class GroupChatManager:
     def find_task(self ,chat_keyword_handler:ChatCommandHandler, chat_messages:list[tuple] = [] ) -> []:
         # chat_keyword_handler = ChatCommandHandler(robot_name=self.robot_name, actions=self.actions)
         message_id_pivot = self.current_chat_message_id
+        local_logger.logger.info(f"message_id_pivot {message_id_pivot} {self.current_chat_message_id}")
         result_task = []
         for message in chat_messages:
+            if message_id_pivot == message[2] :
+                # 清空任务队列
+                result_task.clear()
+                continue
+                # break
+            self.current_chat_message_id = message[2]
             action = chat_keyword_handler.search(message[1])
+            local_logger.logger.info(f" find_task find action {action}  {message} {self.current_chat_message_id}")
+            local_logger.logger.info(f" self.current_chat_message_id {self.current_chat_message_id}")
             if action:
-                if message_id_pivot == message[2] :
-                    # 清空任务队列
-                    result_task.clear()
-                    break
-                
                 result:str = ChatActionFunctionFactory.get_action_function(action)(self.group_id,message)
                 result_task.append(result)
-                self.current_chat_message_id = message[2]
-                
+               
         return result_task
         pass
     
@@ -46,7 +49,7 @@ class GroupChatManager:
 def test():
     print("test")
     group_chat = GroupChatManager(group_id="测试群1")
-    messages = [('Panda', '@机器人名 创建工单', '4211805484920'), ('Panda', '@机器人名 创建工单123123', '4211805484920')]
+    messages = [('Panda', '@AI苏博蒂奇创建工单', '4211805484920'), ('Panda', '@AI苏博蒂1奇 创建工单123123', '4211805484920')]
     
     chat_keyword_handler = ChatCommandHandler(robot_name=config.robot_name, actions=[ChatActionsEnum.WORK_ORDER_CREATE])
     tasks = group_chat.find_task(chat_keyword_handler , messages)
