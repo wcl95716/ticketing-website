@@ -4,6 +4,7 @@ import datetime
 from enum import Enum
 
 from utils import local_logger
+from urllib.parse import quote
 
 class ChatActionsEnum(Enum):
     WORK_ORDER_CREATE = "创建工单"
@@ -63,7 +64,9 @@ class ChatActionFunctionFactory:
 
     @staticmethod
     def get_work_order_link(ticket_id: str ,customer_id ) -> str:
-        return f"@{customer_id} 工单通知  {ChatActionFunctionFactory.page_url}?ticket_id={ticket_id}&customer_id={customer_id}"
+        original_string = customer_id
+        encoded_string = quote(original_string, encoding='utf-8')
+        return f"@{customer_id} 工单通知  {ChatActionFunctionFactory.page_url}?ticket_id={ticket_id}&customer_id={encoded_string}"
     
     @staticmethod
     def work_order_create(group_id, message: tuple = None) -> tuple[str]:
