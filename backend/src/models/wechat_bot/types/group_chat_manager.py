@@ -23,7 +23,7 @@ class GroupChatManager:
     def find_task(self ,chat_keyword_handler:ChatCommandHandler, chat_messages:list[tuple] = [] ) -> []:
         # chat_keyword_handler = ChatCommandHandler(robot_name=self.robot_name, actions=self.actions)
         message_id_pivot = self.current_chat_message_id
-        local_logger.logger.info(f"message_id_pivot {message_id_pivot} ")
+        local_logger.logger.info(f"message_id_pivot {self.group_id}  {message_id_pivot} ")
            
         result_task = []
         for message in chat_messages:
