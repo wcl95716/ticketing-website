@@ -60,17 +60,6 @@ const PChart = () => {
     useEffect(() => {
         setMessages(chatRecord);
     }, [chatRecord]);
-
-    //    const [messages, setMessages] = useState([
-    //       {
-    //          ticket_id: ticket_id,
-    //          text: '你好，有什么可以帮你的？可以在此留言',
-    //          avatar: 'https://zos.alipayobjects.com/rmsportal/jkjgkEfvpUPVyRjUImniVslZfWPnJuuZ.png',
-    //          sender: '系统消息',
-    //          time: dayjs(now).format('YYYY-MM-DD HH:mm:ss'),
-    //          chat_profile: ChatPriority.SERVICE,/*  */
-    //       },
-    //    ]);
     const [messages, setMessages] = useState([]);
     const [newMessage, setNewMessage] = useState('');
     const handleSendMessage = () => {
@@ -119,7 +108,7 @@ const PChart = () => {
                 content: '',
                 message_time: dayjs(now).format('YYYY-MM-DD HH:mm:ss'),
                 sender: customer_id,
-                message_type: fileExtension === 'png' || fileExtension === 'jpg' ? MessageType.IMAGE : fileExtension === 'mp4' ? MessageType.VIDEO : '',
+                message_type: fileExtension === 'png' || fileExtension === 'jpg' || fileExtension === 'jpeg' || fileExtension === 'gif' ? MessageType.IMAGE : fileExtension === 'mp4' ? MessageType.VIDEO : '',
                 file_url: file.file_url,
                 file_id: file.file_id,
                 chat_profile: ChatPriority.CUSTOMER,
@@ -134,7 +123,7 @@ const PChart = () => {
             content: '',
             message_time: dayjs(now).format('YYYY-MM-DD HH:mm:ss'),
             sender: customer_id,
-            message_type: fileExtension === 'png' || fileExtension === 'jpg' ? MessageType.IMAGE : fileExtension === 'mp4' ? MessageType.VIDEO : '',
+            message_type: fileExtension === 'png' || fileExtension === 'jpg' || fileExtension === 'jpeg'|| fileExtension === 'gif' ? MessageType.IMAGE : fileExtension === 'mp4' ? MessageType.VIDEO : '',
             file_url: file.file_url,
             file_id: file.file_id,
             chat_profile: ChatPriority.CUSTOMER,
