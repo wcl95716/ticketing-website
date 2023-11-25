@@ -31,7 +31,9 @@ def send_message(who:str, message):
 
 
 def get_hash_value(my_tuple:tuple) -> str:
-    hash_object = hashlib.sha256(repr(my_tuple).encode())
+    first_two_elements = my_tuple[:2]
+    string_representation = ''.join(map(str, first_two_elements))
+    hash_object = hashlib.sha256(string_representation.encode())
     hash_value = hash_object.hexdigest()
     return hash_value
     pass
