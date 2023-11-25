@@ -210,6 +210,7 @@ const DetailModel = () => {
       }
    };
    const props = {
+      accept: '.png,.jpg,.jpeg,.mp4', // 只允许上传 PNG, JPG/JPEG 和 MP4 文件
       action: 'http://47.116.201.99:8001/test/upload_file',
       onChange: handleChange,
    };
