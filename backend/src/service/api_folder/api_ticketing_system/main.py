@@ -163,7 +163,7 @@ def api_upload_file():
     if file.filename == '':
         return jsonify({'error': 'No selected file'})
     
-    local_logger.logger.info("upload_file save begin ")
+    local_logger.logger.info(f"upload_file save begin file.filename={file.filename}")
     if file and allowed_file(file.filename):
         file_name = ticketing_system.chat_api.upload_file(file)
         # 构造文件的 URL
