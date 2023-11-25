@@ -55,9 +55,10 @@ class GroupManager:
     
     def process_group_tasks(self,process_group_list:list[str] = [] ):
         chat_keyword_handler = ChatCommandHandler(robot_name=self.robot_name, actions=self.actions)
+        local_logger.logger.info(f"process_group_tasks {process_group_list} ")
         for group in self.group_manager_list:
             # 如果不在处理的群聊列表中，则跳过
-            if group.group_id not in process_group_list:
+            if group.group_id not in process_group_list and self.is_init:
                 local_logger.logger.info(f"跳过群聊 {group.group_id}")
                 continue
             group_id = group.group_id
