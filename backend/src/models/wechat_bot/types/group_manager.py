@@ -36,6 +36,13 @@ class GroupManager:
         self.robot_name = robot_name
         self.actions = actions
         self.is_init = False
+        self.group_init_send_message()
+        pass
+    
+    def group_init_send_message(self,group_id,tasks):
+        for task in tasks:
+            send_message(group_id,"机器人已启动")
+            pass 
         pass
     
     def fix_group_task(self,group_id,tasks):
