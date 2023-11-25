@@ -90,7 +90,7 @@ def test_group_manager():
         try:
             group_list = get_group_list()
             # 获取group_list 前三个群聊
-            group_list = group_list[:3]
+            group_list = group_list[:1]
             group_manager.process_group_tasks(process_group_list=group_list)
         except Exception as e:
             local_logger.logger.info(f"处理群聊任务时发生错误：{str(e)}")
