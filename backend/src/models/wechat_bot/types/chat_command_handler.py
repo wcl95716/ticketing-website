@@ -22,11 +22,11 @@ class ChatCommandHandler:
     def search(self, message:str):
         for pattern,action in zip(self.create_patterns(), self._actions):
             match = re.search(pattern, message)
-            print("pattern : ",pattern)
-            print("action : ",action)
-            print("message : ",message)
-            print("match : ",match)
-            print("")
+            # print("pattern : ",pattern)
+            # print("action : ",action)
+            # print("message : ",message)
+            # print("match : ",match)
+            # print("")
             if match:
                 return action
         return None

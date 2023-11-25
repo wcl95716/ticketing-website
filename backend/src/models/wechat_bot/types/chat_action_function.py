@@ -126,7 +126,6 @@ class ChatActionFunctionFactory:
 
     @staticmethod
     def get_action_function(action: ChatActionsEnum) -> callable:
-        print("action : ",action)
         action_function = getattr(ChatActionFunctionFactory, action.name.lower(), None)
         return action_function
 
