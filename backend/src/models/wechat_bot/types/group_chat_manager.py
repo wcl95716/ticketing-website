@@ -26,12 +26,12 @@ class GroupChatManager:
         local_logger.logger.info(f"message_id_pivot {message_id_pivot} {self.current_chat_message_id}")
         result_task = []
         for message in chat_messages:
+            self.current_chat_message_id = message[2]
             if message_id_pivot == message[2] :
                 # 清空任务队列
                 result_task.clear()
                 continue
                 # break
-            self.current_chat_message_id = message[2]
             action = chat_keyword_handler.search(message[1])
             local_logger.logger.info(f" find_task find action {action}  {message} {self.current_chat_message_id}")
             local_logger.logger.info(f" self.current_chat_message_id {self.current_chat_message_id}")
