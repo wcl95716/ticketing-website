@@ -68,7 +68,7 @@ def generate_unique_filename(filename):
 def upload_file(file: FileStorage):
     file_name = generate_unique_filename(file.filename)
     file_path = f"{file_data_path}/{file_name}"
-    local_logger.logger.info("upload_file file_path ",file_path)
+    local_logger.logger.info("upload_file file_path %s",file_path)
     try:
         # 创建文件夹（如果不存在）
         os.makedirs(file_data_path, exist_ok=True)
