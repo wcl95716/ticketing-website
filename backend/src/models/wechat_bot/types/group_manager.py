@@ -6,7 +6,7 @@ sys.path.append("./src")
 from utils import local_logger
 
 
-from models.wechat_bot.utils.chat import get_chat_messages, send_message 
+from models.wechat_bot.utils.chat import get_chat_messages, get_group_list, send_message 
 
 
 
@@ -53,9 +53,13 @@ class GroupManager:
             pass 
         pass
     
-    def process_group_tasks(self ):
+    def process_group_tasks(self,process_group_list:list[str] = [] ):
         chat_keyword_handler = ChatCommandHandler(robot_name=self.robot_name, actions=self.actions)
         for group in self.group_manager_list:
+            # 如果不在处理的群聊列表中，则跳过
+            if group.group_id not in process_group_list:
+                local_logger.logger.info(f"跳过群聊 {group.group_id}")
+                continue
             group_id = group.group_id
             local_logger.logger.info(f"处理群聊 {group_id}")
             # chat_messages = []
@@ -84,7 +88,10 @@ def test_group_manager():
     while not stop_requested:  # 循环直到停止标志为True
         print("开始处理群聊任务")
         try:
-            group_manager.process_group_tasks()
+            group_list = get_group_list()
+            # 获取group_list 前三个群聊
+            group_list = group_list[:3]
+            group_manager.process_group_tasks(process_group_list=group_list)
         except Exception as e:
             local_logger.logger.info(f"处理群聊任务时发生错误：{str(e)}")
         time.sleep(1)

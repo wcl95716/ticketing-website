@@ -18,9 +18,14 @@ import PyOfficeRobot
 
 
 
-def get_chat_messages(who:str) -> list:
+def get_group_list () -> list[str]:
     group_list = wx.GetSessionList()  # 获取会话列表
     local_logger.logger.info(f" group_list {group_list}")
+    return group_list
+    pass
+
+def get_chat_messages(who:str) -> list:
+    group_list = wx.GetSessionList()  # 获取会话列表
     wx.ChatWith(who)  # 打开`who`聊天窗口
     return wx.GetAllMessage # 获取所有消息
     pass 
