@@ -210,6 +210,7 @@ const DetailModel = () => {
       }
    };
    const props = {
+      
       action: 'http://47.116.201.99:8001/test/upload_file',
       onChange: handleChange,
    };

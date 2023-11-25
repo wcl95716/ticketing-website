@@ -251,6 +251,7 @@ const PChart = () => {
     };
 
     const props = {
+        accept: "image/*,video/*", // 允许上传图片和视频
         action: 'http://47.116.201.99:8001/test/upload_file',
         onChange: handleChange,
     };
