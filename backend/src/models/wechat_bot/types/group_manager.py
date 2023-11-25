@@ -76,7 +76,10 @@ def test_group_manager():
     global stop_requested  # 引用全局停止标志
     while not stop_requested:  # 循环直到停止标志为True
         print("开始处理群聊任务")
-        group_manager.process_group_tasks()
+        try:
+            group_manager.process_group_tasks()
+        except Exception as e:
+            local_logger.logger.info(f"处理群聊任务时发生错误：{str(e)}")
         time.sleep(1)
 
 def on_key_press(keyboard_event):
