@@ -1,8 +1,13 @@
 import time
 # import keyboard
-
-import sys 
+import sys
 sys.path.append("./src")
+
+from utils import local_logger
+
+
+from models.wechat_bot.utils.chat import get_chat_messages, send_message 
+
 
 
 # from models.wechat_bot.utils.chat import get_chat_messages, send_message
@@ -24,24 +29,35 @@ from models.wechat_bot.config import config
 class GroupManager:
     def __init__(self, group_list: list[str] , robot_name:str = config.robot_name, actions:list[ChatActionsEnum] = [ChatActionsEnum.WORK_ORDER_CREATE] ):
         self.group_list = group_list
+        self.group_manager_list:list[GroupChatManager] = []
+        for group_id in self.group_list:
+            group = GroupChatManager(group_id=group_id)
+            self.group_manager_list.append(group)
         self.robot_name = robot_name
         self.actions = actions
+        self.is_init = False
         pass
     
     def fix_group_task(self,group_id,tasks):
         for task in tasks:
-            #send_message(group_id,task)
+            local_logger.logger.info(f" fix tasks {task}")
+            task_result = task[0](task[1],task[2])
+            send_message(group_id,task_result[1])
             pass 
         pass
     
     def process_group_tasks(self ):
         chat_keyword_handler = ChatCommandHandler(robot_name=self.robot_name, actions=self.actions)
-        for group_id in self.group_list:
-            group = GroupChatManager(group_id=group_id)
-            chat_messages = []
-            # chat_messages = get_chat_messages(group.group_id)
+        for group in self.group_manager_list:
+            group_id = group.group_id
+            local_logger.logger.info(f"处理群聊 {group_id}")
+            # chat_messages = []
+            chat_messages = get_chat_messages(group_id)
             tasks:[] = group.find_task(chat_keyword_handler,chat_messages)
-            self.fix_group_task(group_id,tasks)
+            local_logger.logger.info(f" find tasks {tasks}")
+            if self.is_init:
+                self.fix_group_task(group_id,tasks)
+        self.is_init = True
         pass
     
     pass 
@@ -49,7 +65,8 @@ class GroupManager:
 stop_requested = False  # 全局停止标志
 
 def test_group_manager():
-    group_list = ["测试4群", "测试2群", "测试3群"]
+    # group_list = ["测试4群", "测试2群", "测试3群"]
+    group_list = ["测试2群"]
     group_manager = GroupManager(group_list)
 
     # 启动一个单独的线程来监听停止按钮

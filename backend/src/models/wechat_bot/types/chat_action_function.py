@@ -7,10 +7,10 @@ from utils import local_logger
 from urllib.parse import quote
 
 class ChatActionsEnum(Enum):
-    WORK_ORDER_CREATE = "创建工单"
-    WORK_ORDER_UPDATE = "工单更新"
-    EXECUTE_TASK = "执行任务"
-    OTHER_ACTION = "其他动作"
+    WORK_ORDER_CREATE = r"创建工单"
+    WORK_ORDER_UPDATE = r"工单更新"
+    EXECUTE_TASK = r"执行任务"
+    OTHER_ACTION = r"其他动作"
     
     
 class ChatActionFunctionFactory:
@@ -125,7 +125,7 @@ class ChatActionFunctionFactory:
         return "其他动作已处理"
 
     @staticmethod
-    def get_action_function(action: ChatActionsEnum):
+    def get_action_function(action: ChatActionsEnum) -> callable:
         print("action : ",action)
         action_function = getattr(ChatActionFunctionFactory, action.name.lower(), None)
         return action_function

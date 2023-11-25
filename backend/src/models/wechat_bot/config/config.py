@@ -7,7 +7,7 @@ from models.wechat_bot.types.chat_action_function import ChatActionFunctionFacto
 from models.wechat_bot.types.chat_command_handler import ChatCommandHandler
 
 
-robot_name = "机器人名"
+robot_name = "AI苏博蒂奇"
 
 
 tianyi = ChatCommandHandler(robot_name=robot_name , actions=[ChatActionsEnum.WORK_ORDER_CREATE])
