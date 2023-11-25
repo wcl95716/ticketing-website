@@ -23,7 +23,7 @@ def get_chat_messages(who:str) -> list:
     pass 
 
 def send_message(who:str, message):
-    local_logger.logger.info(who , message)
+    # local_logger.logger.info(who , message)
     PyOfficeRobot.chat.send_message(who=who, message=message)
     pass 
 
