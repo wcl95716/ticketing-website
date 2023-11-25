@@ -41,7 +41,8 @@ class GroupManager:
     def fix_group_task(self,group_id,tasks):
         for task in tasks:
             local_logger.logger.info(f" fix tasks {task}")
-            send_message(group_id,task[1])
+            task_result = task[0](task[1],task[2])
+            send_message(group_id,task_result[1])
             pass 
         pass
     

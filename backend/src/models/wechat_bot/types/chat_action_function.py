@@ -122,7 +122,7 @@ class ChatActionFunctionFactory:
         return "其他动作已处理"
 
     @staticmethod
-    def get_action_function(action: ChatActionsEnum):
+    def get_action_function(action: ChatActionsEnum) -> callable:
         print("action : ",action)
         action_function = getattr(ChatActionFunctionFactory, action.name.lower(), None)
         return action_function

@@ -36,8 +36,8 @@ class GroupChatManager:
             local_logger.logger.info(f" find_task find action {action}  {message} {self.current_chat_message_id}")
             local_logger.logger.info(f" self.current_chat_message_id {self.current_chat_message_id}")
             if action:
-                result:str = ChatActionFunctionFactory.get_action_function(action)(self.group_id,message)
-                result_task.append(result)
+                result:callable = ChatActionFunctionFactory.get_action_function(action) #(self.group_id,message)
+                result_task.append((result,self.group_id,message))
                
         return result_task
         pass
