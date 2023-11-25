@@ -29,8 +29,9 @@ class GroupChatManager:
         result_task = []
         for message in chat_messages:
             local_logger.logger.info(f"chat_message {message} ")   
-            self.current_chat_message_id = get_hash_value(message)
-            if message_id_pivot == message[2] :
+            hash_value = get_hash_value(message)
+            self.current_chat_message_id = hash_value
+            if message_id_pivot == hash_value :
                 # 清空任务队列
                 result_task.clear()
                 continue
