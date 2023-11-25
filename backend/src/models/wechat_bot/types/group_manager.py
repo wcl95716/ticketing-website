@@ -39,7 +39,7 @@ class GroupManager:
         self.group_init_send_message()
         pass
     
-    def group_init_send_message(self,group_id,tasks):
+    def group_init_send_message(self):
         for group in self.group_manager_list:
             send_message(group.group_id,"机器人已启动")
             pass 
