@@ -65,8 +65,8 @@ class GroupManager:
 stop_requested = False  # 全局停止标志
 
 def test_group_manager():
-    # group_list = ["测试4群", "测试2群", "测试3群"]
-    group_list = ["测试2群"]
+    group_list = ["测试4群", "测试2群", "测试3群"]
+    # group_list = ["测试2群"]
     group_manager = GroupManager(group_list)
 
     # 启动一个单独的线程来监听停止按钮
