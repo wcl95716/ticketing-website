@@ -35,6 +35,7 @@ class GroupManager:
             self.group_manager_list.append(group)
         self.robot_name = robot_name
         self.actions = actions
+        self.is_init = False
         pass
     
     def fix_group_task(self,group_id,tasks):
@@ -53,7 +54,9 @@ class GroupManager:
             chat_messages = get_chat_messages(group_id)
             tasks:[] = group.find_task(chat_keyword_handler,chat_messages)
             local_logger.logger.info(f" find tasks {tasks}")
-            self.fix_group_task(group_id,tasks)
+            if self.is_init:
+                self.fix_group_task(group_id,tasks)
+        self.is_init = True
         pass
     
     pass 
