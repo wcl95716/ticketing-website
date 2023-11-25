@@ -1,4 +1,5 @@
 import sys
+from models.wechat_bot.utils.chat import get_hash_value
 sys.path.append("./src")
 from utils import local_logger
 
@@ -28,7 +29,7 @@ class GroupChatManager:
         result_task = []
         for message in chat_messages:
             local_logger.logger.info(f"chat_message {message} ")   
-            self.current_chat_message_id = message[2]
+            self.current_chat_message_id = get_hash_value(message)
             if message_id_pivot == message[2] :
                 # 清空任务队列
                 result_task.clear()
