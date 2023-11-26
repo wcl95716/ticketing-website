@@ -86,7 +86,7 @@ class GroupManager:
 stop_requested = False  # 全局停止标志
 
 def test_group_manager():
-    group_list = ["测试4群", "测试3群"]
+    group_list = ["测试4群", "测试3群","测试2群"]
     # group_list = ["测试2群"]
     group_manager = GroupManager(group_list)
 
