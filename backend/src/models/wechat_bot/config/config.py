@@ -15,6 +15,7 @@ tianyi = ChatCommandHandler(robot_name=robot_name , actions=[ChatActionsEnum.WOR
 
 
 def update_robot_name():
+    print("update_robot_name")
     global robot_name
     send_name = "文件传输助手"
     send_message(who = send_name,  message="测试")
@@ -22,6 +23,7 @@ def update_robot_name():
     chat_message  = get_chat_messages(who=send_name)
     last_message =  chat_message[-1]
     robot_name = last_message[0]
+    print(f"robot_name={robot_name}")
     pass
 # tianyi_chat_keywords_dict = {
 #     ChatActionsEnum.CREATE_WORK_ORDER:  action_create_work_order,
