@@ -58,10 +58,12 @@ class GroupManager:
         local_logger.logger.info(f"process_group_tasks {process_group_list} ")
         for group in self.group_manager_list:
             # 如果不在处理的群聊列表中，则跳过
+            true_prefixes = [prefix for prefix in process_group_list if prefix.startswith(group.group_id)]
             if self.is_init and not any(prefix.startswith(group.group_id) for prefix in process_group_list):
                 local_logger.logger.info(f"跳过群聊 {group.group_id}")
                 continue
-            group_id = group.group_id
+            
+            group_id = true_prefixes[0] #group.group_id
             local_logger.logger.info(f"处理群聊 {group_id}")
             # chat_messages = []
             chat_messages = get_chat_messages(group_id)
