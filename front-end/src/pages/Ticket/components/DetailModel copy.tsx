@@ -20,7 +20,6 @@ import type { UploadFile } from 'antd/es/upload/interface';
 import dayjs, { Dayjs } from 'dayjs';
 import DetailSearch from './DetailSearch';
 import { IChatRecord, MessageType, ChatPriority, ITicketRecord, TicketStatus, Priority } from 'models/ticketing-website/index.type';
-import FilePasteUpload from './copyUpload';
 
 
 
@@ -56,7 +55,7 @@ const DetailModel = () => {
          getRecord();
        }
    },[])
-   console.log("查看ifUserDetail",ifUserDetail)
+   // console.log("查看ifUserDetail",ifUserDetail)
 
    // const fetchMessages = async () => {
    //    if (ticket_id) {
@@ -156,6 +155,7 @@ const DetailModel = () => {
          setNewMessage('');
       }
      }
+      
    };
    const handleUpload = (file) => {
       if (isObjectEmpty(ifUserDetail)) {
@@ -170,7 +170,7 @@ const DetailModel = () => {
             content: '',
             message_time: dayjs(now).format('YYYY-MM-DD HH:mm:ss'),
             sender: userInfo.name,
-            message_type: fileExtension === 'png' || fileExtension === 'jpg' || fileExtension === 'jpeg'|| fileExtension === 'gif' ? MessageType.IMAGE : fileExtension === 'mp4' || fileExtension === 'webm' || fileExtension === 'ogg' || fileExtension === 'mov' ? MessageType.VIDEO : '',
+            message_type: fileExtension === 'png' || fileExtension === 'jpg' ? MessageType.IMAGE : fileExtension === 'mp4' ? MessageType.VIDEO : '',
             file_url: file.file_url,
             file_id: file.file_id,
             chat_profile: ChatPriority.SERVICE,
@@ -185,7 +185,7 @@ const DetailModel = () => {
          content: '',
          message_time: dayjs(now).format('YYYY-MM-DD HH:mm:ss'),
          sender: userInfo.name,
-         message_type: fileExtension === 'png' || fileExtension === 'jpg' || fileExtension === 'jpeg'|| fileExtension === 'gif' ? MessageType.IMAGE : fileExtension === 'mp4' || fileExtension === 'webm' || fileExtension === 'ogg' || fileExtension === 'mov' ? MessageType.VIDEO : '',
+         message_type: fileExtension === 'png' || fileExtension === 'jpg' ? MessageType.IMAGE : fileExtension === 'mp4' ? MessageType.VIDEO : '',
          file_url: file.file_url,
          file_id: file.file_id,
          chat_profile: ChatPriority.SERVICE,
@@ -210,7 +210,6 @@ const DetailModel = () => {
       }
    };
    const props = {
-      accept: '.png,.jpg,.jpeg,.mp4', // 只允许上传 PNG, JPG/JPEG 和 MP4 文件
       action: 'http://47.116.201.99:8001/test/upload_file',
       onChange: handleChange,
    };
@@ -304,41 +303,7 @@ const DetailModel = () => {
       );
    }
 
-   const [file, setFile] = useState<File | null>(null);
-   const uploadFileInput = () => {
-    if (file) {
-      const formData = new FormData();
-      formData.append('file', file);
-      // 这里替换为你的上传API
-      fetch('http://47.116.201.99:8001/test/upload_file', {
-        method: 'POST',
-        body: formData,
-      })
-        .then(response => response.json())
-        
-        .then(data => {
-          console.log("data ",data);
-          handleUpload(data);
-        })
-        .catch(error => console.error('上传错误:', error));
-    }
-    setFile(null);
-  };
-   const handlePaste = (event: React.ClipboardEvent) => {
-      const items = event.clipboardData.items;
-      for (const item of items) {
-        if (item.kind === 'file') {
-          const pastedFile = item.getAsFile();
-          if (pastedFile) {
-            setFile(pastedFile);
-            // 这里可以添加上传文件的逻辑
-            console.log('文件已粘贴:', pastedFile);
-          }
-        }
-      }
-    };
 
-    
    return (
       <div>
          <Row justify='start' style={{ marginBottom: '20px', width: '100%' }}>
@@ -368,14 +333,9 @@ const DetailModel = () => {
                <Row justify="space-between" align="middle" >
                   <Col style={{ width: '50%', marginLeft: '4%', marginBottom: 'auto', marginTop: '30px' }}>
                      <Input
-                        onPaste={handlePaste}
                         style={{ width: '100%' }}
                         placeholder="请输入聊天内容"
-                        suffix={<Button type='primary' onClick={
-                           ()=>{
-                              file ? uploadFileInput() :handleSendMessage();
-                           }  
-                        }>发送</Button>}
+                        suffix={<Button type='primary' onClick={handleSendMessage}>发送</Button>}
                         value={newMessage}
                         onChange={(e: any) => setNewMessage(e.target.value)}
                         onKeyPress={handleKeyPress}
@@ -390,6 +350,7 @@ const DetailModel = () => {
                </Row>
             </div>
          </div>
+
       </div>
    );
 };
