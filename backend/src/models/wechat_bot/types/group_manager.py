@@ -65,10 +65,10 @@ class GroupManager:
             if self.is_init and not any(prefix.startswith(group.group_id) for prefix in process_group_list):
                 local_logger.logger.info(f"跳过群聊 {group.group_id}")
                 continue
-            true_prefix = next((prefix for prefix in process_group_list if prefix.startswith(group.group_id)), None)
+            # true_prefix = next((prefix for prefix in process_group_list if prefix.startswith(group.group_id)), None)
             
-            group_id = true_prefix or  group.group_id
-            local_logger.logger.info(f"处理群聊 {group_id} true_prefix={true_prefix}")
+            group_id = group.group_id
+            local_logger.logger.info(f"处理群聊 {group_id}  ")
             # chat_messages = []
             chat_messages = get_chat_messages(group_id)
             tasks:[] = group.find_task(chat_keyword_handler,chat_messages)
