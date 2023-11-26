@@ -1,11 +1,6 @@
-import hashlib
+process_group_list = ["Group1_ABC", "Group2_XYZ", "Group4_DEF"]
+group_id = "Group2"
 
+true_prefix = next((prefix for prefix in process_group_list if prefix.startswith(group_id)), None)
 
-process_group_list = ["测试4群123123", "测试3群"]
-
-group_id = "测试4群"
-# any(group_id.startswith(prefix) for prefix in process_group_list)
-
-print(group_id.startswith("测试4群123123"))
-
-print("测试4群123123".startswith(group_id))
+print(true_prefix)
