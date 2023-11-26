@@ -36,13 +36,15 @@ class GroupManager:
         self.robot_name = robot_name
         self.actions = actions
         self.is_init = False
-        self.group_init_send_message()
+        # self.group_init_send_message()
         pass
     
-    def group_init_send_message(self):
-        for group in self.group_manager_list:
+    def group_init_send_message(self,group:GroupChatManager = "测试群1"):
+        #for group in self.group_manager_list:
+        if not group.is_init:
             send_message(group.group_id,"机器人已启动")
-            pass 
+            group.is_init = True
+            #pass 
         pass
     
     def fix_group_task(self,group_id,tasks):
@@ -57,6 +59,8 @@ class GroupManager:
         chat_keyword_handler = ChatCommandHandler(robot_name=self.robot_name, actions=self.actions)
         local_logger.logger.info(f"process_group_tasks {process_group_list} ")
         for group in self.group_manager_list:
+            # 初始化发送消息
+            self.group_init_send_message(group=group)
             # 如果不在处理的群聊列表中，则跳过
             if self.is_init and not any(prefix.startswith(group.group_id) for prefix in process_group_list):
                 local_logger.logger.info(f"跳过群聊 {group.group_id}")
