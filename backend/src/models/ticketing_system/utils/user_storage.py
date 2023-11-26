@@ -2,10 +2,14 @@
 
 import json
 import os
+import sys
+sys.path.append("./src")
+
 
 from models.ticketing_system.types.user_profile import UserProfile
 from models.ticketing_system.types import user_profile
 from utils import local_logger
+import pandas as pd
 
 
 user_file_path = "data/users/"
@@ -87,3 +91,47 @@ def get_user_by_id(user_id: str) -> UserProfile:
     pass
 
 
+
+def read_profiles_from_excel(filename):
+    # 读取Excel文件
+    df = pd.read_excel(user_file_path + filename)
+
+    # 将每行转换为UserProfile对象
+    profiles = []
+    for _, row in df.iterrows():
+        profile = UserProfile(
+            user_id=row['user_id'],
+            name=row['name'],
+            email=row.get('email'),
+            phone=row.get('phone'),
+            avatar=row.get('avatar'),
+            avatar_url=row.get('avatar_url'),
+            info=row.get('info'),
+            password=row.get('password')
+        )
+        profiles.append(profile)
+    return profiles
+
+def write_profiles_to_excel(filename, profiles:list[UserProfile]):
+    # 将每个UserProfile对象转换为字典
+    # data = [profile.to_dict() for profile in profiles]
+    data = get_users_to_file()
+    # 转换为DataFrame
+    df = pd.DataFrame(data)
+    # 写入Excel
+    df.to_excel(user_file_path+filename, index=False)
+    
+def write_profiles_to_csv(filename, profiles):
+    # 将每个UserProfile对象转换为字典
+    data = get_users_to_file()
+    # 转换为DataFrame
+    df = pd.DataFrame(data)
+    # 写入CSV
+    df.to_csv(user_file_path+filename, index=False)
+    
+    
+# write_profiles_to_excel("user_data.xlsx", get_users_to_file())
+# users = read_profiles_from_excel("user_data.xlsx")
+# for user in users:
+#     print(user.to_dict())
+#     pass

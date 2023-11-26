@@ -36,8 +36,9 @@ class GroupManager:
         self.robot_name = robot_name
         self.actions = actions
         self.is_init = False
-        # self.group_init_send_message()
+        
         pass
+    
     
     def group_init_send_message(self,group:GroupChatManager = "测试群1"):
         #for group in self.group_manager_list:
@@ -92,7 +93,7 @@ def test_group_manager():
     # 启动一个单独的线程来监听停止按钮
     # keyboard_thread = keyboard.Listener(on_press=on_key_press)
     # keyboard_thread.start()
-
+    config.update_robot_name()
     global stop_requested  # 引用全局停止标志
     while not stop_requested:  # 循环直到停止标志为True
         print("开始处理群聊任务")

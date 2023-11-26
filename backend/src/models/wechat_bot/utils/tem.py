@@ -1,20 +1,13 @@
-# -*- coding: UTF-8 -*-
-'''
-@作者  ：B站/抖音/微博/小红书/公众号，都叫：程序员晚枫
-@微信     ：CoderWanFeng : https://mp.weixin.qq.com/s/B1V6KeXc7IOEB8DgXLWv3g
-@个人网站      ：www.python-office.com
-@Date    ：2023/2/13 21:19
-@本段代码的视频说明     ：https://www.bilibili.com/video/BV1m8411b7LZ
-'''
-import PyOfficeRobot
+import pandas as pd
 
-keywords = {
-    "我要报名": "你好，这是报名链接：www.python-office.com",
-    "点赞了吗？": "点了",
-    "关注了吗？": "必须的",
-    "投币了吗？": "三连走起",
-}
-PyOfficeRobot.chat.chat_by_keywords(who='抖音：程序员晚枫', keywords=keywords)
+def save_list_to_excel(list_data, filename):
+    # 将列表转换为DataFrame
+    df = pd.DataFrame({'group_names': list_data})
+    # 将DataFrame写入Excel文件
+    df.to_excel(filename, index=False)
 
-PyOfficeRobot.group.send()
-# PyOfficeRobot.chat.chat_by_keywords(who='每天进步一点点', keywords=keywords)
+# 待保存的列表
+group_list = ["测试4群", "测试3群"]
+
+# 调用函数保存数据
+save_list_to_excel(group_list, 'groups.xlsx')
