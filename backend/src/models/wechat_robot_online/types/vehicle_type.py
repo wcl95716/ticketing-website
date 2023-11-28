@@ -12,7 +12,6 @@ class Vehicle:
         # 摄像头状态
         self.camera_status = camera_status
 
-
     def __str__(self):
         return f"车牌号码: {self.plate_number}\n车辆组织: {self.organization}\n车辆状态: {self.status}\n摄像头状态: {self.camera_status}\n"
 

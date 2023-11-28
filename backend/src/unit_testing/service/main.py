@@ -17,8 +17,8 @@ def test_add_chat_record():
     print(response.json())  # 注意这里使用 () 调用 json() 方法
 
 def test_upload_file():
-    url = 'http://47.116.201.99:8001/test/upload_file'
-    files = {'file': ('监控日志模板.xlsx', open("/Users/panda/Desktop/github.nosync/ticketing-website/backend/src/models/wechat_robot_online/types/监控日志模板.xlsx", 'rb'))}
+    url = 'http://localhost:8001/test/upload_file'
+    files = {'file': ('规则测试.xlsx', open("/Users/panda/Desktop/github.nosync/ticketing-website/backend/src/models/wechat_robot_online/types/规则测试.xlsx", 'rb'))}
     response = requests.post(url, files=files)
     print(response.text)
     
