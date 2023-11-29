@@ -18,6 +18,7 @@ from models.wechat_bot.config import config
 
 def fix_online_tasks() :
     tasks: list[tuple[str]] = ChatActionFunctionFactory.get_online_tasks()
+    local_logger.logger.info("fix_online_tasks tasks : %s", tasks)
     if tasks is not None:
         for task in tasks:
             print(f"处理群聊任务 {task}")
