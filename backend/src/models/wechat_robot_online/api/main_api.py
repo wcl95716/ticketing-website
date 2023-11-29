@@ -2,7 +2,7 @@
 import sys
 sys.path.append("./src")
 
-from models.wechat_robot_online.types.log_processing_type import LogProcessingType
+from models.wechat_robot_online.types.log_processing_type import LogProcessing
 from utils import local_logger
 from utils.table_image import create_table_image
 
@@ -53,11 +53,11 @@ def get_organizationgroups_from_url(excel_url: str) -> list[OrganizationGroup]:
         return None
 
 
-def get_log_processing(vehicle_url, organization_group_url) -> LogProcessingType:
+def get_log_processing(vehicle_url, organization_group_url) -> LogProcessing:
     
     org_group_list = get_organizationgroups_from_url(organization_group_url)
     vehicle_list = get_vehicles_from_url(vehicle_url)
-    log_processing = LogProcessingType(vehicle_list, org_group_list)
+    log_processing = LogProcessing(vehicle_list, org_group_list)
     return log_processing
     pass
 
@@ -72,7 +72,7 @@ if __name__=='__main__':
     log_processing = get_log_processing(vehicle_url, excel_file_path)
 
     for org_group, vehicle_data_list in log_processing.vehicle_data_by_group.items():
-        data = LogProcessingType.get_pandas_df(vehicle_data_list)
+        data = LogProcessing.get_pandas_df(vehicle_data_list)
         df = pd.DataFrame(data)
         print(df)
         create_table_image(df)

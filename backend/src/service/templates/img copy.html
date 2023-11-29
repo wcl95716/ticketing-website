@@ -1,10 +1,56 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Display File</title>
+    <title>文件上传</title>
 </head>
 <body>
-    <img src="http://127.0.0.1:8001/test/image">
-    {# 这是注释 #}
+    <h1>上传文件</h1>
+    <form action="http://localhost:8001/test/upload_file" method="POST" enctype="multipart/form-data" onsubmit="return uploadFile(1)">
+        <label for="file1">选择文件 1:</label>
+        <input type="file" name="file" id="file1"><br><br>
+
+        <input type="submit" value="上传文件 1">
+    </form>
+
+    <form action="http://localhost:8001/test/upload_file" method="POST" enctype="multipart/form-data" onsubmit="return uploadFile(2)">
+        <label for="file2">选择文件 2:</label>
+        <input type="file" name="file" id="file2"><br><br>
+
+        <input type="submit" value="上传文件 2">
+    </form>
+
+    <div id="fileUrlContainer" style="display:none;">
+        <p>文件 1 URL: <span id="fileUrl1"></span></p>
+        <p>文件 2 URL: <span id="fileUrl2"></span></p>
+    </div>
+
+    <script>
+        function uploadFile(fileNumber) {
+            var form = document.querySelector(`form:nth-of-type(${fileNumber})`);
+            var fileUrlSpan = document.getElementById(`fileUrl${fileNumber}`);
+            var formData = new FormData(form);
+
+            // 发送POST请求
+            fetch(form.action, {
+                method: 'POST',
+                body: formData
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.file_url) {
+                    fileUrlSpan.textContent = data.file_url;
+
+                    // 清空文件输入字段
+                    form.reset();
+
+                    // 显示文件URL
+                    var fileUrlContainer = document.getElementById('fileUrlContainer');
+                    fileUrlContainer.style.display = 'block';
+                }
+            });
+
+            return false; // 阻止表单提交
+        }
+    </script>
 </body>
 </html>

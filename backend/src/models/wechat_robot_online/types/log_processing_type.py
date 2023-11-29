@@ -8,7 +8,16 @@ from models.wechat_robot_online.types.organization_group_type import Organizatio
 from models.wechat_robot_online.types.vehicle_type import Vehicle
 
 
-class LogProcessingType:
+class LogProcessingFilesUrl:
+    
+    def __init__(self,vehicle_data_url:str , organization_group_url:str,language_template_url:str) -> None:
+        self.vehicle_data_url = vehicle_data_url
+        self.organization_group_url = organization_group_url
+        self.language_template_url = language_template_url
+        pass
+    pass
+
+class LogProcessing:
     
     @staticmethod
     def get_pandas_df(vehicle_data_list:list[Vehicle]):
