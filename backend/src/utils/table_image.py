@@ -36,7 +36,12 @@ def create_table_image(df, directory = "./data/pngs/", file_name=None, base_heig
     # Set font properties for displaying Chinese characters
     # plt.rcParams['font.sans-serif'] = ['Arial Unicode MS']
     # plt.rcParams['font.sans-serif'] = ['AR PL UKai CN']
-    plt.rcParams['font.sans-serif'] = ['AR PL UKai CN']
+    
+    
+    # plt.rcParams['font.sans-serif'] = ['AR PL UKai CN']
+    
+    font_path = '/usr/share/fonts/truetype/arphic/ukai.ttc'
+    plt.rcParams['font.sans-serif'] = [font_path]
 
 
     # Calculate the ideal image size
