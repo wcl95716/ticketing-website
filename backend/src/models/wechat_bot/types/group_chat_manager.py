@@ -33,8 +33,8 @@ class GroupChatManager:
             messages.append(message)
             if len(messages) > 3:
                 messages.pop(0)
-            hash_value = get_hash_value(message)
-            #hash_value = get_hash_value_ex(messages)
+            #hash_value = get_hash_value(message)
+            hash_value = get_hash_value_ex(messages)
             local_logger.logger.info(f"chat_message {hash_value}  {message} ")   
             self.current_chat_message_id = hash_value
             if message_id_pivot == hash_value :
