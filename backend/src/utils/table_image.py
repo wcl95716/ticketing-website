@@ -43,6 +43,11 @@ def create_table_image(df, directory = "./data/pngs/", file_name=None, base_heig
     font_path = '/usr/share/fonts/truetype/arphic/ukai.ttc:style=Bold'
     # plt.rcParams['font.sans-serif'] = [font_path]
     plt.rcParams['font.sans-serif'] = ['SimHei', 'SimSun', 'AR PL UKai CN', 'Noto Sans CJK']
+    # 清除 Matplotlib 缓存
+    plt.rcParams['font.sans-serif'] = []
+
+    # 然后重新设置字体配置
+    plt.rcParams['font.sans-serif'] = ['SimHei', 'SimSun', 'AR PL UKai CN', 'Noto Sans CJK']
 
 
 
