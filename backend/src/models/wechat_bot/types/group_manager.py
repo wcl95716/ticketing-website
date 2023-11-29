@@ -40,7 +40,7 @@ class GroupManager:
     def group_init_send_message(self,group:GroupChatManager = "测试群1"):
         #for group in self.group_manager_list:
         if not group.is_init:
-            # send_message(group.group_id,"机器人已启动")
+            send_message(group.group_id,"机器人已启动")
             #pass 
             pass 
         pass
