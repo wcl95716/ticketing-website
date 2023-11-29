@@ -125,7 +125,7 @@ class ChatActionFunctionFactory:
                 task_data:list[dict] = response.json()
                 result = []
                 for task in task_data:
-                    result.append((task["to_user"], task["content"]))
+                    result.append((task["to_user"], task["content"],task["get_online_tasks"]))
                 return result
             else:
                 print(f"请求失败，状态码：{response.status_code}")

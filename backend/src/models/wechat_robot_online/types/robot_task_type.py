@@ -5,7 +5,7 @@ class RobotTask:
     # 发送的人
     # 发送的内容
     
-    def __init__(self, to_user, content,task_type = None,):
+    def __init__(self, to_user, content,task_type = 0,):
         self.task_type = task_type
         self.to_user = to_user
         self.content = content

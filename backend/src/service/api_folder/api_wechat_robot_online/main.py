@@ -69,8 +69,8 @@ def api_process_log():
     
     local_logger.logger.info("get_class")
     # add_tasks(log_processing.get_all_robot_task())
-    threading.Thread(target=lambda: add_tasks(log_processing.get_all_robot_task())).start()
-    
+    threading.Thread(target=lambda: add_tasks(log_processing.get_all_robot_task_by_group())).start()
+    threading.Thread(target=lambda: add_tasks(log_processing.get_all_robot_task_by_group_and_status())).start()
     # 在这里可以对LogProcessingFilesUrl对象进行进一步处理，例如保存到数据库或进行其他操作
     return jsonify({'message': 'LogProcessingFilesUrl object received successfully'}), 200
 

@@ -52,6 +52,18 @@ class LogProcessing:
         return robot_task
         pass
     
+    
+    @staticmethod
+    def get_robot_task_by_status(vehicle_data_list:list[Vehicle],group:OrganizationGroup) -> RobotTask:
+        content = ""
+        for vehicle_data in vehicle_data_list:
+            content += vehicle_data.plate_number+","
+            
+        content += "状态为"+vehicle_data.status
+        to_user = group.group_name
+        robot_task = RobotTask(to_user = to_user, content = content ,task_type=1)
+        return robot_task
+        pass
 
     
     """
@@ -63,9 +75,30 @@ class LogProcessing:
         self.vehicle_data = vehicle_data
         self.organization_group = organization_group
         self.vehicle_data_by_group = self.get_vehicle_data_by_group()
+        self.vehicle_data_by_status = self.get_vehicle_data_by_status()
         pass
     
-    def get_vehicle_data_by_group(self):
+    def get_vehicle_data_by_status(self) -> dict[OrganizationGroup,dict[str , list[Vehicle] ]]:
+        
+        vehicle_data_by_group:dict[OrganizationGroup,list[Vehicle]] = self.get_vehicle_data_by_group()
+        vehicle_data_by_status:dict[OrganizationGroup,dict[str , list[Vehicle] ]] = {}
+        # vehicle_data_by_group 每个OrganizationGroup 下的 list[Vehicle]再根据 Vehicle 的 status 进行分类
+        for org_group, vehicle_data_list in vehicle_data_by_group.items():
+            # 遍历每个Vehicle对象
+            for vehicle_data in vehicle_data_list:
+                # 如果vehicle_data_by_status字典中不存在org_group组织，则创建一个空字典
+                if org_group not in vehicle_data_by_status:
+                    vehicle_data_by_status[org_group] = {}
+                # 如果vehicle_data_by_status字典中不存在vehicle_data.status状态，则创建一个空列表
+                if vehicle_data.status not in vehicle_data_by_status[org_group]:
+                    vehicle_data_by_status[org_group][vehicle_data.status] = []
+                # 将Vehicle对象添加到vehicle_data_by_status字典中
+                vehicle_data_by_status[org_group][vehicle_data.status].append(vehicle_data)
+        return vehicle_data_by_status
+        
+        pass 
+    
+    def get_vehicle_data_by_group(self) -> dict[OrganizationGroup,list[Vehicle]]:
         """
         通过organization_group对vehicle_data进行分类
         """
@@ -92,7 +125,7 @@ class LogProcessing:
     
     
     # 获取RobotTask
-    def get_all_robot_task(self) -> list[RobotTask]:
+    def get_all_robot_task_by_group(self) -> list[RobotTask]:
         vehicle_data_by_group = self.get_vehicle_data_by_group()
         result: list[RobotTask]=  []
         for org_group, vehicle_data_list in vehicle_data_by_group.items():
@@ -102,6 +135,15 @@ class LogProcessing:
         return result
         pass
     
+    def get_all_robot_task_by_group_and_status(self) ->list[RobotTask]:
+        vehicle_data_by_status = self.get_vehicle_data_by_status()
+        result: list[RobotTask]=  []
+        for org_group, vehicle_data_list in vehicle_data_by_status.items():
+            for status, vehicle_data_list in vehicle_data_list.items():
+                task = LogProcessing.get_robot_task_by_status(vehicle_data_list, org_group)
+                result.append(task)
+        return result
+        pass
     pass
 
 

@@ -9,7 +9,7 @@ from models.wechat_bot.types.chat_action_function import ChatActionFunctionFacto
 
 import time
 from models.wechat_bot.types.group_manager import GroupManager
-from models.wechat_bot.utils.chat import get_group_list, send_file_from_url
+from models.wechat_bot.utils.chat import get_group_list, send_file_from_url, send_message
 from utils import local_logger
 from models.wechat_bot.config import config
 
@@ -21,7 +21,10 @@ def fix_online_tasks() :
     if tasks is not None:
         for task in tasks:
             print(f"处理群聊任务 {task}")
-            send_file_from_url(task[0], task[1])
+            if task[3] == 0:
+                send_file_from_url(task[0], task[1])
+            elif task[3] == 1:
+                send_message(task[0], task[1])
 
     
 
