@@ -46,10 +46,7 @@ def create_table_image(df, directory = "./data/pngs/", file_name=None, base_heig
     # # 清除 Matplotlib 缓存
     plt.rcParams['font.family'] = 'sans-serif'
     plt.rcParams['font.sans-serif'] = ['AR PL UKai CN']
-    plt.rcParams['font.sans-serif'] = []
 
-    # # 然后重新设置字体配置
-    plt.rcParams['font.sans-serif'] = ['AR PL UKai CN']
 
     # Calculate the ideal image size
     ideal_width = min(max(df.shape[1] * base_width_per_column, min_width), max_width)
