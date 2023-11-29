@@ -31,7 +31,7 @@ class GroupChatManager:
         messages = []
         for message in chat_messages:
             messages.append(message)
-            if len(messages) > len(3):
+            if len(messages) > 3:
                 messages.pop(0)
             messages.pop(0)
             # hash_value = get_hash_value(message)
