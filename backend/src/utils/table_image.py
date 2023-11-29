@@ -6,7 +6,7 @@ import matplotlib
 matplotlib.use('Agg')
 
 
-def create_table_image(df, directory = "./data/pngs/", file_name=None, base_height_per_row=0.24, base_width_per_column=2.0, min_width=5, min_height=0, max_width=15, max_height=250, dpi=300):
+def create_table_image(df, directory = "./data/pngs/", file_name=None, base_height_per_row=0.24, base_width_per_column=2.0, min_width=5, min_height=4, max_width=15, max_height=250, dpi=300):
     """
     Create an image of a pandas DataFrame as a table, save it in the specified directory, and return the file path.
 
@@ -33,23 +33,21 @@ def create_table_image(df, directory = "./data/pngs/", file_name=None, base_heig
     # Replace "nan" values with empty strings
     df = df.fillna("")
 
-    # Set font properties for displaying Chinese characters
+    # Set font properties for displaying Chinese characters 
     # plt.rcParams['font.sans-serif'] = ['Arial Unicode MS']
     # plt.rcParams['font.sans-serif'] = ['AR PL UKai CN']
     
     
     # plt.rcParams['font.sans-serif'] = ['AR PL UKai CN']
     
-    font_path = '/usr/share/fonts/truetype/arphic/ukai.ttc:style=Bold'
-    # plt.rcParams['font.sans-serif'] = [font_path]
-    plt.rcParams['font.sans-serif'] = ['SimHei', 'SimSun', 'AR PL UKai CN', 'Noto Sans CJK']
-    # 清除 Matplotlib 缓存
+    # font_path = '/usr/share/fonts/truetype/arphic/ukai.ttc:style=Bold'
+    # # plt.rcParams['font.sans-serif'] = [font_path]
+    # plt.rcParams['font.sans-serif'] = ['SimHei', 'SimSun', 'AR PL UKai CN', 'Noto Sans CJK']
+    # # 清除 Matplotlib 缓存
     plt.rcParams['font.sans-serif'] = []
 
-    # 然后重新设置字体配置
-    plt.rcParams['font.sans-serif'] = ['SimHei', 'SimSun', 'AR PL UKai CN', 'Noto Sans CJK']
-
-
+    # # 然后重新设置字体配置
+    plt.rcParams['font.sans-serif'] = ['AR PL UKai CN']
 
     # Calculate the ideal image size
     ideal_width = min(max(df.shape[1] * base_width_per_column, min_width), max_width)
@@ -96,6 +94,7 @@ def create_table_image(df, directory = "./data/pngs/", file_name=None, base_heig
 #     '问题描述': ['nan', 'nan', 'nan', 'nan', 'AV03,AV04遮挡', 'nan', 'nan', '通通道全黑屏', 'AV03摄像头需要擦拭', 'nan', 'nan', 'nan', 'nan', 'nan']
 # }
 if __name__ == '__main__':
-    df = pd.read_excel("/Users/panda/Desktop/github.nosync/ticketing-website/backend/src/models/wechat_robot_online/types/监控日志模板.xlsx", engine='openpyxl',nrows=20)
-
+    # df = pd.read_excel("/Users/panda/Desktop/github.nosync/ticketing-website/backend/data/微信服务群规则-测试.xlsx", engine='openpyxl',nrows=20)
+    df = pd.read_excel("/Users/panda/Desktop/github.nosync/ticketing-website/backend/data/副本监控日志-测试.xlsx", engine='openpyxl',nrows=20)
+    
     print(create_table_image(df) )
