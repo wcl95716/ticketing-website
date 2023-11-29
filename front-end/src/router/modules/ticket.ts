@@ -2,6 +2,7 @@ import { lazy } from 'react';
 import { ViewModuleIcon } from 'tdesign-icons-react';
 import { IRouter } from '../index';
 import DetailModel  from '../../pages/Ticket/components/DetailModel'
+import Monitor from 'pages/Ticket/Monitor';
 
 const result: IRouter[] = [
   {
@@ -26,6 +27,13 @@ const result: IRouter[] = [
             hidden: true
           },
        },
+       {
+        path: 'index/monitor',
+        Component: Monitor,
+        meta: {
+           title: '监控日志分发',
+         },
+      },
     ],
   },
 ];
