@@ -51,6 +51,17 @@ def get_hash_value(my_tuple:tuple) -> str:
     pass
 
 
+def get_hash_value_ex(my_tuple:list[tuple]) -> str:
+    str_tem = ""
+    for item in my_tuple:
+        first_two_elements = item[:2]
+        string_representation = ''.join(map(str, first_two_elements))
+        str_tem = str_tem + string_representation
+        
+    hash_object = hashlib.sha256(str_tem.encode())
+    hash_value = hash_object.hexdigest()
+    return hash_value
+    pass
 
 
 
