@@ -26,6 +26,9 @@ def create_table_image(df, directory = "./data/pngs/", file_name=None, base_heig
         # file_name = 'table_image.png'
         # 获取一个随机的名字
         file_name = uuid.uuid4().hex + '.png'
+        
+    # Replace "nan" values with empty strings
+    df = df.fillna("")
 
     # Set font properties for displaying Chinese characters
     plt.rcParams['font.sans-serif'] = ['Arial Unicode MS']
@@ -74,6 +77,7 @@ def create_table_image(df, directory = "./data/pngs/", file_name=None, base_heig
 #     '状态': ['离线1天', '离线1天', '离线2天', '熄火4天', 'nan', '熄火1天', '熄火1天', 'nan', 'nan', '熄火1天', '熄火1天', '熄火1天', '离线8天', '离线5天'],
 #     '问题描述': ['nan', 'nan', 'nan', 'nan', 'AV03,AV04遮挡', 'nan', 'nan', '通通道全黑屏', 'AV03摄像头需要擦拭', 'nan', 'nan', 'nan', 'nan', 'nan']
 # }
-df = pd.read_excel("/Users/panda/Desktop/github.nosync/ticketing-website/backend/src/models/wechat_robot_online/types/监控日志模板.xlsx", engine='openpyxl',nrows=20)
+if __name__ == '__main__':
+    df = pd.read_excel("/Users/panda/Desktop/github.nosync/ticketing-website/backend/src/models/wechat_robot_online/types/监控日志模板.xlsx", engine='openpyxl',nrows=20)
 
-print(create_table_image(df) )
+    print(create_table_image(df) )

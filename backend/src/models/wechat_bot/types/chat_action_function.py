@@ -37,6 +37,7 @@ class ChatActionFunctionFactory:
             return None
     pass
 
+    @staticmethod
     def add_ticket_init_chat(ticket_record: dict = None) -> dict:
         url = 'http://47.116.201.99:8001/test/add_chat_record'
         ticket_id = ticket_record["ticket_id"]
@@ -59,8 +60,6 @@ class ChatActionFunctionFactory:
         }
         response = requests.post(url, json=chatMessage)
         
-        
-
 
     @staticmethod
     def get_work_order_link(ticket_id: str ,customer_id ) -> str:

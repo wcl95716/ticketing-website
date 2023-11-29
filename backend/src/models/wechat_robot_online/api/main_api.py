@@ -2,6 +2,11 @@
 import sys
 sys.path.append("./src")
 
+from models.wechat_robot_online.types.log_processing_type import LogProcessingType
+from utils import local_logger
+from utils.table_image import create_table_image
+
+
 import pandas as pd
 from models.wechat_robot_online.types.organization_group_type import OrganizationGroup
 from models.wechat_robot_online.types.vehicle_type import Vehicle
@@ -48,12 +53,32 @@ def get_organizationgroups_from_url(excel_url: str) -> list[OrganizationGroup]:
         return None
 
 
+def get_log_processing(vehicle_url, organization_group_url) -> LogProcessingType:
+    
+    org_group_list = get_organizationgroups_from_url(organization_group_url)
+    vehicle_list = get_vehicles_from_url(vehicle_url)
+    log_processing = LogProcessingType(vehicle_list, org_group_list)
+    return log_processing
+    pass
+
 if __name__=='__main__':
 
     # 传入Excel文件路径，并获取OrganizationGroup对象列表
     excel_file_path = "http://127.0.0.1:8001/test/uploads/4864190028c54502aaee3f1883e3323a_.xlsx"
-    org_group_list = get_organizationgroups_from_url(excel_file_path)
+    vehicle_url = "http://localhost:8001/test/uploads/2c2f107d62fc49ac83d88f645fdf034d_.xlsx"
 
-    # 现在你可以在后续的代码中使用org_group_list来操作这些数据
-    for org_group in org_group_list:
-        print(f"车辆组织: {org_group.organization}, 群名称: {org_group.group_name}")
+    # 获取分类后的数据
+    # 创建LogProcessingType对象并进行分类
+    log_processing = get_log_processing(vehicle_url, excel_file_path)
+
+    for org_group, vehicle_data_list in log_processing.vehicle_data_by_group.items():
+        data = LogProcessingType.get_pandas_df(vehicle_data_list)
+        df = pd.DataFrame(data)
+        print(df)
+        create_table_image(df)
+        
+        break
+
+    # Create a DataFrame from the list of dictionaries
+
+    local_logger.logger.info("LogProcessingType类测试成功！")
