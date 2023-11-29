@@ -36,6 +36,7 @@ def create_table_image(df, directory = "./data/pngs/", file_name=None, base_heig
     # Set font properties for displaying Chinese characters
     # plt.rcParams['font.sans-serif'] = ['Arial Unicode MS']
     plt.rcParams['font.sans-serif'] = ['AR PL UKai CN']
+    
 
     # Calculate the ideal image size
     ideal_width = min(max(df.shape[1] * base_width_per_column, min_width), max_width)
