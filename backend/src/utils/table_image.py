@@ -44,6 +44,8 @@ def create_table_image(df, directory = "./data/pngs/", file_name=None, base_heig
     # # plt.rcParams['font.sans-serif'] = [font_path]
     # plt.rcParams['font.sans-serif'] = ['SimHei', 'SimSun', 'AR PL UKai CN', 'Noto Sans CJK']
     # # 清除 Matplotlib 缓存
+    plt.rcParams['font.family'] = 'sans-serif'
+    plt.rcParams['font.sans-serif'] = ['AR PL UKai CN']
     plt.rcParams['font.sans-serif'] = []
 
     # # 然后重新设置字体配置
