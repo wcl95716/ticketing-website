@@ -10,7 +10,7 @@ from models.wechat_robot_online.types.log_processing_type import LogProcessingFi
 from utils import  local_logger
 
 from service.api_folder.api_ticketing_system.sub_model1 import api_bp as api_bp_sub
-api_bp = Blueprint('wechat_robot_online', __name__ ,url_prefix='/wechat-robot-online')
+api_bp = Blueprint('wechat_robot_online', __name__ ,url_prefix='/wechat_robot_online')
 
 api_bp.register_blueprint(api_bp_sub)
 
@@ -22,7 +22,7 @@ def api_endpoint():
     return "This is an API endpoint from api_module.py"
 
 # 创建一个用于接收LogProcessingFilesUrl对象的API端点
-@api_bp.route('/process-log', methods=['POST'])
+@api_bp.route('/process_log', methods=['POST'])
 def process_log():
     # 解析前端传递的JSON数据
     data = request.get_json()
