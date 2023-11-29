@@ -41,7 +41,6 @@ class GroupManager:
         #for group in self.group_manager_list:
         if not group.is_init:
             send_message(group.group_id,"机器人已启动")
-            group.is_init = True
             #pass 
         pass
     
@@ -73,8 +72,9 @@ class GroupManager:
             chat_messages = get_chat_messages(group_id)
             tasks:[] = group.find_task(chat_keyword_handler,chat_messages)
             local_logger.logger.info(f" find tasks {tasks}")
-            if self.is_init:
+            if self.is_init and group.is_init :
                 self.fix_group_task(group.group_id,tasks)
+            group.is_init = True
         self.is_init = True
         pass
     
