@@ -34,8 +34,9 @@ def add_tasks(tasks:list[RobotTask]):
     with tasks_lock:
         
         for task in tasks:
-            url =  upload_img_file(task.content)
-            task.content = url
+            if task.task_type == 0:
+                url =  upload_img_file(task.content)
+                task.content = url
             local_logger.logger.info(f"task {task.to_user} task.content = { task.content}")
         tasks_local.extend(tasks)
     pass 
