@@ -45,12 +45,7 @@ def clean_tasks():
         tasks_local.clear()
     pass 
 
-def get_tasks_json():
-    with tasks_lock:
-        result_json = jsonify([ticket.__dict__ for ticket in tasks_local])
-        tasks_local.clear()
-        return result_json
-    pass 
+
     
 
 # 创建一个用于接收LogProcessingFilesUrl对象的API端点
@@ -79,6 +74,12 @@ def api_process_log():
     # 在这里可以对LogProcessingFilesUrl对象进行进一步处理，例如保存到数据库或进行其他操作
     return jsonify({'message': 'LogProcessingFilesUrl object received successfully'}), 200
 
+def get_tasks_json():
+    with tasks_lock:
+        result_json = [ticket.__dict__ for ticket in tasks_local]
+        tasks_local.clear()
+        return result_json
+    pass 
 
 # 定义用于获取上传文件的 URL 的路由
 @api_bp.route('/get_task' , methods=['GET'])
