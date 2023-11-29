@@ -22,9 +22,9 @@ def fix_online_tasks() :
     if tasks is not None:
         for task in tasks:
             print(f"处理群聊任务 {task}")
-            if task[3] == 0:
+            if task[2] == 0:
                 send_file_from_url(task[0], task[1])
-            elif task[3] == 1:
+            elif task[2] == 1:
                 send_message(task[0], task[1])
 
     
