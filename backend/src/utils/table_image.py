@@ -40,7 +40,7 @@ def create_table_image(df, directory = "./data/pngs/", file_name=None, base_heig
     
     # plt.rcParams['font.sans-serif'] = ['AR PL UKai CN']
     
-    font_path = '/usr/share/fonts/truetype/arphic/ukai.ttc'
+    font_path = '/usr/share/fonts/truetype/arphic/ukai.ttc:style=Bold'
     plt.rcParams['font.sans-serif'] = [font_path]
 
 
