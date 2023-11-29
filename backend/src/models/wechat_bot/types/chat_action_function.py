@@ -11,6 +11,7 @@ class ChatActionsEnum(Enum):
     WORK_ORDER_UPDATE = r"工单更新"
     EXECUTE_TASK = r"执行任务"
     OTHER_ACTION = r"其他动作"
+    SEND_LOG_FILE = r"发送日志文件"
     
     
 class ChatActionFunctionFactory:
@@ -112,6 +113,32 @@ class ChatActionFunctionFactory:
         ticket_id = ticket_record["ticket_id"]
         return (group_id, ChatActionFunctionFactory.get_work_order_link(ticket_id , customer_id))
         # return "工单已更新"
+        
+    @staticmethod
+    def get_online_tasks(api_url = 'http://47.116.201.99:8001/wechat_robot_online/get_task') -> list[tuple[str]]:
+        try:
+            # 发送 GET 请求
+            response = requests.get(api_url)
+            # 检查响应状态码
+            if response.status_code == 200:
+                # 解析 JSON 响应
+                task_data:list[dict] = response.json()
+                result = []
+                for task in task_data:
+                    result.append((task["to_user"], task["content"]))
+                return result
+            else:
+                print(f"请求失败，状态码：{response.status_code}")
+        except Exception as e:
+            print(f"请求发生异常：{str(e)}")
+        
+        pass 
+    
+        
+    # @staticmethod
+    # def send_log_file(task: dict = None) -> tuple[str]:
+    #      # data like : [{'content': 'http://47.116.201.99:8001/test/uploads/402fb8848690486782a5dd2b6c73ad6a_b6aa2cbea01642709f62526ba59b40f4.png', 'task_type': None, 'to_user': '昆山一组（苏州）'}, {'content': 'http://47.116.201.99:8001/test/uploads/847e92cd766145aeb84b5d54a3d9bb28_bbca4427f9894640b230df88aa3f73a6.png', 'task_type': None, 'to_user': '无锡公司-注册群'}, {'content': 'http://47.116.201.99:8001/test/uploads/a09a1921dd2a4282aa829ba1d0b7da8f_59a47f551acd47bb8bd3c45b638ca73d.png', 'task_type': None, 'to_user': '太仓公司安装注册群'}]
+    #     return (task["to_user"], task["content"])
     
     @staticmethod
     def execute_task():

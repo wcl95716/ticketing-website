@@ -40,4 +40,5 @@ def test2():
     except Exception as e:
         print(f"请求发生异常：{str(e)}")
 
-test2()
+test1()
+# test2()

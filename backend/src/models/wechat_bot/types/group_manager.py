@@ -1,7 +1,4 @@
-import time
-# import keyboard
-import sys
-sys.path.append("./src")
+
 
 from utils import local_logger
 
@@ -83,36 +80,3 @@ class GroupManager:
     
     pass 
 
-stop_requested = False  # 全局停止标志
-
-def test_group_manager():
-    group_list = ["测试4群", "测试3群","测试2群"]
-    # group_list = ["测试2群"]
-    group_manager = GroupManager(group_list)
-
-    # 启动一个单独的线程来监听停止按钮
-    # keyboard_thread = keyboard.Listener(on_press=on_key_press)
-    # keyboard_thread.start()
-    config.update_robot_name()
-    global stop_requested  # 引用全局停止标志
-    while not stop_requested:  # 循环直到停止标志为True
-        print("开始处理群聊任务")
-        try:
-            group_list = get_group_list()
-            # 获取group_list 前三个群聊
-            group_list = group_list[:2]
-            group_manager.process_group_tasks(process_group_list=group_list)
-        except Exception as e:
-            local_logger.logger.info(f"处理群聊任务时发生错误：{str(e)}")
-        time.sleep(1)
-
-def on_key_press(keyboard_event):
-    global stop_requested  # 引用全局停止标志
-    if keyboard_event.name == '2':
-        stop_requested = True  # 请求停止
-
-
-if __name__ == "__main__":
-    print("开始处理群聊任务")
-    test_group_manager()
-    pass
