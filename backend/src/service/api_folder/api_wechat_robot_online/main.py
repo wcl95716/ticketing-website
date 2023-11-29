@@ -21,8 +21,6 @@ CORS(api_bp) # 解决跨域问题
 def api_endpoint():
     return "This is an API endpoint from api_module.py"
 
-
-
 # 创建一个用于接收LogProcessingFilesUrl对象的API端点
 @api_bp.route('/process-log', methods=['POST'])
 def process_log():
@@ -32,7 +30,7 @@ def process_log():
     # 检查JSON中是否包含所需的字段
     if 'vehicle_data_url' not in data or 'organization_group_url' not in data or 'language_template_url' not in data:
         return jsonify({'error': 'Missing required fields'}), 400
-
+    local_logger.logger.info("process-log json : %s", data)
     # 创建LogProcessingFilesUrl对象
     log_processing_files_url = LogProcessingFilesUrl(
         data['vehicle_data_url'],
