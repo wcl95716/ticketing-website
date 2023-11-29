@@ -59,7 +59,7 @@ class LogProcessing:
         for vehicle_data in vehicle_data_list:
             content += vehicle_data.plate_number+","
             
-        content += "状态为"+vehicle_data.status
+        content += "状态为"+ str(vehicle_data.status)
         to_user = group.group_name
         robot_task = RobotTask(to_user = to_user, content = content ,task_type=1)
         return robot_task

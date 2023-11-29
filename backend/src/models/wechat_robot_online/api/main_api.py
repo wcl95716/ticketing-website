@@ -1,10 +1,10 @@
 
 import sys
-
+sys.path.append("./src")
 import requests
 
 from models.wechat_robot_online.types.robot_task_type import RobotTask
-sys.path.append("./src")
+
 
 from models.wechat_robot_online.types.log_processing_type import LogProcessing
 from utils import local_logger
@@ -111,10 +111,11 @@ if __name__=='__main__':
     # 创建LogProcessingType对象并进行分类
     log_processing = get_log_processing(vehicle_url, excel_file_path)
     
-    tasks = log_processing.get_all_robot_task()
+    tasks = log_processing.get_all_robot_task_by_group_and_status()
+    tasks.extend(log_processing.get_all_robot_task_by_group())
     print(len(log_processing.vehicle_data_by_group.keys()) , len(tasks) )
     for task in tasks:
-        print("task: ",task.to_user , task.content)
+        print("task: ", task.task_type,task.to_user , task.content)
 
     # Create a DataFrame from the list of dictionaries
 
