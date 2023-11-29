@@ -10,6 +10,7 @@ from PyOfficeRobot.core.WeChatType import WeChat
 from PyOfficeRobot.lib.decorator_utils.instruction_url import instruction
 
 from utils import local_logger
+from utils.download_file import download_file_to_folder
 
 
 wx = WeChat()
@@ -33,6 +34,11 @@ def get_chat_messages(who:str) -> list:
 def send_message(who:str, message):
     # local_logger.logger.info(who , message)
     PyOfficeRobot.chat.send_message(who=who, message=message)
+    pass 
+
+def send_file_from_url(who:str , file_url:str):
+    file_path = download_file_to_folder(file_url)
+    PyOfficeRobot.file.send_file(who=who, file=file_path)
     pass 
 
 

@@ -9,6 +9,7 @@ logging.basicConfig(
 # 获取 faker.factory 模块的 logger
 logging.getLogger('faker.factory').setLevel(logging.WARNING)
 logging.getLogger('urllib3.connectionpool').setLevel(logging.WARNING)
+logging.getLogger('matplotlib.font_manager').setLevel(logging.WARNING)
 
 # 创建全局 logger
 logger = logging.getLogger('local_logger')

@@ -2,6 +2,9 @@ import os
 import uuid
 import pandas as pd
 import matplotlib.pyplot as plt
+import matplotlib
+matplotlib.use('Agg')
+
 
 def create_table_image(df, directory = "./data/pngs/", file_name=None, base_height_per_row=0.24, base_width_per_column=2.0, min_width=5, min_height=0, max_width=15, max_height=250, dpi=300):
     """

@@ -1,5 +1,7 @@
 import sys
 import pandas as pd
+from models.wechat_robot_online.types.robot_task_type import RobotTask
+from utils.table_image import create_table_image
 
 sys.path.append("./src")
 from utils import local_logger
@@ -20,7 +22,7 @@ class LogProcessingFilesUrl:
 class LogProcessing:
     
     @staticmethod
-    def get_pandas_df(vehicle_data_list:list[Vehicle]):
+    def get_pandas_df(vehicle_data_list:list[Vehicle],group:OrganizationGroup):
         data = []
         for vehicle_data in vehicle_data_list:
             
@@ -29,15 +31,28 @@ class LogProcessing:
                 'Plate Number': vehicle_data.plate_number,
                 'Organization': vehicle_data.organization,
                 'Status': vehicle_data.status,
-                'Camera Status': vehicle_data.camera_status
+                'Camera Status': vehicle_data.camera_status,
+                'Group Name': group.group_name
             }
-            row = vehicle_data.__dict__
-            
+
             data.append(row)
         # df = pd.DataFrame(data)
         # return df
         return data
         pass
+    
+    @staticmethod
+    # 获取RobotTask
+    def get_robot_task(vehicle_data_list:list[Vehicle],group:OrganizationGroup) -> RobotTask:
+        data = LogProcessing.get_pandas_df(vehicle_data_list,group)
+        df = pd.DataFrame(data)
+        img_path = create_table_image(df)
+        to_user = group.group_name
+        robot_task = RobotTask(to_user = to_user, content = img_path)
+        return robot_task
+        pass
+    
+
     
     """
     LogProcessingType类用于分类日志数据
@@ -75,13 +90,18 @@ class LogProcessing:
         return vehicle_data_by_group
         pass
     
-    def get_vehicle_data_by_status(self):
-        """
-        通过status对vehicle_data进行分类
-        """
+    
+    # 获取RobotTask
+    def get_all_robot_task(self) -> list[RobotTask]:
+        vehicle_data_by_group = self.get_vehicle_data_by_group()
+        result: list[RobotTask]=  []
+        for org_group, vehicle_data_list in vehicle_data_by_group.items():
+            task = LogProcessing.get_robot_task(vehicle_data_list, org_group)
+            result.append(task)
+        
+        return result
         pass
     
-
     pass
 
 
