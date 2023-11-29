@@ -1,3 +1,4 @@
+import math
 import sys
 import pandas as pd
 from models.wechat_robot_online.types.robot_task_type import RobotTask
@@ -59,7 +60,7 @@ class LogProcessing:
         for vehicle_data in vehicle_data_list:
             content += vehicle_data.plate_number+","
             
-        content += "状态为"+ str(vehicle_data.status)
+        content += "状态为: "+ str(vehicle_data.camera_status)
         to_user = group.group_name
         robot_task = RobotTask(to_user = to_user, content = content ,task_type=1)
         return robot_task
@@ -86,14 +87,16 @@ class LogProcessing:
         for org_group, vehicle_data_list in vehicle_data_by_group.items():
             # 遍历每个Vehicle对象
             for vehicle_data in vehicle_data_list:
+                if not str(vehicle_data.camera_status)   :
+                    continue
                 # 如果vehicle_data_by_status字典中不存在org_group组织，则创建一个空字典
                 if org_group not in vehicle_data_by_status:
                     vehicle_data_by_status[org_group] = {}
                 # 如果vehicle_data_by_status字典中不存在vehicle_data.status状态，则创建一个空列表
-                if vehicle_data.status not in vehicle_data_by_status[org_group]:
-                    vehicle_data_by_status[org_group][vehicle_data.status] = []
+                if vehicle_data.camera_status not in vehicle_data_by_status[org_group]:
+                    vehicle_data_by_status[org_group][vehicle_data.camera_status] = []
                 # 将Vehicle对象添加到vehicle_data_by_status字典中
-                vehicle_data_by_status[org_group][vehicle_data.status].append(vehicle_data)
+                vehicle_data_by_status[org_group][vehicle_data.camera_status].append(vehicle_data)
         return vehicle_data_by_status
         
         pass 

@@ -22,7 +22,10 @@ def get_vehicles_from_url(excel_url:str) -> list[Vehicle]:
     # 读取Excel文件
     
     df:pd.DataFrame = download_excel_and_read(excel_url)
-    
+    df['车牌号码'] = df['车牌号码'].fillna('')
+    df['车辆组织'] = df['车辆组织'].fillna('')
+    df['车辆状态（离线/定位）'] = df['车辆状态（离线/定位）'].fillna('')
+    df['摄像头状态'] = df['摄像头状态'].fillna('')
     # print("asdasddasd  ",df)
     if df is None:
         return None
