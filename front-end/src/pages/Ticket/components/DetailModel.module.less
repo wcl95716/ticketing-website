@@ -116,3 +116,9 @@
    transform: translate(-50%, -50%);
    /* 更多样式... */
 }
+
+/* 去掉特定TextArea组件在获得焦点时的默认样式 */
+.custom-textarea:focus, .custom-textarea-focused {
+   box-shadow: none;
+   border-color: #d9d9d9; /* 修改边框颜色为需要的颜色 */
+ }
