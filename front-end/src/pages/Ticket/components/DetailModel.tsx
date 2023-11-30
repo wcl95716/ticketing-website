@@ -401,7 +401,7 @@ const DetailModel = () => {
           <Row justify='space-between' align='middle'>
             <Col style={{ width: '90%', marginLeft: '4%', marginBottom: '20px', marginTop: '30px' }}>
               <div style={{ display: 'flex', flexDirection: 'column', border: '1px solid #d9d9d9' }}>
-                <div style={{ display: 'flex', flexDirection: 'row', marginTop: '10px' }}>
+                <div style={{ display: 'flex', flexDirection: 'row', marginTop: '10px'}}>
                   <div style={{ marginRight: '5px' }}>
                     <Upload {...props} showUploadList={false}>
                       <div>
@@ -421,7 +421,7 @@ const DetailModel = () => {
                   className={Style['custom-textarea']}
                   rows={4}
                   onPaste={handlePaste}
-                  style={{ width: '100%', border: 'none', outline: 'none' }}
+                  style={{ width: '100%', border: 'none', outline: 'none',marginTop:'10px' }}
                   value={newMessage}
                   onChange={(e: any) => setNewMessage(e.target.value)}
                   onKeyPress={handleKeyPress}
