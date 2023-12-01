@@ -55,7 +55,6 @@ class GroupChatManager:
                 result_task.append((result,self.group_id,message))
         local_logger.logger.info(f" current_chat_message_id = {self.current_chat_message_id} result_task= {result_task} ")
         
-        self.is_init = True
         return result_task
         pass
     
