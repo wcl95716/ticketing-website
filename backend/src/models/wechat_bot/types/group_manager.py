@@ -75,7 +75,6 @@ class GroupManager:
             local_logger.logger.info(f" find tasks {tasks}")
             if self.is_init and group.is_init :
                 self.fix_group_task(group.group_id,tasks)
-            group.is_init = True
         self.is_init = True
         pass
     

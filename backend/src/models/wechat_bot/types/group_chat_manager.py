@@ -26,15 +26,22 @@ class GroupChatManager:
         # chat_keyword_handler = ChatCommandHandler(robot_name=self.robot_name, actions=self.actions)
         message_id_pivot = self.current_chat_message_id
         local_logger.logger.info(f"message_id_pivot {self.group_id}  {message_id_pivot} ")
-           
+        # 使用切片获取最后十条消息，如果不够十条，就获取全部消息
+        # 计算列表的长度
+        num_messages = len(messages)
+
+        # 设置要取的最后十条消息的数量
+        num_to_keep = 10
+        last_ten_messages = messages[-num_to_keep:] if num_messages >= num_to_keep else messages
+
         result_task = []
         messages = []
-        for message in chat_messages:
+        for message in last_ten_messages:
             messages.append(message)
             if len(messages) > 3:
                 messages.pop(0)
-            #hash_value = get_hash_value(message)
-            hash_value = get_hash_value_ex(messages)
+            hash_value = get_hash_value(message)
+            # hash_value = get_hash_value_ex(messages)
             local_logger.logger.info(f"chat_message {hash_value}  {message} ")   
             self.current_chat_message_id = hash_value
             if message_id_pivot == hash_value :
@@ -47,6 +54,8 @@ class GroupChatManager:
                 result:callable = ChatActionFunctionFactory.get_action_function(action) #(self.group_id,message)
                 result_task.append((result,self.group_id,message))
         local_logger.logger.info(f" current_chat_message_id = {self.current_chat_message_id} result_task= {result_task} ")
+        
+        self.is_init = True
         return result_task
         pass
     
