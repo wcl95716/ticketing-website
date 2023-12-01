@@ -21,7 +21,9 @@ def get_ticket(ticket_id: str) -> TicketRecord :
     pass
 
 def get_all_tickets() -> list[TicketRecord]:
-    result = ticket_storage.get_all_ticket_record_from_files()
+    result:list[TicketRecord] = ticket_storage.get_all_ticket_record_from_files()
+    # result 根据 TicketRecord 的 created_time 排序
+    result.sort(key=lambda x:x.created_time, reverse=True)
     return result
     pass 
 
