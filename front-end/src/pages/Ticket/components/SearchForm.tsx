@@ -1,3 +1,4 @@
+
 import React, { useRef, memo, useEffect } from 'react';
 import { Row, Col, Form, Input, Button, Select, DatePicker } from 'antd';
 import { CONTRACT_STATUS_OPTIONS, CONTRACT_TYPE_OPTIONS } from '../consts';
@@ -13,6 +14,8 @@ const SearchForm: React.FC = () => {
   const dispatch = useAppDispatch();
   const ticketFilter = useAppSelector(selecTicketFilter);
   const [form] = Form.useForm();
+
+  console.log('查看ticcccc', ticketFilter);
   const onFinish = (values: any) => {
     console.log('Success:', values);
     const { time } = values;
@@ -26,6 +29,7 @@ const SearchForm: React.FC = () => {
           status: values?.status,
           start_date,
           end_date,
+          time,
         }),
       );
       // 在这里处理格式化后的时间值
@@ -40,21 +44,33 @@ const SearchForm: React.FC = () => {
   };
 
   useEffect(() => {
+    console.log('变了ticketttt', ticketFilter);
     dispatch(getTicketListRequest(ticketFilter));
   }, [ticketFilter]);
   const onReset = () => {
     form.resetFields();
-    dispatch(getTicketListRequest({}))
-    // dispatch(
-    //   updateTicketFilter({
-    //     // 假设初始状态是空的
-    //     search_criteria: '',
-    //     status: null,
-    //     start_date: null,
-    //     end_date: null,
-    //   }),
-    // );
+    dispatch(
+      updateTicketFilter({
+        search_criteria: null,
+        status: null,
+        start_date: null,
+        end_date: null,
+        time: undefined,
+      }),
+    );
+
+    console.log('变了时间后的ticketttt', ticketFilter);
+    dispatch(getTicketListRequest(ticketFilter));
   };
+
+  // 更新表单的初始值
+  useEffect(() => {
+    form.setFieldsValue({
+      search_criteria: ticketFilter.search_criteria,
+      status: ticketFilter.status,
+      time: ticketFilter.time,
+    });
+  }, [ticketFilter]);
 
   return (
     <div className={Style.ticketsearch}>
@@ -64,17 +80,27 @@ const SearchForm: React.FC = () => {
             <Row gutter={[16, 16]}>
               <Col>
                 <Form.Item label='关键字' name='search_criteria'>
-                  <Input value="search_criteria" placeholder='请输入关键字' />
+                  <Input value='ticketFilter.search_criteria' placeholder='请输入关键字' />
                 </Form.Item>
               </Col>
               <Col>
                 <Form.Item label='状态' name='status'>
-                  <Select value="status" options={CONTRACT_STATUS_OPTIONS} placeholder='请选择状态' allowClear />
+                  <Select
+                    value='ticketFilter.status'
+                    options={CONTRACT_STATUS_OPTIONS}
+                    placeholder='请选择状态'
+                    allowClear
+                  />
                 </Form.Item>
               </Col>
               <Col>
                 <Form.Item label='日期' name='time'>
-                  <RangePicker value="time" placeholder={['开始时间', '结束时间']} format='YYYY-MM-DD' />
+                  <RangePicker
+                    value='ticketFilter.time'
+                    placeholder={['开始时间', '结束时间']}
+                    format='YYYY-MM-DD'
+                    showToday={true}
+                  />
                 </Form.Item>
               </Col>
             </Row>
@@ -88,7 +114,6 @@ const SearchForm: React.FC = () => {
                 重置
               </Button>
             </Form.Item>
-
           </Col>
         </Row>
       </Form>

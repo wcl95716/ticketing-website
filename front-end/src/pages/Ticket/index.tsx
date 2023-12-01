@@ -1,5 +1,6 @@
+
 import React, { useState, memo, useEffect } from 'react';
-import { getTicketListRequest, getAllUserRequest, updateTicket, selecAllUser, selectTicketRecordList, deleteTicketListRequest } from 'models/ticketing-website/index.model';
+import { getTicketListRequest, getAllUserRequest, updateTicket, selecAllUser, selectTicketRecordList, deleteTicketListRequest,selecTicketFilter } from 'models/ticketing-website/index.model';
 import SearchForm from './components/SearchForm';
 import { useNavigate } from 'react-router-dom';
 import {
@@ -37,9 +38,12 @@ const ticketPage: React.FC = () => {
    const ticketRecordList = useAppSelector(selectTicketRecordList);
    const allUserList = useAppSelector(selecAllUser);
 
+   const ticketFilter = useAppSelector(selecTicketFilter);
+   console.log("查看筛选filter",ticketFilter)
+
    const pageInit = async () => {
       setLoading(true);
-      await dispatch(getTicketListRequest({}));
+      await dispatch(getTicketListRequest(ticketFilter));
       setLoading(false);
     };
 
