@@ -28,18 +28,18 @@ class GroupChatManager:
         local_logger.logger.info(f"message_id_pivot {self.group_id}  {message_id_pivot} ")
         # 使用切片获取最后十条消息，如果不够十条，就获取全部消息
         # 计算列表的长度
-        num_messages = len(messages)
+        num_messages = len(chat_messages)
 
         # 设置要取的最后十条消息的数量
         num_to_keep = 10
-        last_ten_messages = messages[-num_to_keep:] if num_messages >= num_to_keep else messages
+        last_ten_messages = chat_messages[-num_to_keep:] if num_messages >= num_to_keep else chat_messages
 
         result_task = []
-        messages = []
+        some_messages = []
         for message in last_ten_messages:
-            messages.append(message)
-            if len(messages) > 3:
-                messages.pop(0)
+            some_messages.append(message)
+            if len(some_messages) > 3:
+                some_messages.pop(0)
             hash_value = get_hash_value(message)
             # hash_value = get_hash_value_ex(messages)
             local_logger.logger.info(f"chat_message {hash_value}  {message} ")   
