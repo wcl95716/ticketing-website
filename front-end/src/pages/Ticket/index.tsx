@@ -56,7 +56,7 @@ const ticketPage: React.FC = () => {
 
    const deleteConfirm = (record: DataType) => {
       dispatch(deleteTicketListRequest(record?.ticket_id)).then(() => {
-         dispatch(getTicketListRequest({}));
+         // dispatch(getTicketListRequest({}));
       });
    };
 

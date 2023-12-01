@@ -140,7 +140,16 @@ const ticketWebsiteSlice = createSlice({
       })
       .addCase(getAllUserRequest.fulfilled, (state, action) => {
         state.allUser = action.payload as unknown as UserProfile[];
-      });
+      })
+      .addCase(deleteTicketListRequest.pending, (state, action) => {
+        // 获取参数 action.meta.arg
+        console.log('pending', action.meta.arg);
+        // 删除这个参数对应的数据
+        const ticket_id = action.meta.arg;
+        state.ticketRecordlist = state.ticketRecordlist.filter((item) => item.ticket_id !== ticket_id);
+        //state.ticketRecordlist = [];
+      })
+      ;
   },
 });
 
