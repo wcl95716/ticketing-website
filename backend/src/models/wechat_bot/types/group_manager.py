@@ -89,6 +89,11 @@ class GroupManager:
             self.group_init_send_message(group=group)
             
             group_id = process_group
+            if group.is_init == False:
+                send_message(group_id,"机器人已启动")
+                pass 
+            else :
+                chat_messages = get_chat_messages(group_id)
             local_logger.logger.info(f"处理群聊 {group_id}  ")
             # chat_messages = []
             chat_messages = get_chat_messages(group_id)
