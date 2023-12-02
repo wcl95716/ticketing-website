@@ -18,26 +18,59 @@ wx = WeChat()
 import PyOfficeRobot
 
 
+# def send_message(who: str, message: str) -> None:
+#     """
+#     给指定人，发送一条消息
+#     :param who:
+#     :param message:
+#     :return:
+#     """
+
+#     # 获取会话列表
+#     wx.GetSessionList()
+#     wx.ChatWith(who)  # 打开`who`聊天窗口
+#     # for i in range(10):
+#     wx.SendMsg(message, who)  # 向`who`发送消息：你好~
+
 
 def get_group_list () -> list[str]:
+    RollTimes = 1 if not RollTimes else RollTimes
+    def roll_to(RollTimes=RollTimes):
+        for i in range(RollTimes):
+            wx.SessionList.WheelUp(wheelTimes=3, waitTime=0.1 * i)
+        return 0
+
+    rollresult = roll_to()
     group_list = wx.GetSessionList()  # 获取会话列表
     local_logger.logger.info(f" group_list {group_list}")
     return group_list
     pass
 
 def get_chat_messages(who:str) -> list:
-    wx.ChatWith(who)  # 打开`who`聊天窗口
+    wx.ChatWith(who,RollTimes=0)  # 打开`who`聊天窗口
     return wx.GetAllMessage # 获取所有消息
     pass 
 
 def send_message(who:str, message):
     # local_logger.logger.info(who , message)
-    PyOfficeRobot.chat.send_message(who=who, message=message)
+    wx.GetSessionList()
+    wx.ChatWith(who,RollTimes=0)  # 打开`who`聊天窗口
+    # for i in range(10):
+    wx.SendMsg(message, who)  # 向`who`发送消息：你好~
     pass 
 
 def send_file_from_url(who:str , file_url:str):
     file_path = download_file_to_folder(file_url)
-    PyOfficeRobot.file.send_file(who=who, file=file_path)
+    """
+    发送任意类型的文件
+    :param who:
+    :param file: 文件路径
+    :return:
+    """
+    wx.ChatWith(who,RollTimes=0)  # 打开聊天窗口
+    # wx.SendFiles(file)
+    wx.test_SendFiles(filepath=file_path, who=who)  # 添加who参数：雷杰
+
     pass 
 
 
