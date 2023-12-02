@@ -30,8 +30,8 @@ def fix_online_tasks() :
     
 
 def test_group_manager():
-    # group_list = ["测试4群", "测试3群","测试2群"]
-    group_list = ["测试4群", "测试3群","测试2群","无锡公司-注册群","太仓公司安装注册群","昆山一组（苏州）"]
+    group_list = ["测试4群", "测试3群","测试2群"]
+    # group_list = ["测试4群", "测试3群","测试2群","无锡公司-注册群","太仓公司安装注册群","昆山一组（苏州）"]
     # group_list = ["测试2群"]
     group_manager = GroupManager(group_list)
  
