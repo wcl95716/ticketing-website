@@ -86,11 +86,11 @@ class GroupManager:
             if process_group.startswith(group.group_id) == False:
                 continue
             
-            self.group_init_send_message(group=group)
             
             group_id = process_group
             if group.is_init == False:
                 send_message(group_id,"机器人已启动")
+                continue
                 pass 
             else :
                 chat_messages = get_chat_messages(group_id)
