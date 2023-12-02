@@ -37,9 +37,9 @@ class GroupManager:
         pass
     
     
-    def group_init_send_message(self,group:GroupChatManager = "测试群1"):
+    def group_init_send_message(self,group:GroupChatManager):
         #for group in self.group_manager_list:
-        if not group.is_init:
+        if group.is_init == False:
             send_message(group.group_id,"机器人已启动")
             #pass 
             pass 
@@ -78,6 +78,7 @@ class GroupManager:
             group.is_init = True
         self.is_init = True
         pass
+    
     
     pass 
 

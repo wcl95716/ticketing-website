@@ -121,7 +121,14 @@ class TicketFilter:
         json_data["status"] = TicketStatus(json_data["status"]) \
             if "status" in json_data and json_data["status"]!=None else None 
         
-        return TicketFilter(**json_data)
+        return TicketFilter(
+            search_criteria=json_data["search_criteria"],
+            status=json_data["status"],
+            start_date=json_data["start_date"],
+            end_date=json_data["end_date"],
+            
+        )
+        # return TicketFilter(**json_data)
         pass
     
     def get_filter_condition_ticket(self , list_ticket:List[TicketRecord]) -> List[TicketRecord] :
