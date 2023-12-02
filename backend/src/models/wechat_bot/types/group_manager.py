@@ -95,8 +95,6 @@ class GroupManager:
             else :
                 chat_messages = get_chat_messages(group_id)
             local_logger.logger.info(f"处理群聊 {group_id}  ")
-            # chat_messages = []
-            chat_messages = get_chat_messages(group_id)
             tasks:[] = group.find_task(chat_keyword_handler,chat_messages)
             local_logger.logger.info(f" find tasks {tasks}")
             if self.is_init and group.is_init :
