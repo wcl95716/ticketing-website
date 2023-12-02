@@ -89,8 +89,8 @@ class GroupManager:
             
             group_id = process_group
             if group.is_init == False:
-                send_message(group_id,"机器人已启动")
-                continue
+                send_message(group.group_id,"机器人已启动")
+                group_id = group.group_id
                 pass 
             else :
                 chat_messages = get_chat_messages(group_id)
