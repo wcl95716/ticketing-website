@@ -47,14 +47,14 @@ def get_group_list () -> list[str]:
     pass
 
 def get_chat_messages(who:str) -> list:
-    wx.ChatWith(who,RollTimes=0)  # 打开`who`聊天窗口
+    wx.ChatWith(who,RollTimes=1)  # 打开`who`聊天窗口
     return wx.GetAllMessage # 获取所有消息
     pass 
 
 def send_message(who:str, message):
     # local_logger.logger.info(who , message)
     wx.GetSessionList()
-    wx.ChatWith(who,RollTimes=0)  # 打开`who`聊天窗口
+    wx.ChatWith(who,RollTimes=1)  # 打开`who`聊天窗口
     # for i in range(10):
     wx.SendMsg(message, who)  # 向`who`发送消息：你好~
     pass 
@@ -67,7 +67,7 @@ def send_file_from_url(who:str , file_url:str):
     :param file: 文件路径
     :return:
     """
-    wx.ChatWith(who,RollTimes=0)  # 打开聊天窗口
+    wx.ChatWith(who,RollTimes=1)  # 打开聊天窗口
     # wx.SendFiles(file)
     wx.test_SendFiles(filepath=file_path, who=who)  # 添加who参数：雷杰
 
