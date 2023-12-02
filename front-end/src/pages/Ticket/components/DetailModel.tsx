@@ -374,6 +374,13 @@ const DetailModel = () => {
     }
   };
 
+
+    // 处理 div 内容变化
+    const handleDivInput = (e) => {
+       console.log("查看e变化",e)
+      // setNewMessage(e.target.innerText);
+    };
+
   return (
     <div>
       <Row justify='start' style={{ marginBottom: '20px', width: '100%' }}>
@@ -417,7 +424,7 @@ const DetailModel = () => {
                     </Upload>
                   </div> */}
                 </div>
-                <TextArea
+                {/* <TextArea
                   className={Style['custom-textarea']}
                   rows={4}
                   onPaste={handlePaste}
@@ -426,18 +433,18 @@ const DetailModel = () => {
                   onChange={(e: any) => setNewMessage(e.target.value)}
                   onKeyPress={handleKeyPress}
                   autoSize={{ minRows: 3 }}
-                />
+                /> */}
 
-                {/* <div
+                <div
                   className={Style['custom-textarea']}
                   style={{ width: '100%',height:'150px', border: 'none', outline: 'none' }}
                   contentEditable={true}
-                  
+                  onInput={handleDivInput}
                   onPaste={handlePaste}
                   // ... 其他属性
                 >
                   {newMessage}
-                </div> */}
+                </div>
 
                 <div style={{ display: 'flex', justifyContent: 'flex-end' }}>
                   <Button
