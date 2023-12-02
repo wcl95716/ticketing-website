@@ -34,7 +34,7 @@ import PyOfficeRobot
 
 
 def get_group_list () -> list[str]:
-    RollTimes = 1 if not RollTimes else RollTimes
+    RollTimes = 1
     def roll_to(RollTimes=RollTimes):
         for i in range(RollTimes):
             wx.SessionList.WheelUp(wheelTimes=3, waitTime=0.1 * i)
