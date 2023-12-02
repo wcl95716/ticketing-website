@@ -92,8 +92,8 @@ class GroupManager:
                 send_message(group.group_id,"机器人已启动")
                 group_id = group.group_id
                 pass 
-            else :
-                chat_messages = get_chat_messages(group_id)
+
+            chat_messages = get_chat_messages(group_id)
             local_logger.logger.info(f"处理群聊 {group_id}  ")
             tasks:[] = group.find_task(chat_keyword_handler,chat_messages)
             local_logger.logger.info(f" find tasks {tasks}")
