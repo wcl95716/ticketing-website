@@ -7,6 +7,7 @@
  
  // get state from http://127.0.0.1:8001/getVideosDetail获取列表
  export const getTicketListRequest = createAsyncThunk('test/postTestRequest', async (params?: TicketFilter) => {
+  console.log('params', params);
    const response = await fetch(`http://47.116.201.99:8001/test/get_all_tickets`, {
      method: 'POST',
      headers: {
