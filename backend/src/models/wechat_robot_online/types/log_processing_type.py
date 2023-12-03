@@ -62,7 +62,7 @@ class LogProcessing:
             
         content += "状态为: "+ str(vehicle_data.camera_status)
         to_user = group.group_name
-        robot_task = RobotTask(to_user = to_user, content = content ,task_type=1)
+        robot_task = RobotTask(to_user = to_user, content = content ,task_type= RobotTaskType.TEXT_TYPE.value)
         return robot_task
         pass
 
