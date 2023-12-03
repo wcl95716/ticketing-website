@@ -146,6 +146,9 @@ class TicketFilter:
         for ticket in list_ticket:
             # 将字符串日期解析为 datetime 对象
             start_date = parse_datetime(self.start_date) if self.start_date is not None else None
+            # start_date 改为 0点
+            if start_date is not None:
+                start_date = start_date.replace(hour=0, minute=0, second=0, microsecond=0)
             end_date = parse_datetime(self.end_date) if self.end_date is not None else None
             created_time = parse_datetime(ticket.created_time)
 
