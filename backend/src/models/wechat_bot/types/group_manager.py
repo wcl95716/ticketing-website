@@ -90,7 +90,7 @@ class GroupManager:
             
             group_id = process_group
             if group.is_init == False:
-                send_message(group.group_id,"机器人已启动 : " + date.today().strftime('%Y-%m-%dT%H:%M:%S.%f') )
+                send_message(group.group_id,"机器人已启动 : " + date.today().strftime('%Y-%m-%d %H:%M:%S') )
                 group_id = group.group_id
                 pass 
 
