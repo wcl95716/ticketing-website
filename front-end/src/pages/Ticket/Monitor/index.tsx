@@ -121,7 +121,7 @@ const Monitor = () => {
   };
 
   const onSubmit = () => {
-    console.log('查看fileList', fileList);
+    // console.log('查看fileList', fileList);
     if (fileList.vehicle_data_url === '') {
       message.error(`请上传监控日志文件`);
       return;
