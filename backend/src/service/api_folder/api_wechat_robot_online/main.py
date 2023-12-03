@@ -65,7 +65,7 @@ def api_add_task():
     pass
     
 @api_bp.route('/add_remind_ticket_task' , methods=['POST'])
-def api_add_task():
+def api_add_remind_ticket_task():
     data = request.get_json()
     if 'to_user' not in data or 'content' not in data:
         return jsonify({'error': 'Missing required fields'}), 400
