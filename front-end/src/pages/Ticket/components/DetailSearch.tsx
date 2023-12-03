@@ -33,7 +33,7 @@ const SearchForm: React.FC<SearchFormProps> = (props) => {
     
     const { record } = props;
     const [selectedUser, setSelectedUser] = useState(record?.assigned_to);
-    console.log("reeeec",record)
+    // console.log("reeeec",record)
     const dispatch = useAppDispatch();
     const navigate = useNavigate();
     const searchParams = new URLSearchParams(location.search);
@@ -61,7 +61,7 @@ const SearchForm: React.FC<SearchFormProps> = (props) => {
         value: item?.user_id || ''
       }));
       setUserOption(updatedUserOption);
-      console.log("查看userOption",userOption)
+    //   console.log("查看userOption",userOption)
     }, [allUserList,record]); // 监听 allUserList 的变化
     
     
@@ -112,7 +112,7 @@ const SearchForm: React.FC<SearchFormProps> = (props) => {
                                 <div style={{ margin: '10px', fontWeight: 'bold' }}>{`${record?.title}`}</div>
                             </Col>
                             <Col>
-                                <Button size='small' type='primary' onClick={redirectToTicketList}>返回列表</Button>
+                                <Button style={{borderRadius: '0px'}} size='small'  onClick={redirectToTicketList}>返回列表</Button>
                             </Col>
                         </Row>
                         <Row gutter={[16, 16]}>

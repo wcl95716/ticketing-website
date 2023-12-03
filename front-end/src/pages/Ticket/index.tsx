@@ -39,7 +39,7 @@ const ticketPage: React.FC = () => {
    const allUserList = useAppSelector(selecAllUser);
 
    const ticketFilter = useAppSelector(selecTicketFilter);
-   console.log("查看筛选filter",ticketFilter)
+   // console.log("查看筛选filter",ticketFilter)
 
    const pageInit = async () => {
       setLoading(true);

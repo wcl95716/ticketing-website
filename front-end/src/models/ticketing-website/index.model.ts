@@ -7,7 +7,6 @@
  
  // get state from http://127.0.0.1:8001/getVideosDetail获取列表
  export const getTicketListRequest = createAsyncThunk('test/postTestRequest', async (params?: TicketFilter) => {
-   console.log('查询111', params);
    const response = await fetch(`http://47.116.201.99:8001/test/get_all_tickets`, {
      method: 'POST',
      headers: {
@@ -65,6 +64,19 @@
    const response = await fetch(`http://47.116.201.99:8001/test/get_user/${user_id}`);
    return response.json() as unknown as UserDetail;
  });
+
+ //微信客户提醒
+ export const postMegNotice = createAsyncThunk('postMegNotice', async (messagesNotice: IChatRecord) => {
+  const response = await fetch(`http://47.116.201.99:8001/wechat_robot_online/add_remind_ticket_task`, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    // 如果你需要发送请求体数据，可以在这里添加
+    body: JSON.stringify(messagesNotice),
+  });
+  return response.json() as unknown as IChatRecord[];
+});
  
  
  

@@ -15,7 +15,7 @@ const SearchForm: React.FC = () => {
   const ticketFilter = useAppSelector(selecTicketFilter);
   const [form] = Form.useForm();
 
-  console.log('查看ticcccc', ticketFilter);
+  // console.log('查看ticcccc', ticketFilter);
   const onFinish = (values: any) => {
     console.log('Success:', values);
     const { time } = values;
@@ -44,7 +44,7 @@ const SearchForm: React.FC = () => {
   };
 
   useEffect(() => {
-    console.log('变了ticketttt', ticketFilter);
+    // console.log('变了ticketttt', ticketFilter);
     dispatch(getTicketListRequest(ticketFilter));
   }, [ticketFilter]);
   const onReset = () => {
