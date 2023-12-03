@@ -128,10 +128,12 @@ const Monitor = () => {
     } else if (fileList.organization_group_url === '') {
       message.error(`请上传分发规则`);
       return;
-    } else if (fileList.language_template_url === '') {
-      message.error(`请上传话术规则`);
-      return;
-    } else {
+    } 
+    // else if (fileList.language_template_url === '') {
+    //   message.error(`请上传话术规则`);
+    //   return;
+    // } 
+    else {
       getRecord(fileList);
     }
   };
@@ -152,16 +154,16 @@ const Monitor = () => {
             <InboxOutlined />
           </p>
           <p className='ant-upload-text'>点击上传分发规则/拖拽到此处</p>
-          <p className='ant-upload-hint'>请上传监控日志文件</p>
+          <p className='ant-upload-hint'>请上传 分发规则 文件</p>
         </Dragger>
-
+{/* 
         <Dragger {...protocolrule} maxCount={1}>
           <p className='ant-upload-drag-icon'>
             <InboxOutlined />
           </p>
           <p className='ant-upload-text'>点击上传话术规则/拖拽到此处</p>
           <p className='ant-upload-hint'>请上传监控日志文件</p>
-        </Dragger>
+        </Dragger> */}
 
         <Button onClick={onSubmit}>提交</Button>
       </Flex>

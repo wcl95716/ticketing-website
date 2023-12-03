@@ -1,5 +1,7 @@
 import requests
 
+    # vehicle_url= "http://127.0.0.1:8001/test/uploads/eebba396c5c74f488a9383c1334ddb61_-.xlsx"
+    # excel_file_path= "http://localhost:8001/test/uploads/4410e88715f94c1fac7db506eb252ede_-.xlsx"
 def test1():
     # 定义 LogProcessingFilesUrl 对象数据
     data = {
