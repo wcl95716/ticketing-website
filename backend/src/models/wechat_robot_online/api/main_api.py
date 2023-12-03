@@ -30,7 +30,7 @@ def get_vehicles_from_url(excel_url:str) -> list[Vehicle]:
     # 类型为时间
     df['车辆状态（离线/定位）'] = df['车辆状态（离线/定位）'].fillna('').astype(str)
     df['摄像头状态'] = df['摄像头状态'].fillna('').astype(str)
-    print(df)
+    # print(df)
     # print("asdasddasd  ",df)
     if df is None:
         return None
@@ -40,7 +40,30 @@ def get_vehicles_from_url(excel_url:str) -> list[Vehicle]:
     for index, row in df.iterrows():
         plate_number = row['车牌号码']
         organization = row['车辆组织']
-        status = row['车辆状态（离线/定位）']
+        status:str = row['车辆状态（离线/定位）']
+        # print("status: ", status , isinstance(status, float))
+        # 判断status 是否为浮点数
+        try:
+            # print("status is float")
+            # 假设从Excel中读取的时间值是 "0.0770833333333333"（1小时51分钟）
+            excel_time = float(status)
+            print("excel_time: ", excel_time)
+            hours = int(excel_time * 24)  # 将小数部分转换为小时数
+            print("hours: ", hours)
+            # 将Excel时间值转换为Python的datetime对象
+            minutes = int((excel_time * 24- hours)  * 60)
+            print("minutes: ", minutes)
+            my_datetime = datetime.datetime(1900, 1, 1, hours, minutes)  # 日期部分可以是任意日期
+            print("my_datetime: ", my_datetime)
+            # 将datetime对象格式化为字符串
+            time_str = my_datetime.strftime("%H:%M")
+            print("time_str: ", time_str)
+            status = time_str
+        except Exception as e:
+            pass 
+            # print("status is not float" , e)
+            
+            pass
         camera_status = row['摄像头状态']
         
         vehicle = Vehicle(plate_number, organization, status, camera_status)
