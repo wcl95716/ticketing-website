@@ -3,6 +3,16 @@ import uuid
 import pandas as pd
 import matplotlib.pyplot as plt
 import matplotlib
+
+import platform
+
+# 获取当前操作系统的名称
+current_os = platform.system()
+
+# 打印操作系统名称
+print("当前操作系统:", current_os)
+
+
 matplotlib.use('Agg')
 
 
@@ -33,15 +43,22 @@ def create_table_image(df, directory = "./data/pngs/", file_name=None, base_heig
     # Replace "nan" values with empty strings
     df = df.fillna("")
 
-    # Set font properties for displaying Chinese characters 
-    plt.rcParams['font.sans-serif'] = ['Arial Unicode MS']
+    # 判断当前操作系统类型
+    if current_os == "Linux":
+        plt.rcParams['font.family'] = 'sans-serif'
+        plt.rcParams['font.sans-serif'] = ['AR PL UKai CN']
+    elif current_os == "Windows":
+        print("这是Windows操作系统")
+    elif current_os == "Darwin":
+        # Set font properties for displaying Chinese characters 
+        plt.rcParams['font.sans-serif'] = ['Arial Unicode MS']
+        print("这是macOS操作系统")
+    else:
+        print("未知操作系统")
+
+
     
-    # font_path = '/usr/share/fonts/truetype/arphic/ukai.ttc:style=Bold'
-    # # plt.rcParams['font.sans-serif'] = [font_path]
-    # plt.rcParams['font.sans-serif'] = ['SimHei', 'SimSun', 'AR PL UKai CN', 'Noto Sans CJK']
-    # # 清除 Matplotlib 缓存
-    # plt.rcParams['font.family'] = 'sans-serif'
-    # plt.rcParams['font.sans-serif'] = ['AR PL UKai CN']
+
 
 
     # Calculate the ideal image size
