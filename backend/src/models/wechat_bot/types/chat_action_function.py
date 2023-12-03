@@ -62,6 +62,11 @@ class ChatActionFunctionFactory:
         response = requests.post(url, json=chatMessage)
         if group_message is None:
             return 
+        num_messages = len(group_message)
+        # 设置要取的最后十条消息的数量
+        num_to_keep = 5
+        last_ten_messages = group_message[-num_to_keep:] if num_messages >= num_to_keep else group_message
+
         try:
             for message in group_message:
                 message_id = ""
