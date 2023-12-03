@@ -1,5 +1,6 @@
 
 
+from datetime import date
 from utils import local_logger
 
 
@@ -40,7 +41,7 @@ class GroupManager:
     def group_init_send_message(self,group:GroupChatManager):
         #for group in self.group_manager_list:
         if group.is_init == False:
-            send_message(group.group_id,"机器人已启动")
+            send_message(group.group_id,"机器人已启动 : " + date.today().strftime("%Y-%m-%d") )
             #pass 
             pass 
         pass
