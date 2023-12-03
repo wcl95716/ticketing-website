@@ -31,7 +31,7 @@ class GroupChatManager:
         num_messages = len(chat_messages)
 
         # 设置要取的最后十条消息的数量
-        num_to_keep = 10
+        num_to_keep = 3
         last_ten_messages = chat_messages[-num_to_keep:] if num_messages >= num_to_keep else chat_messages
 
         result_task = []
@@ -44,7 +44,7 @@ class GroupChatManager:
             # hash_value = get_hash_value_ex(messages)
             local_logger.logger.info(f"chat_message {hash_value}  {message} ")   
             self.current_chat_message_id = hash_value
-            if message_id_pivot == hash_value :
+            if message_id_pivot == hash_value:
                 # 清空任务队列
                 result_task.clear()
                 continue

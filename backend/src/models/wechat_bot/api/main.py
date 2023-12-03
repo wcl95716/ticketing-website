@@ -40,9 +40,11 @@ def test_group_manager():
         print("开始处理群聊任务")
         try:
             group_list = get_group_list()
-            # 获取group_list 前三个群聊
-            group_list = group_list[:3]
-            group_manager.process_group_tasks(process_group_list=group_list)
+            # 获取group_list 
+            group_list = group_list[:2]
+            print(f"获取group_list  {group_list}")
+            for group_id in group_list:
+                group_manager.process_one_group_tasks(group_id)
         
             fix_online_tasks()
         except Exception as e:
