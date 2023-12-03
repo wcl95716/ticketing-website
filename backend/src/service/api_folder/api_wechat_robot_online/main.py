@@ -67,7 +67,7 @@ def api_add_task():
 @api_bp.route('/add_remind_ticket_task' , methods=['POST'])
 def api_add_remind_ticket_task():
     data = request.get_json()
-    if 'to_user' not in data or 'content' not in data:
+    if 'ticket_id' not in data :
         return jsonify({'error': 'Missing required fields'}), 400
     local_logger.logger.info("process-log json : %s", data)
     # 创建LogProcessingFilesUrl对象
