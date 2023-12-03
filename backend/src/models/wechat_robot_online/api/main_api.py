@@ -1,5 +1,7 @@
 
+import datetime
 import sys
+import time
 sys.path.append("./src")
 import requests
 
@@ -22,10 +24,13 @@ def get_vehicles_from_url(excel_url:str) -> list[Vehicle]:
     # 读取Excel文件
     
     df:pd.DataFrame = download_excel_and_read(excel_url)
-    df['车牌号码'] = df['车牌号码'].fillna('')
-    df['车辆组织'] = df['车辆组织'].fillna('')
-    df['车辆状态（离线/定位）'] = df['车辆状态（离线/定位）'].fillna('')
-    df['摄像头状态'] = df['摄像头状态'].fillna('')
+    
+    df['车牌号码'] = df['车牌号码'].fillna('').astype(str)
+    df['车辆组织'] = df['车辆组织'].fillna('').astype(str)
+    # 类型为时间
+    df['车辆状态（离线/定位）'] = df['车辆状态（离线/定位）'].fillna('').astype(str)
+    df['摄像头状态'] = df['摄像头状态'].fillna('').astype(str)
+    print(df)
     # print("asdasddasd  ",df)
     if df is None:
         return None
@@ -54,9 +59,11 @@ def get_organizationgroups_from_url(excel_url: str) -> list[OrganizationGroup]:
 
         # 遍历DataFrame的行，为每一行的数据创建一个OrganizationGroup对象
         for index, row in df.iterrows():
-            organization = row['客户名称']
+            organization = row['车辆组织']
             group_name = row['微信服务群名称']
-            org_group = OrganizationGroup(organization, group_name)
+            vehicle_status_speech = row['车辆状态（离线/定位）']
+            camera_status_speech = row['摄像头状态']
+            org_group = OrganizationGroup(organization, group_name , vehicle_status_speech , camera_status_speech)
             organization_groups.append(org_group)
 
         return organization_groups
@@ -107,8 +114,8 @@ def upload_img_file(img_path:str) -> None:
 if __name__=='__main__':
 
     # 传入Excel文件路径，并获取OrganizationGroup对象列表
-    vehicle_url= "http://127.0.0.1:8001/test/uploads/c2faed2d0ed641f59cb8b46fe236a7eb_-.xlsx"
-    excel_file_path= "http://localhost:8001/test/uploads/ab0c379448914cfb8b4d02eca10d4862_-.xlsx"
+    vehicle_url= "http://127.0.0.1:8001/test/uploads/eebba396c5c74f488a9383c1334ddb61_-.xlsx"
+    excel_file_path= "http://localhost:8001/test/uploads/4410e88715f94c1fac7db506eb252ede_-.xlsx"
 
     # 获取分类后的数据
     # 创建LogProcessingType对象并进行分类
