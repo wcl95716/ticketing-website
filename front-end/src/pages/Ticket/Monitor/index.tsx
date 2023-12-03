@@ -134,6 +134,7 @@ const Monitor = () => {
     //   return;
     // } 
     else {
+      message.success(`提交成功`);
       getRecord(fileList);
     }
   };
