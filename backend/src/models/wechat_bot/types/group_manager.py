@@ -43,14 +43,13 @@ class GroupManager:
         #for group in self.group_manager_list:
         if group.is_init == False:
             send_message(group.group_id,"机器人已启动 : " + date.today().strftime("%Y-%m-%d") )
-            #pass 
             pass 
         pass
     
     def fix_group_task(self,group_id,tasks):
         for task in tasks:
             local_logger.logger.info(f" fix tasks {task}")
-            task_result = task[0](task[1],task[2])
+            task_result = task[0](task[1],task[2],task[3])
             send_message(group_id,task_result[1])
             pass 
         pass
