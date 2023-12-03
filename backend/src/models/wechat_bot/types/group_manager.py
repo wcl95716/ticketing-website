@@ -53,31 +53,31 @@ class GroupManager:
             pass 
         pass
     
-    def process_group_tasks(self,process_group_list:list[str] = [] ):
-        chat_keyword_handler = ChatCommandHandler(robot_name=self.robot_name, actions=self.actions)
-        local_logger.logger.info(f"process_group_tasks {process_group_list} ")
-        for group in self.group_manager_list:
+    # def process_group_tasks(self,process_group_list:list[str] = [] ):
+    #     chat_keyword_handler = ChatCommandHandler(robot_name=self.robot_name, actions=self.actions)
+    #     local_logger.logger.info(f"process_group_tasks {process_group_list} ")
+    #     for group in self.group_manager_list:
 
-            # 如果不在处理的群聊列表中，则跳过
-            if not any(prefix.startswith(group.group_id) for prefix in process_group_list):
-                local_logger.logger.info(f"跳过群聊 {group.group_id}")
-                continue
-            # 初始化发送消息
-            self.group_init_send_message(group=group)
+    #         # 如果不在处理的群聊列表中，则跳过
+    #         if not any(prefix.startswith(group.group_id) for prefix in process_group_list):
+    #             local_logger.logger.info(f"跳过群聊 {group.group_id}")
+    #             continue
+    #         # 初始化发送消息
+    #         self.group_init_send_message(group=group)
             
-            # true_prefix = next((prefix for prefix in process_group_list if prefix.startswith(group.group_id)), None)
+    #         # true_prefix = next((prefix for prefix in process_group_list if prefix.startswith(group.group_id)), None)
             
-            group_id = group.group_id
-            local_logger.logger.info(f"处理群聊 {group_id}  ")
-            # chat_messages = []
-            chat_messages = get_chat_messages(group_id)
-            tasks:[] = group.find_task(chat_keyword_handler,chat_messages)
-            local_logger.logger.info(f" find tasks {tasks}")
-            if self.is_init and group.is_init :
-                self.fix_group_task(group.group_id,tasks)
-            group.is_init = True
-        self.is_init = True
-        pass
+    #         group_id = group.group_id
+    #         local_logger.logger.info(f"处理群聊 {group_id}  ")
+    #         # chat_messages = []
+    #         chat_messages = get_chat_messages(group_id)
+    #         tasks:[] = group.find_task(chat_keyword_handler,chat_messages)
+    #         local_logger.logger.info(f" find tasks {tasks}")
+    #         if self.is_init and group.is_init :
+    #             self.fix_group_task(group.group_id,tasks)
+    #         group.is_init = True
+    #     self.is_init = True
+    #     pass
     
     def process_one_group_tasks(self, process_group:str ):
         chat_keyword_handler = ChatCommandHandler(robot_name=self.robot_name, actions=self.actions)
