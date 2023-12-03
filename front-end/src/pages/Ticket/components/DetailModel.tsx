@@ -74,7 +74,7 @@ const DetailModel = () => {
 
          const interval = setInterval(() => {
             dispatch(getChatRequest(ticket_id));
-         }, 20000000);
+         }, 3000);
 
          return () => {
             clearInterval(interval); // 在组件卸载时清除定时器

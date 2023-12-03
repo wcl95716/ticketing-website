@@ -9,6 +9,7 @@ from models.ticketing_system.types.enum_type import Priority, TicketStatus
 import uuid
 from utils import  local_logger
 
+
 class TicketRecord:
 
     def __init__(self, title: str, created_time: str, status: TicketStatus, priority: Priority,
@@ -32,9 +33,11 @@ class TicketRecord:
         # 使用条件表达式将 ticket_type 为 None 的情况赋值为空字符串
         self.ticket_type = ticket_type if ticket_type is not None else ""
         
+        self.update_time = created_time # 更新时间
+        
         self.source = source
         
-        self.update_time = created_time # 更新时间
+        
 
     @classmethod
     def generate_ticket_id(cls):

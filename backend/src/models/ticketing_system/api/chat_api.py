@@ -9,7 +9,7 @@ from utils import local_logger
 
 def add_chat_record(chat_record_json: dict):
 
-    chat_record = ChatRecord.from_json(chat_record_json)
+    chat_record:ChatRecord = ChatRecord.from_json(chat_record_json)
     chat_storage.add_chat_record_to_file(chat_record)
 
     pass

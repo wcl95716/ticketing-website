@@ -7,9 +7,10 @@ import markdown2
 from models import ticketing_system
 from models.ticketing_system.types.ticket_record import TicketRecord
 from models.ticketing_system.types.user_profile import UserProfile
+from models.wechat_bot.types.chat_action_function import ChatActionFunctionFactory
 from models.wechat_robot_online.api.main_api import get_log_processing, upload_img_file
 from models.wechat_robot_online.types.log_processing_type import LogProcessingFilesUrl
-from models.wechat_robot_online.types.robot_task_type import RobotTask
+from models.wechat_robot_online.types.robot_task_type import RobotTask, RobotTaskType
 from utils import  local_logger
 
 from service.api_folder.api_ticketing_system.sub_model1 import api_bp as api_bp_sub
@@ -32,9 +33,8 @@ tasks_lock = threading.Lock()
 def add_tasks(tasks:list[RobotTask]):
     # 在修改 tasks_local 列表之前获取锁
     with tasks_lock:
-        
         for task in tasks:
-            if task.task_type == 0:
+            if task.task_type == RobotTaskType.IMAGE_TYPE.value:
                 url =  upload_img_file(task.content)
                 task.content = url
             local_logger.logger.info(f"task {task.to_user} task.content = { task.content}")
@@ -47,7 +47,59 @@ def clean_tasks():
     pass 
 
 
+
+@api_bp.route('/add_task' , methods=['POST'])
+def api_add_task():
+    data = request.get_json()
+    if 'to_user' not in data or 'content' not in data:
+        return jsonify({'error': 'Missing required fields'}), 400
+    local_logger.logger.info("process-log json : %s", data)
+    # 创建LogProcessingFilesUrl对象
+    task = RobotTask(
+        data['to_user'],
+        data['content'],
+        data['task_type'],
+    )
+    add_tasks([task])
+    return jsonify({'message': 'LogProcessingFilesUrl object received successfully'}), 200
+    pass
     
+@api_bp.route('/add_remind_ticket_task' , methods=['POST'])
+def api_add_remind_ticket_task():
+    data = request.get_json()
+    if 'ticket_id' not in data :
+        return jsonify({'error': 'Missing required fields'}), 400
+    local_logger.logger.info("process-log json : %s", data)
+    # 创建LogProcessingFilesUrl对象
+    ticket_id = data['ticket_id']
+    # 获取ticket
+    ticket_content:TicketRecord = ticketing_system.ticket_api.get_ticket(ticket_id)
+    
+    if ticket_content is None:
+        return jsonify({'error': 'Missing required fields'}), 400
+    try:
+        ticket_source = ticket_content.source
+        local_logger.logger.info("ticket_source : %s", ticket_source)
+        group_id = ticket_source['group_id']
+        customer_id = ticket_source['customer_id']
+        to_user = group_id
+        content = ChatActionFunctionFactory.get_work_order_link(ticket_id , customer_id)
+        task_type = RobotTaskType.TEXT_TYPE.value
+        task = RobotTask(
+            to_user,
+            content,
+            task_type,
+        )
+        local_logger.logger.info("add_remind_ticket_task task : %s", task.__dict__)
+        add_tasks([task])
+        local_logger.logger.info("add_remind_ticket_task success")
+        return jsonify({'message': 'LogProcessingFilesUrl object received successfully'}), 200
+    except Exception as e:
+        return jsonify({'error': 'Missing required fields'}), 400
+    
+    return jsonify({'message': 'LogProcessingFilesUrl object received successfully'}), 200
+    pass
+
 
 # 创建一个用于接收LogProcessingFilesUrl对象的API端点
 @api_bp.route('/process_log', methods=['POST'])

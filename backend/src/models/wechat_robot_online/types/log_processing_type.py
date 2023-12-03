@@ -1,7 +1,7 @@
 import math
 import sys
 import pandas as pd
-from models.wechat_robot_online.types.robot_task_type import RobotTask
+from models.wechat_robot_online.types.robot_task_type import RobotTask, RobotTaskType
 from utils.table_image import create_table_image
 
 sys.path.append("./src")
@@ -49,7 +49,7 @@ class LogProcessing:
         df = pd.DataFrame(data)
         img_path = create_table_image(df)
         to_user = group.group_name
-        robot_task = RobotTask(to_user = to_user, content = img_path)
+        robot_task = RobotTask(to_user = to_user, content = img_path,task_type=RobotTaskType.IMAGE_TYPE.value)
         return robot_task
         pass
     

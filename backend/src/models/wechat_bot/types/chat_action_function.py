@@ -39,7 +39,7 @@ class ChatActionFunctionFactory:
     pass
 
     @staticmethod
-    def add_ticket_init_chat(ticket_record: dict = None) -> dict:
+    def add_ticket_init_chat(ticket_record: dict = None , group_message:list[tuple] = None, sender_name:str = None) -> dict:
         url = 'http://47.116.201.99:8001/test/add_chat_record'
         ticket_id = ticket_record["ticket_id"]
         
@@ -60,6 +60,37 @@ class ChatActionFunctionFactory:
             "message_type": message_type
         }
         response = requests.post(url, json=chatMessage)
+        if group_message is None:
+            return 
+        num_messages = len(group_message)
+        # 设置要取的最后十条消息的数量
+        num_to_keep = 5
+        last_ten_messages = group_message[-num_to_keep:] if num_messages >= num_to_keep else group_message
+
+        try:
+            for message in group_message:
+                message_id = ""
+                sender = message[0]  
+                if sender != sender_name:
+                    continue  
+                    
+                content = message[1]
+                message_time = datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+                message_type = 0
+                chatMessage = {
+                    "message_id": message_id,
+                    "ticket_id": ticket_id,
+                    "sender": sender,
+                    "content": content,
+                    "message_time": message_time,
+                    "message_type": message_type
+                }
+                response = requests.post(url, json=chatMessage)
+                pass
+        except Exception as e:
+            local_logger.logger.info("add_ticket_init_chat error : %s", str(e))
+            pass
+            
         
 
     @staticmethod
@@ -69,7 +100,7 @@ class ChatActionFunctionFactory:
         return f"@{customer_id} 工单通知  {ChatActionFunctionFactory.page_url}?ticket_id={ticket_id}&customer_id={encoded_string}"
     
     @staticmethod
-    def work_order_create(group_id, message: tuple = None) -> tuple[str]:
+    def work_order_create(group_id, message: tuple = None,group_messages:list[tuple] = None ) -> tuple[str]:
         # 编写创建工单的操作逻辑
         local_logger.logger.info("work_order_create begin ")
         if message is None:
@@ -91,7 +122,7 @@ class ChatActionFunctionFactory:
         }
         
         ticket_response = ChatActionFunctionFactory.add_ticket_to_website(ticket_data)
-        ChatActionFunctionFactory.add_ticket_init_chat(ticket_response)
+        ChatActionFunctionFactory.add_ticket_init_chat(ticket_response,group_messages , message[0])
         local_logger.logger.info("work_order_create ticket_response : %s", ticket_response)
         if ticket_response is None:
             return None
