@@ -1,6 +1,7 @@
 
 
 from datetime import date
+import datetime
 from utils import local_logger
 
 
@@ -90,7 +91,7 @@ class GroupManager:
             
             group_id = process_group
             if group.is_init == False:
-                send_message(group.group_id,"机器人已启动 : " + date.today().strftime('%Y-%m-%d %H:%M:%S') )
+                send_message(group.group_id,"机器人已启动 : " + datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S"),)
                 group_id = group.group_id
                 pass 
 
