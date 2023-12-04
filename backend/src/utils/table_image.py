@@ -29,7 +29,7 @@ def wrap_text(text, width):
     """
     return textwrap.fill(text, width)
 
-def create_table_image(df, directory = "./data/pngs/", file_name=None, base_height_per_row=0.25, base_width_per_column=2.2, min_width=5, min_height=4, max_width=30, max_height=250, dpi=300):
+def create_table_image(df,title:str = "", directory = "./data/pngs/", file_name=None, base_height_per_row=0.25, base_width_per_column=2.2, min_width=5, min_height=4, max_width=30, max_height=250, dpi=300):
     """
     Create an image of a pandas DataFrame as a table, save it in the specified directory, and return the file path.
 
@@ -94,9 +94,10 @@ def create_table_image(df, directory = "./data/pngs/", file_name=None, base_heig
     # Hide axes
     ax.axis('off')
     ax.axis('tight')
-
+    plt.title(title, fontsize=16)
     # Adjust layout
     plt.tight_layout()
+
 
     # Ensure directory exists
     if not os.path.exists(directory):

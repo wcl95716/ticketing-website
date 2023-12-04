@@ -49,7 +49,7 @@ class LogProcessing:
     def get_robot_task(vehicle_data_list:list[Vehicle],group:OrganizationGroup) -> RobotTask:
         data = LogProcessing.get_pandas_df(vehicle_data_list,group)
         df = pd.DataFrame(data)
-        img_path = create_table_image(df)
+        img_path = create_table_image(df,title = group.organization)
         to_user = group.group_name
         robot_task = RobotTask(to_user = to_user, content = img_path,task_type=RobotTaskType.IMAGE_TYPE.value)
         return robot_task
