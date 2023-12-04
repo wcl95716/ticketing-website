@@ -1,5 +1,6 @@
 
 from flask import Blueprint, current_app, jsonify, request, send_file, render_template, url_for
+
 from flask_cors import CORS
 import os
 import markdown2
@@ -143,6 +144,8 @@ def api_get_all_tickets():
         local_logger.logger.info("api_get_all_tickets error : %s", str(e))
         return jsonify({"error": str(e)})
 
+import os
+
 @api_bp.route('/download_all_tickets', methods=['POST'])
 def api_download_all_tickets():
     try:
@@ -154,22 +157,29 @@ def api_download_all_tickets():
             local_logger.logger.info("all_tickets : %d ", len(all_tickets))
             # 将数据转换为DataFrame
             df = pd.DataFrame([ticket.to_dict() for ticket in all_tickets])
-            # 创建一个Excel文件
-            excel_file = df.to_excel("all_tickets.xlsx", index=False)
+            # 获取当前文件的绝对路径
+            current_directory = os.path.dirname(os.path.abspath(__file__))
+            # 创建一个Excel文件并保存在当前路径下
+            excel_file_path = os.path.join(current_directory, "all_tickets.xlsx")
+            df.to_excel(excel_file_path, index=False)
             # 将Excel文件作为附件返回
-            return send_file("all_tickets.xlsx", as_attachment=True)
+            return send_file(excel_file_path, as_attachment=True)
         # 如果传递了筛选条件，则返回符合条件的工单
         result = ticketing_system.ticket_api.get_ticket_filter(ticket_filter_data)
         local_logger.logger.info("ticket_filter result : %d ", len(result))
         # 将数据转换为DataFrame
         df = pd.DataFrame([ticket.to_dict() for ticket in result])
-        # 创建一个Excel文件
-        excel_file = df.to_excel("filtered_tickets.xlsx", index=False)
+        # 获取当前文件的绝对路径
+        current_directory = os.path.dirname(os.path.abspath(__file__))
+        # 创建一个Excel文件并保存在当前路径下
+        excel_file_path = os.path.join(current_directory, "filtered_tickets.xlsx")
+        df.to_excel(excel_file_path, index=False)
         # 将Excel文件作为附件返回
-        return send_file("filtered_tickets.xlsx", as_attachment=True)
+        return send_file(excel_file_path, as_attachment=True)
     except Exception as e:
         local_logger.logger.info("api_get_all_tickets error : %s", str(e))
         return jsonify({"error": str(e)})
+
     
 # 根据条件获取工单的接口
 @api_bp.route('/get_ticket_filter', methods=['POST'])
