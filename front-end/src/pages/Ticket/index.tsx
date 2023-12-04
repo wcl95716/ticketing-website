@@ -1,6 +1,6 @@
 
 import React, { useState, memo, useEffect } from 'react';
-import { getTicketListRequest, getAllUserRequest, updateTicket, selecAllUser, selectTicketRecordList, deleteTicketListRequest,selecTicketFilter } from 'models/ticketing-website/index.model';
+import { getTicketListRequest, getAllUserRequest, updateTicket, selecAllUser,postExport, selectTicketRecordList, deleteTicketListRequest, selecTicketFilter,selectExportUrl } from 'models/ticketing-website/index.model';
 import SearchForm from './components/SearchForm';
 import { useNavigate } from 'react-router-dom';
 import {
@@ -37,6 +37,7 @@ const ticketPage: React.FC = () => {
    const navigate = useNavigate();
    const ticketRecordList = useAppSelector(selectTicketRecordList);
    const allUserList = useAppSelector(selecAllUser);
+   const exportUrl = useAppSelector(selectExportUrl);
 
    const ticketFilter = useAppSelector(selecTicketFilter);
    // console.log("查看筛选filter",ticketFilter)
@@ -45,7 +46,7 @@ const ticketPage: React.FC = () => {
       setLoading(true);
       await dispatch(getTicketListRequest(ticketFilter));
       setLoading(false);
-    };
+   };
 
    useEffect(() => {
       pageInit();
@@ -63,17 +64,24 @@ const ticketPage: React.FC = () => {
          // dispatch(getTicketListRequest({}));
       });
    };
+   const handleExport = () => {
+      // 这里添加导出数据的逻辑
+      dispatch(postExport(ticketFilter)).then((res)=>{
+         console.log('导出数据',res);
+      });
+      
+    };
 
    // onView 函数
-const onView = (record: DataType) => {
-   // 检查 record 是否存在且包含 ticket_id
-   if (record && record?.ticket_id) {
-       // 构建新的 URL，将 ticket_id 作为查询参数
-       const urlWithTicketId = `/ticket/index/detail?ticket_id=${record.ticket_id}`;
-       // 使用新的 URL 进行导航
-       navigate(urlWithTicketId);
-   }
-};
+   const onView = (record: DataType) => {
+      // 检查 record 是否存在且包含 ticket_id
+      if (record && record?.ticket_id) {
+         // 构建新的 URL，将 ticket_id 作为查询参数
+         const urlWithTicketId = `/ticket/index/detail?ticket_id=${record.ticket_id}`;
+         // 使用新的 URL 进行导航
+         navigate(urlWithTicketId);
+      }
+   };
 
    const renderStatus = (status: any) => {
       let statusText;
@@ -118,9 +126,9 @@ const onView = (record: DataType) => {
       })
       // 定义内部函数，用于处理选择变更
       const onValueChange = (value) => {
-         const updateRecord = {...record, assigned_to: value === undefined ? null : value };
+         const updateRecord = { ...record, assigned_to: value === undefined ? null : value };
          console.log(updateRecord)
-         dispatch(updateTicket(updateRecord)).then(()=>{
+         dispatch(updateTicket(updateRecord)).then(() => {
             dispatch(getTicketListRequest({}));
          });
       };
@@ -218,15 +226,20 @@ const onView = (record: DataType) => {
                />
             </div>
          </Row>
-         <Table
-            className={Style.list_ticket_table}
-            loading={loading}
-            size="large"
-            dataSource={data}
-            columns={columns}
-            rowKey='ticket_id'
-            scroll={{ x: 1300 }}
-         />
+         <div>
+            <div className={Style.navBar}>
+               <Button style={{borderRadius:'2px',margin:'5px 0px 5px 6px'}} type="primary" onClick={handleExport}>导出</Button>
+            </div>
+            <Table
+               className={Style.list_ticket_table}
+               loading={loading}
+               size="large"
+               dataSource={data}
+               columns={columns}
+               rowKey='ticket_id'
+               scroll={{ x: 1300 }}
+            />
+         </div>
       </div>
    );
 }
