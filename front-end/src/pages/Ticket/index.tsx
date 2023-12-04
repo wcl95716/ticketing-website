@@ -166,7 +166,7 @@ const onView = (record: DataType) => {
       },
       {
          title: "更新时间",
-         dataIndex: "address",
+         dataIndex: "update_time",
          key: "4",
          width: 150,
       },
