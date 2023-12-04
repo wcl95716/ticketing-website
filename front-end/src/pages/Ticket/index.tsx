@@ -67,7 +67,16 @@ const ticketPage: React.FC = () => {
    const handleExport = () => {
       // 这里添加导出数据的逻辑
       dispatch(postExport(ticketFilter)).then((res)=>{
-         console.log('导出数据',res);
+         const{ file_url } = res.payload as any;
+         console.log('导出数据',file_url);
+         const link = document.createElement('a');
+         link.href = file_url;
+         link.download = '工单数据.xlsx'; // 设置下载时的文件名
+         link.style.display = 'none';
+         document.body.appendChild(link);
+         link.click();
+         document.body.removeChild(link);
+         
       });
       
     };
