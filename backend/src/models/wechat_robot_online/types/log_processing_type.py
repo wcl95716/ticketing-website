@@ -31,11 +31,11 @@ class LogProcessing:
             
             row = {
                 # 'Organization Group': vehicle_data.organization,
-                'Plate Number': vehicle_data.plate_number,
+                'Plate_Number': vehicle_data.plate_number,
                 'Organization': vehicle_data.organization,
                 'Status': vehicle_data.status,
-                'Camera Status': vehicle_data.camera_status,
-                'Group Name': group.group_name
+                'Camera_Status': vehicle_data.camera_status,
+                'Group_Name': group.group_name
             }
 
             data.append(row)
@@ -58,15 +58,17 @@ class LogProcessing:
     
     @staticmethod
     def get_robot_task_by_status(vehicle_data_list:list[Vehicle],group:OrganizationGroup, status) -> RobotTask:
-        content = ""
+        content = "车辆组织: " + group.organization + '{ctrl}{ENTER}'  + "  车牌号码: "
         for vehicle_data in vehicle_data_list:
             content += vehicle_data.plate_number+","
             
-        content += "状态为: "+ str(vehicle_data.camera_status) + "   提示: " 
+      
         to_user = group.group_name
         if status == LogProcessing.camera_status:
-            content += group.camera_status_speech
+            content +=  " "+ str(vehicle_data.camera_status) + "     " 
+            content +=  '{ctrl}{ENTER}'+ group.camera_status_speech
         elif status == LogProcessing.vehicle_status:
+            content += '{ctrl}{ENTER}'
             content += group.vehicle_status_speech
         robot_task = RobotTask(to_user = to_user, content = content ,task_type= RobotTaskType.TEXT_TYPE.value)
         return robot_task

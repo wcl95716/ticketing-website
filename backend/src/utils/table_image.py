@@ -5,6 +5,7 @@ import matplotlib.pyplot as plt
 import matplotlib
 
 import platform
+import textwrap
 
 # 获取当前操作系统的名称
 current_os = platform.system()
@@ -15,8 +16,20 @@ print("当前操作系统:", current_os)
 
 matplotlib.use('Agg')
 
+def wrap_text(text, width):
+    """
+    Wrap text to a specified width.
 
-def create_table_image(df, directory = "./data/pngs/", file_name=None, base_height_per_row=0.24, base_width_per_column=2.0, min_width=5, min_height=4, max_width=15, max_height=250, dpi=300):
+    Parameters:
+    text (str): The text to wrap.
+    width (int): The maximum line width in characters.
+
+    Returns:
+    str: The wrapped text.
+    """
+    return textwrap.fill(text, width)
+
+def create_table_image(df, directory = "./data/pngs/", file_name=None, base_height_per_row=0.25, base_width_per_column=2.2, min_width=5, min_height=4, max_width=30, max_height=250, dpi=300):
     """
     Create an image of a pandas DataFrame as a table, save it in the specified directory, and return the file path.
 
@@ -42,6 +55,13 @@ def create_table_image(df, directory = "./data/pngs/", file_name=None, base_heig
         
     # Replace "nan" values with empty strings
     df = df.fillna("")
+    
+    # Copy the DataFrame to avoid modifying the original data
+    # df = df.copy()
+
+    # Apply text wrapping to the specified column
+    # df["Camera_Status"] = df["Camera_Status"].apply(lambda x: wrap_text(str(x), 100))
+
 
     # 判断当前操作系统类型
     if current_os == "Linux":
@@ -57,10 +77,6 @@ def create_table_image(df, directory = "./data/pngs/", file_name=None, base_heig
         print("未知操作系统")
 
 
-    
-
-
-
     # Calculate the ideal image size
     ideal_width = min(max(df.shape[1] * base_width_per_column, min_width), max_width)
     ideal_height = min(max(df.shape[0] * base_height_per_row, min_height), max_height)
@@ -69,8 +85,12 @@ def create_table_image(df, directory = "./data/pngs/", file_name=None, base_heig
     fig, ax = plt.subplots(figsize=(ideal_width, ideal_height))
 
     # Plot the DataFrame as a table
-    ax.table(cellText=df.values, colLabels=df.columns, cellLoc='center', loc='center')
+    table = ax.table(cellText=df.values, colLabels=df.columns,colWidths=[0.1,0.1,0.1,0.5,0.2], cellLoc='center', loc='center')
 
+    # Adjust table font size
+    table.auto_set_font_size(False)
+    table.set_fontsize(10)
+    
     # Hide axes
     ax.axis('off')
     ax.axis('tight')
