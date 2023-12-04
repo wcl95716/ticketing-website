@@ -58,7 +58,7 @@ class LogProcessing:
     
     @staticmethod
     def get_robot_task_by_status(vehicle_data_list:list[Vehicle],group:OrganizationGroup, status) -> RobotTask:
-        content = "车辆组织: " + group.organization + '{ctrl}{ENTER}'  + "  车牌号码: "
+        content = "车辆组织: " + group.organization + '{ctrl}{ENTER}'  + "车牌号码: "
         for vehicle_data in vehicle_data_list:
             content += vehicle_data.plate_number+","
             
