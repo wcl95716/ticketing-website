@@ -69,7 +69,7 @@ class LogProcessing:
       
         to_user = group.group_name
         if status == LogProcessing.camera_status:
-            content +=  " "+ str(vehicle_data.camera_status) + "     " 
+            #content +=  " "+ str(vehicle_data.camera_status) + "     " 
             content +=  '{ctrl}{ENTER}'+ group.camera_status_speech
         elif status == LogProcessing.vehicle_status:
             content += '{ctrl}{ENTER}'
