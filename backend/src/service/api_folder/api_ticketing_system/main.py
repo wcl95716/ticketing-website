@@ -145,9 +145,12 @@ def api_get_all_tickets():
         return jsonify({"error": str(e)})
 
 import os
+import requests
 
 @api_bp.route('/download_all_tickets', methods=['POST'])
 def api_download_all_tickets():
+    # 调用上传文件接口
+    upload_url = "http://47.116.201.99:8001/test/upload_file"  # 替换为您的上传文件的接口URL
     try:
         ticket_filter_data = request.get_json()
         local_logger.logger.info("ticket_filter_data : %s", ticket_filter_data)
@@ -157,40 +160,41 @@ def api_download_all_tickets():
             local_logger.logger.info("all_tickets : %d ", len(all_tickets))
             # 将数据转换为DataFrame
             df = pd.DataFrame([ticket.to_dict() for ticket in all_tickets])
-            # 获取当前文件的绝对路径
-            current_directory = os.path.dirname(os.path.abspath(__file__))
             # 创建一个Excel文件并保存在当前路径下
-            excel_file_path = os.path.join(current_directory, "all_tickets.xlsx")
+            excel_file_path = "all_tickets.xlsx"
             df.to_excel(excel_file_path, index=False)
-            # 将Excel文件作为附件返回
-            return send_file(excel_file_path, as_attachment=True)
+            
+
+            files = {"file": open(excel_file_path, "rb")}
+            response = requests.post(upload_url, files=files)
+            
+            if response.status_code == 200:
+                file_info = response.json()
+                file_url = file_info.get("file_url")
+                return jsonify({'message': 'File uploaded successfully', 'file_url': file_url})
+            
         # 如果传递了筛选条件，则返回符合条件的工单
         result = ticketing_system.ticket_api.get_ticket_filter(ticket_filter_data)
         local_logger.logger.info("ticket_filter result : %d ", len(result))
         # 将数据转换为DataFrame
         df = pd.DataFrame([ticket.to_dict() for ticket in result])
-        # 获取当前文件的绝对路径
-        current_directory = os.path.dirname(os.path.abspath(__file__))
         # 创建一个Excel文件并保存在当前路径下
-        excel_file_path = os.path.join(current_directory, "filtered_tickets.xlsx")
+        excel_file_path = "filtered_tickets.xlsx"
         df.to_excel(excel_file_path, index=False)
-        # 将Excel文件作为附件返回
-        return send_file(excel_file_path, as_attachment=True)
+        
+        files = {"file": open(excel_file_path, "rb")}
+        response = requests.post(upload_url, files=files)
+        
+        if response.status_code == 200:
+            file_info = response.json()
+            file_url = file_info.get("file_url")
+            return jsonify({'message': 'File uploaded successfully', 'file_url': file_url})
+            
     except Exception as e:
         local_logger.logger.info("api_get_all_tickets error : %s", str(e))
         return jsonify({"error": str(e)})
 
-    
-# 根据条件获取工单的接口
-@api_bp.route('/get_ticket_filter', methods=['POST'])
-def api_get_ticket_filter():
-    try:
-        result = ticketing_system.ticket_api.get_ticket_filter(request.get_json())
-        # 例如：return jsonify([ticket.to_dict() for ticket in all_tickets])
-        return jsonify([ticket.to_dict() for ticket in result])
-    except Exception as e:
-        return jsonify({"error": str(e)})
-    pass
+
     
 # 上传文件的接口
 @api_bp.route('/upload_file', methods=['POST'])
