@@ -160,8 +160,7 @@
          state.ticketRecordlist = action.payload;
        })
        .addCase(getChatRequest.fulfilled, (state, action) => {
-         // state.chatRecord = action.payload;
-         state.chatRecord = [...state.chatRecord, ...action.payload];
+         state.chatRecord = action.payload;
        })
        .addCase(getTicketDetail.fulfilled, (state, action) => {
          state.ticketDetail = action.payload;
