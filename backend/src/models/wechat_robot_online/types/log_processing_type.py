@@ -31,11 +31,15 @@ class LogProcessing:
             
             row = {
                 # 'Organization Group': vehicle_data.organization,
-                'Plate_Number': vehicle_data.plate_number,
-                'Organization': vehicle_data.organization,
-                'Status': vehicle_data.status,
-                'Camera_Status': vehicle_data.camera_status,
-                'Group_Name': group.group_name
+                # 'Plate_Number': vehicle_data.plate_number,
+                # 'Organization': vehicle_data.organization,
+                # 'Status': vehicle_data.status,
+                # 'Camera_Status': vehicle_data.camera_status,
+                # 'Group_Name': group.group_name
+                '车牌号': vehicle_data.plate_number,
+                '车辆组织': vehicle_data.organization,
+                '车辆状态': vehicle_data.status,
+                '摄像头状态': vehicle_data.camera_status,
             }
 
             data.append(row)
