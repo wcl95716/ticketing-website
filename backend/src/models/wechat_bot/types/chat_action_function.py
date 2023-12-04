@@ -68,7 +68,7 @@ class ChatActionFunctionFactory:
         last_ten_messages = group_message[-num_to_keep:] if num_messages >= num_to_keep else group_message
 
         try:
-            for message in group_message:
+            for message in last_ten_messages:
                 message_id = ""
                 sender = message[0]  
                 if sender != sender_name:
