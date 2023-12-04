@@ -53,6 +53,6 @@ const routes: IRouter[] = [
 ];
 
 // const allRoutes = [...routes, ...dashboard, ...list, ...form, ...detail, ...result, ...ticket, ...user, ...login, ...otherRoutes];
-const allRoutes = [...routes, ...ticket, ...userChatPage ];
+const allRoutes = [...userChatPage,...routes, ...ticket, ];
 
 export default allRoutes;
