@@ -1,8 +1,9 @@
-from turtle import pd
+
 from flask import Blueprint, current_app, jsonify, request, send_file, render_template, url_for
 from flask_cors import CORS
 import os
 import markdown2
+import pandas as pd
 
 from models import ticketing_system
 from models.ticketing_system.types.ticket_record import TicketRecord
