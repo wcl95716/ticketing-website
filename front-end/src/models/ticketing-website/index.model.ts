@@ -58,6 +58,19 @@
    const response = await fetch('http://47.116.201.99:8001/test/get_users');
    return response.json() as unknown as ITicketRecord[];
  });
+
+ //导出数据
+ export const postExport = createAsyncThunk('postExport ', async (ticket_filter: IChatRecord) => {
+  const response = await fetch(`http://47.116.201.99:8001/test/download_all_tickets`, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    // 如果你需要发送请求体数据，可以在这里添加
+    body: JSON.stringify(ticket_filter),
+  });
+  return response.json() as unknown as IChatRecord[];
+});
  
  // 根据user_id获取获取用户全部信息
  export const getUserDetail = createAsyncThunk('getUserDetail', async (user_id: string) => {
