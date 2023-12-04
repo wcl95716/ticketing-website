@@ -29,7 +29,7 @@ def wrap_text(text, width):
     """
     return textwrap.fill(text, width)
 
-def create_table_image(df,title:str = "", directory = "./data/pngs/", file_name=None, base_height_per_row=0.25, base_width_per_column=2.2, min_width=5, min_height=4, max_width=30, max_height=250, dpi=300):
+def create_table_image(df,title:str = "", directory = "./data/pngs/", file_name=None, base_height_per_row=0.25, base_width_per_column=2.8, min_width=5, min_height=4, max_width=30, max_height=250, dpi=300):
     """
     Create an image of a pandas DataFrame as a table, save it in the specified directory, and return the file path.
 
@@ -85,11 +85,11 @@ def create_table_image(df,title:str = "", directory = "./data/pngs/", file_name=
     fig, ax = plt.subplots(figsize=(ideal_width, ideal_height))
 
     # Plot the DataFrame as a table
-    table = ax.table(cellText=df.values, colLabels=df.columns,colWidths=[0.1,0.1,0.1,0.7,], cellLoc='center', loc='center')
+    table = ax.table(cellText=df.values, colLabels=df.columns,colWidths=[0.1,0.20,0.1,0.6,], cellLoc='center', loc='center')
 
     # Adjust table font size
     table.auto_set_font_size(False)
-    table.set_fontsize(10)
+    table.set_fontsize(9)
     
     # Hide axes
     ax.axis('off')
