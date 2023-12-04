@@ -57,7 +57,8 @@ class ChatActionFunctionFactory:
             "sender": sender,
             "content": content,
             "message_time": message_time,
-            "message_type": message_type
+            "message_type": message_type,
+            "chat_profile":1001
         }
         response = requests.post(url, json=chatMessage)
         if group_message is None:
@@ -83,7 +84,8 @@ class ChatActionFunctionFactory:
                     "sender": sender,
                     "content": content,
                     "message_time": message_time,
-                    "message_type": message_type
+                    "message_type": message_type,
+                    "chat_profile":1000
                 }
                 response = requests.post(url, json=chatMessage)
                 pass
