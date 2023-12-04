@@ -16,8 +16,6 @@
      body: JSON.stringify(params),
    });
    return response.json() as unknown as ITicketRecord[];
-   // const response = await fetch('http://47.116.201.99:8001/test/get_all_tickets');
-   // return response.json() as unknown as ITicketRecord[];
  });
  
  // 根据ticket_id获取工单详情
@@ -69,7 +67,7 @@
     // 如果你需要发送请求体数据，可以在这里添加
     body: JSON.stringify(ticket_filter),
   });
-  return response.json() as unknown as IChatRecord[];
+  return response.json() as unknown as object;
 });
  
  // 根据user_id获取获取用户全部信息
@@ -112,6 +110,7 @@
    allUser: [],
    userDetail: {},
    ticketDetail : {},
+   exportUrl: {},
    ticket_filter: {
      search_criteria: null,
      status: null,
@@ -142,6 +141,9 @@
      ticketDetail:(state, action) => {
        state.ticketDetail = {};
      },
+     exportUrl:(state, action) => {
+       state.exportUrl = {};
+     },
      userDetail: (state, action) => {
        state.userDetail = {};
      },
@@ -162,6 +164,9 @@
        .addCase(getTicketDetail.fulfilled, (state, action) => {
          state.ticketDetail = action.payload;
        })
+       .addCase(postExport.fulfilled, (state, action) => {
+        state.exportUrl = action.payload;
+       })
        .addCase(getUserDetail.fulfilled, (state, action) => {
          state.userDetail = action.payload;
        })
@@ -178,7 +183,7 @@
    },
  });
  
- export const { init, changeData, changeChatData, updateTicketFilter, userDetail, ticketDetail } = ticketWebsiteSlice.actions;
+ export const { init, changeData, changeChatData, updateTicketFilter, userDetail,exportUrl, ticketDetail } = ticketWebsiteSlice.actions;
  // selector
  export const selectTicketRecordList = (state: RootState) => state.ticketWebsiteData.ticketRecordlist;
  export const selecChatRecord = (state: RootState) => state.ticketWebsiteData.chatRecord;
@@ -186,6 +191,7 @@
  export const selecTicketFilter = (state: RootState) => state.ticketWebsiteData.ticket_filter;
  export const selecUserDetail = (state: RootState) => state.ticketWebsiteData.userDetail;
  export const selecTicketDetail = (state: RootState) => state.ticketWebsiteData.ticketDetail;
+ export const selectExportUrl = (state: RootState) => state.ticketWebsiteData.exportUrl;
  
  export default ticketWebsiteSlice.reducer;
       

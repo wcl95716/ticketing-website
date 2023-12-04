@@ -1,6 +1,6 @@
 
 import React, { useState, memo, useEffect } from 'react';
-import { getTicketListRequest, getAllUserRequest, updateTicket, selecAllUser,postExport, selectTicketRecordList, deleteTicketListRequest, selecTicketFilter } from 'models/ticketing-website/index.model';
+import { getTicketListRequest, getAllUserRequest, updateTicket, selecAllUser,postExport, selectTicketRecordList, deleteTicketListRequest, selecTicketFilter,selectExportUrl } from 'models/ticketing-website/index.model';
 import SearchForm from './components/SearchForm';
 import { useNavigate } from 'react-router-dom';
 import {
@@ -37,6 +37,7 @@ const ticketPage: React.FC = () => {
    const navigate = useNavigate();
    const ticketRecordList = useAppSelector(selectTicketRecordList);
    const allUserList = useAppSelector(selecAllUser);
+   const exportUrl = useAppSelector(selectExportUrl);
 
    const ticketFilter = useAppSelector(selecTicketFilter);
    // console.log("查看筛选filter",ticketFilter)
@@ -65,8 +66,10 @@ const ticketPage: React.FC = () => {
    };
    const handleExport = () => {
       // 这里添加导出数据的逻辑
-      dispatch(postExport(ticketFilter));
-      console.log('导出数据');
+      dispatch(postExport(ticketFilter)).then((res)=>{
+         console.log('导出数据',res);
+      });
+      
     };
 
    // onView 函数

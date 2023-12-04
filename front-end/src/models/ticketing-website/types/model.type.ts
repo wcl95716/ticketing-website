@@ -6,5 +6,6 @@ export interface ITicketState {
     allUser: UserProfile[];
     userDetail: UserDetail;
     ticketDetail: UserDetail;
+    exportUrl: object;
     ticket_filter:TicketFilter,
 }
