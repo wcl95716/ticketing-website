@@ -2,6 +2,7 @@
 import time
 # import keyboard
 import sys
+import pandas as pd
 sys.path.append("./src")
 import requests
 
@@ -27,11 +28,26 @@ def fix_online_tasks() :
             elif task[2] == 0:
                 send_message(task[0], task[1])
 
+# 读取群聊列表 
+# 从excel中读取群聊列表
+def get_group_list_from_excel() -> list[str]:
+    df = pd.read_excel("data/微信服务群.xlsx", engine='openpyxl')
+    print(df)
+    result = []
+    for index, row in df.iterrows():
+        #微信服务群名称
+        group_name = row['微信服务群名称']
+        result.append(group_name) 
+    return result
     
+    pass
+
 
 def test_group_manager():
+    
     # group_list = ["测试4群", "测试3群","测试2群"]
     group_list = ["测试4群", "测试3群","测试2群","无锡公司-注册群","太仓公司安装注册群","昆山一组（苏州）"]
+    group_list = get_group_list_from_excel()
     # group_list = ["测试2群"]
     group_manager = GroupManager(group_list)
  

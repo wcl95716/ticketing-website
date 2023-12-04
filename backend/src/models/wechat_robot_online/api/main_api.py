@@ -62,7 +62,6 @@ def get_vehicles_from_url(excel_url:str) -> list[Vehicle]:
         except Exception as e:
             pass 
             # print("status is not float" , e)
-            
             pass
         camera_status = row['摄像头状态']
         
