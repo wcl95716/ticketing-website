@@ -92,7 +92,7 @@ def get_user_by_id(user_id: str) -> UserProfile:
 
 
 
-def read_profiles_from_excel(filename):
+def read_profiles_from_excel(filename) -> list[UserProfile]:
     # 读取Excel文件
     df = pd.read_excel(user_file_path + filename)
 
@@ -109,7 +109,7 @@ def read_profiles_from_excel(filename):
             info=row.get('info'),
             password=row.get('password')
         )
-        profiles.append(profile)
+        profiles.append(profile.__dict__)
     return profiles
 
 def write_profiles_to_excel(filename, profiles:list[UserProfile]):
