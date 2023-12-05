@@ -7,7 +7,7 @@ from models.wechat_bot.types.chat_action_function import ChatActionFunctionFacto
 from models.wechat_bot.types.chat_command_handler import ChatCommandHandler
 from models.wechat_bot.utils.chat import get_chat_messages, send_message
 
-
+robot_name = ""
 
 def update_robot_name():
     print("update_robot_name")
