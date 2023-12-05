@@ -95,13 +95,15 @@ class GroupManager:
                 # send_message(group.group_id,"机器人已启动 : " + datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S"),)
                 group_id = group.group_id
                 pass 
-
-            chat_messages = get_chat_messages(group_id)
-            local_logger.logger.info(f"处理群聊 {group_id}  ")
-            tasks:[] = group.find_task(chat_keyword_handler,chat_messages)
-            local_logger.logger.info(f" find tasks {tasks}")
-            if self.is_init and group.is_init :
-                self.fix_group_task(group.group_id,tasks)
+            try:
+                chat_messages = get_chat_messages(group_id)
+                local_logger.logger.info(f"处理群聊 {group_id}  ")
+                tasks:[] = group.find_task(chat_keyword_handler,chat_messages)
+                local_logger.logger.info(f" find tasks {tasks}")
+                if self.is_init and group.is_init :
+                    self.fix_group_task(group.group_id,tasks)
+            except Exception as e:
+                local_logger.logger.info(f"处理群聊任务时发生错误：{str(e)}")
             group.is_init = True
         self.is_init = True
         pass
