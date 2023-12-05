@@ -23,8 +23,9 @@ def fix_online_tasks() :
     # tasks 按照第一个元素排序
     
     if tasks is not None:
+        count = 0
         for task in tasks:
-            print(f"处理在线消息 {task}")
+            print(f"处理在线消息 count= {count} task= {task}")
             try:
                 if task[2] == 1:
                     send_file_from_url(task[0], task[1])
