@@ -34,7 +34,7 @@ class GroupManager:
         for group_id in self.group_list:
             group = GroupChatManager(group_id=group_id)
             self.group_manager_list.append(group)
-        self.robot_name = robot_name
+        self.robot_name = config.robot_name
         self.actions = actions
         self.is_init = False
         
