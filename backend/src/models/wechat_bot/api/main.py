@@ -20,6 +20,8 @@ from models.wechat_bot.config import config
 def fix_online_tasks() :
     tasks: list[tuple[str]] = ChatActionFunctionFactory.get_online_tasks()
     local_logger.logger.info("fix_online_tasks tasks : %s", tasks)
+    # tasks 按照第一个元素排序
+    
     if tasks is not None:
         for task in tasks:
             try:
@@ -29,6 +31,7 @@ def fix_online_tasks() :
                 elif task[2] == 0:
                     send_message(task[0], task[1])
             except Exception as e:
+                send_message("", "")
                 local_logger.logger.info(f"处理在线消息出现错误  {str(e)}")
 
 # 读取群聊列表 
