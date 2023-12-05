@@ -27,10 +27,10 @@ def fix_online_tasks() :
             print(f"处理在线消息 {task}")
             try:
                 if task[2] == 1:
-                    # send_file_from_url(task[0], task[1])
+                    send_file_from_url(task[0], task[1])
                     pass 
                 elif task[2] == 0:
-                    # send_message(task[0], task[1])
+                    send_message(task[0], task[1])
                     pass 
             except Exception as e:
                 local_logger.logger.info(f"处理在线消息出现错误  {str(e)}")
