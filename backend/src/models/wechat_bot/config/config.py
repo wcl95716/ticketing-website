@@ -8,7 +8,7 @@ from models.wechat_bot.types.chat_command_handler import ChatCommandHandler
 from models.wechat_bot.utils.chat import get_chat_messages, send_message
 
 
-robot_name = "AI苏博蒂奇"
+robot_name = ""
 
 
 tianyi = ChatCommandHandler(robot_name=robot_name , actions=[ChatActionsEnum.WORK_ORDER_CREATE])
