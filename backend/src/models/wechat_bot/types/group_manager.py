@@ -44,7 +44,7 @@ class GroupManager:
     def group_init_send_message(self,group:GroupChatManager):
         #for group in self.group_manager_list:
         if group.is_init == False:
-            send_message(group.group_id,"机器人已启动 : " + date.today().strftime("%Y-%m-%d") )
+            # send_message(group.group_id,"机器人已启动 : " + date.today().strftime("%Y-%m-%d") )
             pass 
         pass
     
@@ -90,9 +90,9 @@ class GroupManager:
                 continue
             
             
-            group_id = process_group
+            group_id = group.group_id
             if group.is_init == False:
-                send_message(group.group_id,"机器人已启动 : " + datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S"),)
+                # send_message(group.group_id,"机器人已启动 : " + datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S"),)
                 group_id = group.group_id
                 pass 
 
