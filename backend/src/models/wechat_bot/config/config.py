@@ -25,6 +25,7 @@ def update_robot_name():
 
 def get_robot_name():
     global robot_name
+    print(f"get_robot_name robot_name={robot_name}")
     return robot_name
     pass
 # tianyi_chat_keywords_dict = {
