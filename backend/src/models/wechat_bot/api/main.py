@@ -35,19 +35,23 @@ def fix_online_tasks() :
             except Exception as e:
                 local_logger.logger.info(f"处理在线消息出现错误  {str(e)}")
 
-# 读取群聊列表 
+# 读取群聊列表
 # 从excel中读取群聊列表
 def get_group_list_from_excel() -> list[str]:
+    import pandas as pd
+
     df = pd.read_excel("data/微信服务群.xlsx", engine='openpyxl')
     print(df)
     result = []
     for index, row in df.iterrows():
-        #微信服务群名称
+        # 微信服务群名称
         group_name = row['微信服务群名称']
-        result.append(group_name) 
-    return result
-    
-    pass
+        result.append(group_name)
+
+    # 使用set去除重复数据，然后再转回列表
+    unique_group_list = list(set(result))
+    return unique_group_list
+
 
 
 def test_group_manager():
