@@ -27,6 +27,8 @@ from models.wechat_bot.config import config
 
 class GroupManager:
     def __init__(self, group_list: list[str] , robot_name:str = config.robot_name, actions:list[ChatActionsEnum] = [ChatActionsEnum.WORK_ORDER_CREATE] ):
+        print("GroupManager init")
+        print(f"robot_name={robot_name}")
         self.group_list = group_list
         self.group_manager_list:list[GroupChatManager] = []
         for group_id in self.group_list:
