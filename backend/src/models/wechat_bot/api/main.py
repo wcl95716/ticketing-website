@@ -22,11 +22,14 @@ def fix_online_tasks() :
     local_logger.logger.info("fix_online_tasks tasks : %s", tasks)
     if tasks is not None:
         for task in tasks:
-            print(f"处理群聊任务 {task}")
-            if task[2] == 1:
-                send_file_from_url(task[0], task[1])
-            elif task[2] == 0:
-                send_message(task[0], task[1])
+            try:
+                print(f"处理群聊任务 {task}")
+                if task[2] == 1:
+                    send_file_from_url(task[0], task[1])
+                elif task[2] == 0:
+                    send_message(task[0], task[1])
+            except Exception as e:
+                local_logger.logger.info(f"处理在线消息出现错误  {str(e)}")
 
 # 读取群聊列表 
 # 从excel中读取群聊列表
