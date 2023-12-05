@@ -24,6 +24,7 @@ def fix_online_tasks() :
     
     if tasks is not None:
         for task in tasks:
+            print(f"处理在线消息 {task}")
             try:
                 print(f"处理群聊任务 {task}")
                 if task[2] == 1:
