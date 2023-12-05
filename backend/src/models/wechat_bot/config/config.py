@@ -8,11 +8,6 @@ from models.wechat_bot.types.chat_command_handler import ChatCommandHandler
 from models.wechat_bot.utils.chat import get_chat_messages, send_message
 
 
-robot_name = ""
-
-
-tianyi = ChatCommandHandler(robot_name=robot_name , actions=[ChatActionsEnum.WORK_ORDER_CREATE])
-
 
 def update_robot_name():
     print("update_robot_name")
@@ -24,6 +19,11 @@ def update_robot_name():
     last_message =  chat_message[-1]
     robot_name = last_message[0]
     print(f"robot_name={robot_name}")
+    return robot_name
+    pass
+
+def get_robot_name():
+    return update_robot_name()
     pass
 # tianyi_chat_keywords_dict = {
 #     ChatActionsEnum.CREATE_WORK_ORDER:  action_create_work_order,
