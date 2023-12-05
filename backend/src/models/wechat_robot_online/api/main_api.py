@@ -41,6 +41,7 @@ def get_vehicles_from_url(excel_url:str) -> list[Vehicle]:
         plate_number = row['车牌号码']
         organization = row['车辆组织']
         status:str = row['车辆状态（离线/定位）']
+        camera_status = row['摄像头状态']
         # print("status: ", status , isinstance(status, float))
         # 判断status 是否为浮点数
         try:
@@ -63,7 +64,6 @@ def get_vehicles_from_url(excel_url:str) -> list[Vehicle]:
             pass 
             # print("status is not float" , e)
             pass
-        camera_status = row['摄像头状态']
         
         vehicle = Vehicle(plate_number, organization, status, camera_status)
         vehicles.append(vehicle)

@@ -109,7 +109,7 @@ def read_profiles_from_excel(filename) -> list[UserProfile]:
             info=row.get('info'),
             password=row.get('password')
         )
-        profiles.append(profile.__dict__)
+        profiles.append(profile)
     return profiles
 
 def write_profiles_to_excel(filename, profiles:list[UserProfile]):
