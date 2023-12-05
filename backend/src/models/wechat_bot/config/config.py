@@ -17,6 +17,7 @@ def update_robot_name():
     
     chat_message  = get_chat_messages(who=send_name)
     last_message =  chat_message[-1]
+    print(f"last_message={last_message}")
     robot_name = last_message[0]
     print(f"robot_name={robot_name}")
     return robot_name
