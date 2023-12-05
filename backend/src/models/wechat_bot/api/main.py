@@ -26,13 +26,11 @@ def fix_online_tasks() :
         for task in tasks:
             print(f"处理在线消息 {task}")
             try:
-                print(f"处理群聊任务 {task}")
                 if task[2] == 1:
                     send_file_from_url(task[0], task[1])
                 elif task[2] == 0:
                     send_message(task[0], task[1])
             except Exception as e:
-                send_message("", "")
                 local_logger.logger.info(f"处理在线消息出现错误  {str(e)}")
 
 # 读取群聊列表 
