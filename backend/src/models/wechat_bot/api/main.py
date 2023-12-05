@@ -19,7 +19,7 @@ from models.wechat_bot.config import config
 
 def fix_online_tasks() :
     tasks: list[tuple[str]] = ChatActionFunctionFactory.get_online_tasks()
-    local_logger.logger.info("fix_online_tasks tasks : %s", tasks)
+    local_logger.logger.info("fix_online_tasks tasks : %s", len(tasks) )
     # tasks 按照第一个元素排序
     
     if tasks is not None:
