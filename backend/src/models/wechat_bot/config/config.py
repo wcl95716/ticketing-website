@@ -24,7 +24,8 @@ def update_robot_name():
     pass
 
 def get_robot_name():
-    return update_robot_name()
+    global robot_name
+    return robot_name
     pass
 # tianyi_chat_keywords_dict = {
 #     ChatActionsEnum.CREATE_WORK_ORDER:  action_create_work_order,
