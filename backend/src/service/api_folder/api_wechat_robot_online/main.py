@@ -141,3 +141,22 @@ def get_tasks_json():
 def api_get_task():
     return jsonify(get_tasks_json())
     pass 
+
+
+import poai
+
+# poai.chatgpt.chat(api_key='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', prompt='伤心了怎么办',model_engine="gpt-3.5-turbo-instruct")
+
+
+# 创建一个api 获取 prompt
+@api_bp.route('/get_prompt' , methods=['POST'])
+def api_get_prompt():
+    data = request.get_json()
+    if 'prompt' not in data:
+        return jsonify({'error': 'Missing required fields'}), 400
+    local_logger.logger.info("process-log json : %s", data)
+    # 创建LogProcessingFilesUrl对象
+    prompt = data['prompt']
+    result = poai.chatgpt.chat(api_key='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', prompt=prompt,model_engine="gpt-3.5-turbo-instruct")
+    return jsonify(result)
+    pass
