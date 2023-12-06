@@ -69,7 +69,7 @@ def test_group_manager():
         try:
             group_list = get_group_list()
             # 获取group_list 
-            group_list = group_list[:2]
+            group_list = group_list[:4]
             print(f"获取group_list  {group_list}")
             for group_id in group_list:
                 group_manager.process_one_group_tasks(group_id)
