@@ -122,8 +122,6 @@ class LogProcessing:
         for org_group, vehicle_data_list in vehicle_data_by_group.items():
             # 遍历每个Vehicle对象
             for vehicle_data in vehicle_data_list:
-                if not str(vehicle_data.camera_status)   :
-                    continue
                 check_and_add_by_camera_status(vehicle_data)
                 check_and_add_by_status(vehicle_data)
         return vehicle_data_by_status

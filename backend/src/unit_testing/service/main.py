@@ -18,7 +18,7 @@ def test_add_chat_record():
 
 def test_upload_file():
     url = 'http://localhost:8001/test/upload_file'
-    file_path = "/Users/panda/Desktop/github.nosync/ticketing-website/backend/data/副本车辆状态表_2023-12-04_15-12-53.xlsx"
+    file_path = "/Users/panda/Desktop/github.nosync/ticketing-website/backend/data/群规则-12-6.xlsx"
     # files = {'file': ( , open(file_path, 'rb'))}
     files = {'file': open(file_path, 'rb')}
     response = requests.post(url, files=files)
