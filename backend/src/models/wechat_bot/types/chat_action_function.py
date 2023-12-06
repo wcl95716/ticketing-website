@@ -99,7 +99,7 @@ class ChatActionFunctionFactory:
     def get_work_order_link(ticket_id: str ,customer_id ) -> str:
         original_string = customer_id
         encoded_string = quote(original_string, encoding='utf-8')
-        return f"@{customer_id} 工单id: {ticket_id}  工单消息通知  {ChatActionFunctionFactory.page_url}?ticket_id={ticket_id}&customer_id={encoded_string}"
+        return f"@{customer_id}" +'{ENTER}' + f"工单id: {ticket_id}  工单消息通知  {ChatActionFunctionFactory.page_url}?ticket_id={ticket_id}&customer_id={encoded_string}"
     
     @staticmethod
     def work_order_create(group_id, message: tuple = None,group_messages:list[tuple] = None ) -> tuple[str]:
