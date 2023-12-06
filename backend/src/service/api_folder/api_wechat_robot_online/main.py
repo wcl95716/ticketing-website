@@ -122,8 +122,10 @@ def api_process_log():
     
     local_logger.logger.info("get_class")
     # add_tasks(log_processing.get_all_robot_task())
-    add_tasks(log_processing.get_all_robot_task_by_group())
-    add_tasks(log_processing.get_all_robot_task_by_group_and_status())
+    task =  []
+    task.extend(log_processing.get_all_robot_task_by_group())
+    task.extend(log_processing.get_all_robot_task_by_group_and_status())
+    add_tasks(tasks=task)
     # threading.Thread(target=lambda: add_tasks(log_processing.get_all_robot_task_by_group())).start()
     # threading.Thread(target=lambda: add_tasks(log_processing.get_all_robot_task_by_group_and_status())).start()
     # 在这里可以对LogProcessingFilesUrl对象进行进一步处理，例如保存到数据库或进行其他操作
@@ -152,11 +154,14 @@ import poai
 @api_bp.route('/get_prompt' , methods=['POST'])
 def api_get_prompt():
     data = request.get_json()
+    local_logger.logger.info( f"api_get_prompt data{data} ")
     if 'prompt' not in data:
         return jsonify({'error': 'Missing required fields'}), 400
     local_logger.logger.info("process-log json : %s", data)
     # 创建LogProcessingFilesUrl对象
     prompt = data['prompt']
-    result = poai.chatgpt.chat(api_key='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', prompt=prompt,model_engine="gpt-3.5-turbo-instruct")
-    return jsonify(result)
+    print(prompt)
+    result = poai.chatgpt.chat(api_key='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', prompt=prompt,model_engine="gpt-3.5-turbo-instruct",max_tokens=300,
+                               temperature=0.2)
+    return jsonify({"assistant_message":result})
     pass
