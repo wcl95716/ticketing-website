@@ -74,18 +74,6 @@ def api_add_ticket_test():
         return jsonify({"message": "Ticket added successfully"})
     except Exception as e:
         return jsonify({"error": str(e)})
-    
-# 添加工单的接口
-@api_bp.route('/add_ticket', methods=['POST'])
-def api_add_ticket():
-    try:
-        ticket_data = request.get_json()
-        local_logger.logger.info("ticket_data : %s", ticket_data)
-        ticket:TicketRecord = ticketing_system.ticket_api.add_ticket(ticket_data)
-        #return jsonify({"message": "Ticket updated successfully"})
-        return  jsonify(ticket.to_dict())
-    except Exception as e:
-        return jsonify({"error": str(e)})
 
 
 # 修改工单的接口
@@ -144,6 +132,22 @@ def api_get_all_tickets():
         # return jsonify([ticket.to_dict() for ticket in all_tickets]) 
     except Exception as e:
         local_logger.logger.info("api_get_all_tickets error : %s", str(e))
+        return jsonify({"error": str(e)})
+    
+# 添加工单的接口
+@api_bp.route('/add_ticket', methods=['POST'])
+def api_add_ticket():
+    try:
+        ticket_data = request.get_json()
+        all_tickets = ticketing_system.ticket_api.get_all_tickets()
+        for ticket in all_tickets:
+            if ticket.creator == ticket_data["creator"]:
+                 return  jsonify(ticket.to_dict())
+        local_logger.logger.info("ticket_data : %s", ticket_data)
+        ticket:TicketRecord = ticketing_system.ticket_api.add_ticket(ticket_data)
+        #return jsonify({"message": "Ticket updated successfully"})
+        return  jsonify(ticket.to_dict())
+    except Exception as e:
         return jsonify({"error": str(e)})
 
 import os
