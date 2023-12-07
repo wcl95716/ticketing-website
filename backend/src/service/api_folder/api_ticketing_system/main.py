@@ -52,6 +52,8 @@ def api_add_chat_record():
 def api_get_chat_history(ticket_id):
     try:
         chats = ticketing_system.chat_api.get_chat_history(ticket_id)
+        if chats is None:
+            return jsonify({"error": "No chat history found"})
         local_logger.logger.info("api_get_chat_history  successfully")
         return jsonify(chats)
     except Exception as e:

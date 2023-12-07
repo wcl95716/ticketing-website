@@ -43,12 +43,15 @@ def get_chat_history_from_file(ticket_id: str) -> list[dict]:
                     record: dict = json.loads(cleaned_line)
                     # print(record)
                     chat_history.append(record)
+        return chat_history
     except FileNotFoundError:
         local_logger.logger.info(f"文件 {file_name} 不存在")
+        return None
     except Exception as e:
         local_logger.logger.info(f"读取文件时发生错误：{str(e)}")
+        return None
 
-    return chat_history
+
 
 
 def generate_unique_filename(filename):
