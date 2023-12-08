@@ -39,12 +39,8 @@ const PChart = () => {
     const customer_id = queryParams.get('customer_id');
 
     const now = new Date();
-
-    console.log("查看undefined",chatRecord)
     
-    if (chatRecord === undefined) {
-        return <ErrorPage />;
-    }
+    
 
     useEffect(() => {
         if (ticket_id) {
@@ -260,7 +256,9 @@ const PChart = () => {
             listRef.current.scrollTop = listRef.current.scrollHeight;
         }
     }, [newMessage]); // 监听数据的变化
-
+    if (chatRecord == undefined) {
+        return <ErrorPage />;
+    }
     return (
         <div style={{ backgroundColor: '#fff', height: '100vh', padding: '10px', display: 'flex', flexDirection: 'column' }}>
 

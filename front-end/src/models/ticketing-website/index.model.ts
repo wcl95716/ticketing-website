@@ -36,6 +36,9 @@
  // 根据id获取聊天信息
  export const getChatRequest = createAsyncThunk('paramsTest', async (ticket_id: string) => {
    const response = await fetch(`http://47.116.201.99:8001/test/get_chat_history/${ticket_id}`);
+   if(response.status === 404){
+     return undefined;
+   }
    return response.json() as unknown as IChatRecord[];
  });
  
@@ -161,9 +164,6 @@
        })
        .addCase(getChatRequest.fulfilled, (state, action) => {
          state.chatRecord = action.payload;
-       })
-       .addCase(getChatRequest.rejected, (state, action) => {
-        state.chatRecord = undefined;
        })
        .addCase(getTicketDetail.fulfilled, (state, action) => {
          state.ticketDetail = action.payload;
