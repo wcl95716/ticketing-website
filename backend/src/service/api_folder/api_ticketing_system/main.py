@@ -53,7 +53,9 @@ def api_get_chat_history(ticket_id):
     try:
         chats = ticketing_system.chat_api.get_chat_history(ticket_id)
         if chats is None:
-            return jsonify({"error": "No chat history found"})
+            # 如果没有聊天记录，则返回 404
+            return jsonify({"error": "Chat history not found"}), 404
+            pass
         local_logger.logger.info("api_get_chat_history  successfully")
         return jsonify(chats)
     except Exception as e:
