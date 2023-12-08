@@ -104,6 +104,32 @@
    });
    return response.json() as unknown as IChatRecord[];
  });
+
+ // 创建工单
+  export const createTicket = createAsyncThunk('test/createTicket', async () => {
+    const ticket_data = {
+      "title":"新建工单",
+      "created_time": ( new Date()).toISOString(),
+      "status": 0,
+      "priority": 0,
+      "creator": "",
+      "assigned_to": "",
+      "ticket_type": "",
+      "closed_time": "",
+      "source": {}
+  }
+    const response = await fetch(`http://47.116.201.99:8001/test/add_ticket`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      // 如果你需要发送请求体数据，可以在这里添加
+      body: JSON.stringify(ticket_data),
+    });
+    return response.json() as unknown as IChatRecord[];
+  }
+  );
+
  
  const initialState: ITicketState = {
    ticketRecordlist: [],
@@ -173,6 +199,8 @@
        })
        .addCase(getAllUserRequest.fulfilled, (state, action) => {
          state.allUser = action.payload as unknown as UserProfile[];
+       })
+       .addCase(postChatRequest.rejected, (state, action) => {
        })
        .addCase(deleteTicketListRequest.pending, (state, action) => {
          // 删除这个参数对应的数据

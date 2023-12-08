@@ -4,7 +4,7 @@ import { Row, Col, Form, Input, Button, Select, DatePicker } from 'antd';
 import { CONTRACT_STATUS_OPTIONS, CONTRACT_TYPE_OPTIONS } from '../consts';
 import Style from './SearchForm.module.less';
 import { useAppDispatch, useAppSelector } from 'modules/store';
-import { getTicketListRequest, selecTicketFilter, updateTicketFilter } from 'models/ticketing-website/index.model';
+import { createTicket, getTicketListRequest, selecTicketFilter, updateTicketFilter } from 'models/ticketing-website/index.model';
 import { TicketStatus } from 'models/ticketing-website/index.type';
 import { number, use } from 'echarts';
 
@@ -63,6 +63,22 @@ const SearchForm: React.FC = () => {
     dispatch(getTicketListRequest(ticketFilter));
   };
 
+  const creatClick = () => {
+    console.log('创建工单');
+    dispatch(createTicket()).then((res) => {
+      console.log('创建工单成功', res);
+      dispatch(
+        updateTicketFilter({
+          search_criteria: null,
+          status: null,
+          start_date: null,
+          end_date: null,
+          time: undefined,
+        }),
+      );
+    });
+  };
+
   // 更新表单的初始值
   useEffect(() => {
     form.setFieldsValue({
@@ -112,6 +128,9 @@ const SearchForm: React.FC = () => {
               </Button>
               <Button htmlType='button' onClick={onReset}>
                 重置
+              </Button>
+              <Button htmlType='button' onClick={creatClick}>
+                创建工单
               </Button>
             </Form.Item>
           </Col>

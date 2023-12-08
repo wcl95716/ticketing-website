@@ -67,7 +67,6 @@ const PChart = () => {
             const newMessages = [
                 ...messages,
                 {
-
                     ticket_id: ticket_id,
                     message_id: '',
                     content: newMessage.trim(),

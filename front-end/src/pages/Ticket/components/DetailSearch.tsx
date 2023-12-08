@@ -102,6 +102,21 @@ const SearchForm: React.FC<SearchFormProps> = (props) => {
         });
     }
 
+    const [editedTitle, setEditedTitle] = useState(record?.title); // 用于存储编辑后的标题
+  
+    const handleTitleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+      setEditedTitle(event.target.value); // 当<input>的值发生变化时更新editedTitle的值
+    };
+  
+    const handleSaveClick = () => {
+
+      const updateRecord = { ...record, title: editedTitle };
+      dispatch(updateTicket(updateRecord)).then(() => {
+          // dispatch(getUserDetail(value));
+          dispatch(getTicketListRequest({}));
+      });
+    };
+
     return (
         <div className={Style.ticketsearch}>
             <Form>
@@ -109,7 +124,14 @@ const SearchForm: React.FC<SearchFormProps> = (props) => {
                     <Col flex='1'>
                         <Row gutter={[16, 16]} style={{ alignItems: 'center' }}>
                             <Col>
-                                <div style={{ margin: '10px', fontWeight: 'bold' }}>{`${record?.title}`}</div>
+                                {/* <div style={{ margin: '10px', fontWeight: 'bold' }}>{`${record?.title}`}</div> */}
+                                <div style={{ display: 'flex', alignItems: 'center', margin: '10px', fontWeight: 'bold' }}>
+                                    <Input
+                                        value={editedTitle}
+                                        onChange={handleTitleChange}
+                                    />
+                                    <Button type="primary" onClick={handleSaveClick}>保存</Button>
+                                </div>
                             </Col>
                             <Col>
                                 <Button style={{borderRadius: '0px'}} size='small'  onClick={redirectToTicketList}>返回列表</Button>
