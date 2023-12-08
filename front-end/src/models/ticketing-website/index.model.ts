@@ -162,6 +162,9 @@
        .addCase(getChatRequest.fulfilled, (state, action) => {
          state.chatRecord = action.payload;
        })
+       .addCase(getChatRequest.rejected, (state, action) => {
+        state.chatRecord = undefined;
+       })
        .addCase(getTicketDetail.fulfilled, (state, action) => {
          state.ticketDetail = action.payload;
        })

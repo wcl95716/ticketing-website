@@ -17,6 +17,7 @@ import {
 } from 'models/ticketing-website/index.model';
 import { useAppDispatch, useAppSelector } from 'modules/store';
 import type { UploadFile } from 'antd/es/upload/interface';
+import ErrorPage from './components/errorPage';
 
 
 
@@ -38,7 +39,12 @@ const PChart = () => {
     const customer_id = queryParams.get('customer_id');
 
     const now = new Date();
-    /*  */
+
+    console.log("查看undefined",chatRecord)
+    
+    if (chatRecord === undefined) {
+        return <ErrorPage />;
+    }
 
     useEffect(() => {
         if (ticket_id) {
