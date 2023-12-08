@@ -153,7 +153,7 @@ const DetailModel = () => {
                         ? MessageType.VIDEO
                         : '',
                file_url: file.file_url,
-               file_id: file.file_id,
+               file_id: file.file_id,/*  */
                chat_profile: ChatPriority.SERVICE,
                avatar_url: userInfo.avatar_url,
             },

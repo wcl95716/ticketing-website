@@ -2,7 +2,7 @@ import { IChatRecord, ITicketRecord, TicketFilter, UserProfile, UserDetail } fro
 
 export interface ITicketState {
     ticketRecordlist: ITicketRecord[];
-    chatRecord: IChatRecord[];
+    chatRecord?: IChatRecord[];
     allUser: UserProfile[];
     userDetail: UserDetail;
     ticketDetail: UserDetail;
