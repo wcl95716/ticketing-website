@@ -85,7 +85,7 @@ def create_table_image(df,title:str = "", directory = "./data/pngs/", file_name=
     fig, ax = plt.subplots(figsize=(ideal_width, ideal_height))
 
     # Plot the DataFrame as a table
-    table = ax.table(cellText=df.values, colLabels=df.columns,colWidths=[0.1,0.20,0.1,0.6,], cellLoc='center', loc='center')
+    table = ax.table(cellText=df.values, colLabels=df.columns,colWidths=[0.1,0.20,0.2,0.5,], cellLoc='center', loc='center')
 
     # Adjust table font size
     table.auto_set_font_size(False)
@@ -128,6 +128,6 @@ def create_table_image(df,title:str = "", directory = "./data/pngs/", file_name=
 # }
 if __name__ == '__main__':
     # df = pd.read_excel("/Users/panda/Desktop/github.nosync/ticketing-website/backend/data/微信服务群规则-测试.xlsx", engine='openpyxl',nrows=20)
-    df = pd.read_excel("/Users/panda/Desktop/github.nosync/ticketing-website/backend/data/副本监控日志-测试.xlsx", engine='openpyxl',nrows=20)
+    df = pd.read_excel("/Users/panda/Desktop/github.nosync/ticketing-website/backend/data/部标监控日志12.6.xlsx", engine='openpyxl',nrows=20)
     
     print(create_table_image(df) )

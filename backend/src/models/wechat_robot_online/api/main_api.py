@@ -144,7 +144,7 @@ if __name__=='__main__':
     log_processing = get_log_processing(vehicle_url, excel_file_path)
     
     tasks = log_processing.get_all_robot_task_by_group_and_status()
-    # tasks.extend(log_processing.get_all_robot_task_by_group())
+    tasks.extend(log_processing.get_all_robot_task_by_group())
     print(len(log_processing.vehicle_data_by_group.keys()) , len(tasks) )
     for task in tasks:
         print("task: ", task.task_type,task.to_user , task.content)
