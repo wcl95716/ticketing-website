@@ -1,0 +1,23 @@
+{
+  "id": "4370488",
+  "name": "pchart",
+  "font_family": "iconfont",
+  "css_prefix_text": "icon-",
+  "description": "",
+  "glyphs": [
+    {
+      "icon_id": "1973188",
+      "name": "男头像",
+      "font_class": "user__easyico",
+      "unicode": "e600",
+      "unicode_decimal": 58880
+    },
+    {
+      "icon_id": "29972098",
+      "name": "头像 阳光男生",
+      "font_class": "a-ziyuan90",
+      "unicode": "e698",
+      "unicode_decimal": 59032
+    }
+  ]
+}

@@ -18,6 +18,7 @@ import {
 import { useAppDispatch, useAppSelector } from 'modules/store';
 import type { UploadFile } from 'antd/es/upload/interface';
 import ErrorPage from './components/errorPage';
+import '../../assets/font_4370488_wl3alye5i7/iconfont.css'
 
 
 
@@ -77,7 +78,7 @@ const PChart = () => {
                     sender: customer_id,
                     message_type: MessageType.TEXT,
                     chat_profile: ChatPriority.CUSTOMER,
-                    avatar_url: "https://zos.alipayobjects.com/rmsportal/jkjgkEfvpUPVyRjUImniVslZfWPnJuuZ.png",
+                    avatar_url: "http://47.116.201.99:8001/test/uploads/94645ce7df1b4fcb8123f93b040dbcb1_617e9a689d4bc7779c46e2ab93791df.png",
                 }
             ];
             setMessages(newMessages);
@@ -90,7 +91,7 @@ const PChart = () => {
                 sender: customer_id,
                 message_type: MessageType.TEXT,
                 chat_profile: ChatPriority.CUSTOMER,
-                avatar_url: "https://zos.alipayobjects.com/rmsportal/jkjgkEfvpUPVyRjUImniVslZfWPnJuuZ.png",
+                avatar_url: "http://47.116.201.99:8001/test/uploads/94645ce7df1b4fcb8123f93b040dbcb1_617e9a689d4bc7779c46e2ab93791df.png",
             }
 
             dispatch(postChatRequest(updatedMessages)).then(() => {
@@ -114,7 +115,7 @@ const PChart = () => {
                 file_url: file.file_url,
                 file_id: file.file_id,
                 chat_profile: ChatPriority.CUSTOMER,
-                avatar_url: "https://zos.alipayobjects.com/rmsportal/jkjgkEfvpUPVyRjUImniVslZfWPnJuuZ.png",
+                avatar_url: "http://47.116.201.99:8001/test/uploads/94645ce7df1b4fcb8123f93b040dbcb1_617e9a689d4bc7779c46e2ab93791df.png",
             }
         ];
         setMessages(newMessages);
@@ -129,7 +130,7 @@ const PChart = () => {
             file_url: file.file_url,
             file_id: file.file_id,
             chat_profile: ChatPriority.CUSTOMER,
-            avatar_url: "https://zos.alipayobjects.com/rmsportal/jkjgkEfvpUPVyRjUImniVslZfWPnJuuZ.png",
+            avatar_url: "http://47.116.201.99:8001/test/uploads/94645ce7df1b4fcb8123f93b040dbcb1_617e9a689d4bc7779c46e2ab93791df.png",
         }
         dispatch(postChatRequest(updatedMessages)).then(() => {
             dispatch(getChatRequest(ticket_id));
@@ -226,6 +227,7 @@ const PChart = () => {
                     </div>
                     {item.chat_profile === ChatPriority.CUSTOMER && (  // 当消息是当前用户发送时
                         <div className={Style['current-avatar']} style={{ marginLeft: '10px' }}>
+                            {/* <i className="iconfont icon-a-ziyuan90"></i> */}
                             <img src={item.avatar_url} alt="avatar" />
                             <p>{item.sender}</p>
                         </div>
