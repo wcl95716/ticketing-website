@@ -114,7 +114,7 @@ class ChatActionFunctionFactory:
             "created_time": datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S"),
             "status": 0,
             "priority": 0,
-            "creator": message[0],
+            "creator": group_id +"/"+ message[0],
             "assigned_to": "",
             "ticket_type": "",
             "closed_time": "",
