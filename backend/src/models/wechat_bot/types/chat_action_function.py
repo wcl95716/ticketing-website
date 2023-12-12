@@ -58,7 +58,8 @@ class ChatActionFunctionFactory:
             "content": content,
             "message_time": message_time,
             "message_type": message_type,
-            "chat_profile":1001
+            "chat_profile":1001,
+            "avatar_url": "http://47.116.201.99:8001/test/uploads/79cd180e87d345be9fd60123183fec4a_16211702261434_.pic.jpg",
         }
         response = requests.post(url, json=chatMessage)
         if group_message is None:
