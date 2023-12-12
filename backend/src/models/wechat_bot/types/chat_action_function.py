@@ -86,7 +86,8 @@ class ChatActionFunctionFactory:
                     "content": content,
                     "message_time": message_time,
                     "message_type": message_type,
-                    "chat_profile":1000
+                    "chat_profile":1000,
+                    "avatar_url": "http://47.116.201.99:8001/test/uploads/94645ce7df1b4fcb8123f93b040dbcb1_617e9a689d4bc7779c46e2ab93791df.png"
                 }
                 response = requests.post(url, json=chatMessage)
                 pass
