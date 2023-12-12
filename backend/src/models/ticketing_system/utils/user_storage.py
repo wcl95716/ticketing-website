@@ -3,13 +3,14 @@
 import json
 import os
 import sys
+import pandas as pd
 sys.path.append("./src")
 
 
 from models.ticketing_system.types.user_profile import UserProfile
 from models.ticketing_system.types import user_profile
 from utils import local_logger
-import pandas as pd
+
 
 
 user_file_path = "data/users/"
@@ -72,6 +73,8 @@ def get_users_to_file() -> list[dict]:
                 cleaned_line = line.strip()
                 if cleaned_line:  # 如果不是空白行
                     record: dict = json.loads(cleaned_line)
+                    # 更改头像地址
+                    record["avatar_url"] = "http://47.116.201.99:8001/test/uploads/79cd180e87d345be9fd60123183fec4a_16211702261434_.pic.jpg"
                     # print(record)
                     users.append(record)
     except FileNotFoundError:

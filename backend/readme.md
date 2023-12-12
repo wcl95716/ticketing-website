@@ -14,7 +14,7 @@ pipreqs ./ --force
 
 
 ```
-curl -X POST -F "file=@/Users/panda/Desktop/github.nosync/ticketing-website/backend/data/chat_files/4.png" http://47.116.201.99:8001/test/upload_file
+curl -X POST -F "file=@/Users/panda/Desktop/github.nosync/ticketing-website/backend/data/16211702261434_.pic.jpg" http://47.116.201.99:8001/test/upload_file
 ```
 
 

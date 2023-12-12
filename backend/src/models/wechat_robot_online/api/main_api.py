@@ -136,8 +136,12 @@ def upload_img_file(img_path:str) -> None:
 if __name__=='__main__':
 
     # 传入Excel文件路径，并获取OrganizationGroup对象列表
-    vehicle_url= "http://127.0.0.1:8001/test/uploads/5d1cf85c71b94aa4bdac16393c986d55_12.6.xlsx"
-    excel_file_path= "http://localhost:8001/test/uploads/757e28eb783e4f86af3e48bb2580c237_-12-6.xlsx"
+    # vehicle_url= "http://127.0.0.1:8001/test/uploads/5d1cf85c71b94aa4bdac16393c986d55_12.6.xlsx"
+    # excel_file_path= "http://localhost:8001/test/uploads/757e28eb783e4f86af3e48bb2580c237_-12-6.xlsx"
+    
+    vehicle_url= "http://47.116.201.99:8001/test/uploads/c4cca99f1c2743bcb016ea80e3f61e87_12.66.xlsx"
+    excel_file_path= "http://47.116.201.99:8001/test/uploads/80fcd33050464a439d65e71bdaa54a64_-12-11.xlsx"
+
 
     # 获取分类后的数据
     # 创建LogProcessingType对象并进行分类
