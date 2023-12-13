@@ -2,9 +2,7 @@
 import time
 # import keyboard
 import sys
-import pandas as pd
 sys.path.append("./src")
-import requests
 
 from models.wechat_bot.types.chat_action_function import ChatActionFunctionFactory
 
