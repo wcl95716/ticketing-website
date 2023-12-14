@@ -5,7 +5,6 @@ markdown2==2.4.11
 matplotlib==3.7.2
 numpy==1.24.3
 pandas==2.0.3
-Pillow==10.0.1
 Pillow==10.1.0
 poai==0.0.9
 porobot==0.0.3
