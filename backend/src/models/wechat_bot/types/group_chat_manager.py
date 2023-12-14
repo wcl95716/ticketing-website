@@ -17,7 +17,7 @@ class GroupChatManager:
     def __init__ (self, group_id: str):
         self.group_id = group_id
         self.current_chat_message_id = 0
-        self.is_init = False
+        self.is_init = True
         pass
     
 
