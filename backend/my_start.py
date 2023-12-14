@@ -7,8 +7,17 @@ class LauncherApp:
         self.root = root
         root.title("Python启动器")
 
+        # 获取屏幕的宽度和高度
+        screen_width = root.winfo_screenwidth()
+        screen_height = root.winfo_screenheight()
+
         # 设置窗口大小
         root.geometry("400x200")
+
+        # 将窗口放置在右上角
+        x_position = screen_width - root.winfo_width()
+        y_position = 0
+        root.geometry("+{}+{}".format(x_position, y_position))
 
         # 创建启动按钮
         self.start_button = tk.Button(root, text="启动", command=self.start_process, width=20, height=2)
