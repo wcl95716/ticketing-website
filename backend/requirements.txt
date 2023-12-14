@@ -6,10 +6,12 @@ matplotlib==3.8.2
 numpy==1.26.2
 pandas==2.1.4
 Pillow==10.1.0
-poai==0.0.8
+poai==0.0.9
 porobot==0.0.3
 PyOfficeRobot==0.1.18
 pytab==1.0.4
 Requests==2.31.0
+schedule==1.2.1
 six==1.16.0
+urllib3==1.26.16
 Werkzeug==2.2.3
