@@ -15,7 +15,7 @@ class LauncherApp:
         root.geometry("400x200")
 
         # 将窗口放置在右上角
-        x_position = screen_width - root.winfo_width()
+        x_position = 0
         y_position = 0
         root.geometry("+{}+{}".format(x_position, y_position))
 
