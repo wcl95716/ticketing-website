@@ -30,7 +30,7 @@ class LauncherApp:
         if self.processes:
             print("还有其他进程在运行中")
         else:
-            process = subprocess.Popen(["python", "src/main.py"])
+            process = subprocess.Popen(["python", "src/models/wechat_bot/api/main.py"])
             self.processes.append(process)
 
     def stop_all_processes(self):
