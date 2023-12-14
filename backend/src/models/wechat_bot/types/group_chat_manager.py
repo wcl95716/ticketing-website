@@ -31,7 +31,7 @@ class GroupChatManager:
         num_messages = len(chat_messages)
 
         # 设置要取的最后十条消息的数量
-        num_to_keep = 3
+        num_to_keep = 1
         last_ten_messages = chat_messages[-num_to_keep:] if num_messages >= num_to_keep else chat_messages
 
         result_task = []
