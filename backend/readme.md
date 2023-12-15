@@ -6,6 +6,24 @@ pip install pipreqs
 pipreqs ./ --force
 '''
 
+```
+
+    def Search(self, keyword):
+        '''
+        查找微信好友或关键词
+        keywords: 要查找的关键词，str   * 最好完整匹配，不完全匹配只会选取搜索框第一个
+        '''
+        self.UiaAPI.SetFocus()
+        time.sleep(0.2)
+        self.UiaAPI.SendKeys('{Ctrl}f', waitTime=1)
+        self.UiaAPI.SendKeys('{Ctrl}a', waitTime=0.5)  # 全选文本
+        self.UiaAPI.SendKeys('{Delete}', waitTime=0.5)  # 删除选中的文本
+        time.sleep(0.2)
+        self.UiaAPI.SendKeys('{Ctrl}f', waitTime=1)
+        self.SearchBox.SendKeys(keyword, waitTime=1.5)
+        self.SearchBox.SendKeys('{Enter}')
+```
+
 
 '''
 	python -m pip install --upgrade pip
