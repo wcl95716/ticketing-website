@@ -129,9 +129,9 @@ const SearchForm: React.FC = () => {
               <Button htmlType='button' onClick={onReset}>
                 重置
               </Button>
-              <Button htmlType='button' onClick={creatClick}>
+              {/* <Button htmlType='button' onClick={creatClick}>
                 创建工单
-              </Button>
+              </Button> */}
             </Form.Item>
           </Col>
         </Row>
