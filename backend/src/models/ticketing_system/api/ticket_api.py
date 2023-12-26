@@ -13,7 +13,9 @@ def add_ticket(ticket: dict) -> TicketRecord:
 def update_ticket(ticket: dict):
     ticketRecord:TicketRecord = TicketRecord.from_dict(ticket)
     ticket_storage.update_ticket_record_in_file(ticketRecord)
-    
+
+def update_ticket_local(ticket: TicketRecord):
+    ticket_storage.update_ticket_record_in_file(ticket)
 
 def get_ticket(ticket_id: str) -> TicketRecord :
     result = ticket_storage.get_ticket_record_from_file(ticket_id)
