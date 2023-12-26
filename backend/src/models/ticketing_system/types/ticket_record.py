@@ -36,6 +36,7 @@ class TicketRecord:
         self.update_time = created_time # 更新时间
         
         self.source = source
+        self.chat_link = ""
         
         
 

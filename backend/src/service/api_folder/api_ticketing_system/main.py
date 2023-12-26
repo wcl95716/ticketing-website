@@ -5,6 +5,7 @@ from flask_cors import CORS
 import os
 import markdown2
 import pandas as pd
+from backend.src.models.wechat_bot.types.chat_action_function import ChatActionFunctionFactory
 
 from models import ticketing_system
 from models.ticketing_system.types.ticket_record import TicketRecord
@@ -165,6 +166,9 @@ def api_download_all_tickets():
         # 如果没有传递任何筛选条件，则返回所有工单
         if not ticket_filter_data:
             all_tickets = ticketing_system.ticket_api.get_all_tickets()
+            url = "http://47.116.201.99:4000/ticket/index/detail"
+            for ticket in all_tickets:
+                ticket.chat_link = f"{url}?ticket_id={ticket.ticket_id}"
             local_logger.logger.info("all_tickets : %d ", len(all_tickets))
             # 将数据转换为DataFrame
             df = pd.DataFrame([ticket.to_dict() for ticket in all_tickets])
