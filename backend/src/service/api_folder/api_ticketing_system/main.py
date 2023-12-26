@@ -1,4 +1,5 @@
 
+from datetime import datetime
 from flask import Blueprint, current_app, jsonify, request, send_file, render_template, url_for
 
 from flask_cors import CORS
@@ -145,7 +146,10 @@ def api_add_ticket():
         all_tickets = ticketing_system.ticket_api.get_all_tickets()
         for ticket in all_tickets:
             if ticket.creator == ticket_data["creator"]:
-                 return  jsonify(ticket.to_dict())
+                ticket.created_time = datetime.now().strftime("%Y-%m-%d %H:%M:%S"),
+                ticket.update_time =  datetime.now().strftime("%Y-%m-%d %H:%M:%S"),
+                ticketing_system.ticket_api.update_ticket(ticket.to_dict())
+                return  jsonify(ticket.to_dict())
         local_logger.logger.info("ticket_data : %s", ticket_data)
         ticket:TicketRecord = ticketing_system.ticket_api.add_ticket(ticket_data)
         #return jsonify({"message": "Ticket updated successfully"})
