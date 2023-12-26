@@ -146,8 +146,8 @@ def api_add_ticket():
         all_tickets = ticketing_system.ticket_api.get_all_tickets()
         for ticket in all_tickets:
             if ticket.creator == ticket_data["creator"]:
-                ticket.created_time = datetime.now().strftime("%Y-%m-%d %H:%M:%S"),
-                ticket.update_time =  datetime.now().strftime("%Y-%m-%d %H:%M:%S"),
+                ticket.created_time = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+                ticket.update_time =  datetime.now().strftime("%Y-%m-%d %H:%M:%S")
                 ticketing_system.ticket_api.update_ticket_local(ticket)
                 return  jsonify(ticket.to_dict())
         local_logger.logger.info("ticket_data : %s", ticket_data)
