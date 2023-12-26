@@ -189,6 +189,10 @@ def api_download_all_tickets():
             
         # 如果传递了筛选条件，则返回符合条件的工单
         result = ticketing_system.ticket_api.get_ticket_filter(ticket_filter_data)
+        url = "http://47.116.201.99:4000/ticket/index/detail"
+        for ticket in result:
+            ticket.chat_link = f"{url}?ticket_id={ticket.ticket_id}"
+            local_logger.logger.info("ticket.chat_link: %s %s ",ticket.chat_link , ticket.to_dict())
         local_logger.logger.info("ticket_filter result : %d ", len(result))
         # 将数据转换为DataFrame
         df = pd.DataFrame([ticket.to_dict() for ticket in result])
