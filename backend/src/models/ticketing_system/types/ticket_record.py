@@ -61,7 +61,8 @@ class TicketRecord:
             "ticket_type": self.ticket_type,
             "closed_time": self.closed_time,
             "update_time": self.update_time,
-            "source": self.source
+            "source": self.source,
+            "chat_link":self.chat_link,
         }
     
     def to_json(self):
