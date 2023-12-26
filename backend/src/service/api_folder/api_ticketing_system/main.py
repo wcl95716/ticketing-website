@@ -5,7 +5,7 @@ from flask_cors import CORS
 import os
 import markdown2
 import pandas as pd
-from backend.src.models.wechat_bot.types.chat_action_function import ChatActionFunctionFactory
+from models.wechat_bot.types.chat_action_function import ChatActionFunctionFactory
 
 from models import ticketing_system
 from models.ticketing_system.types.ticket_record import TicketRecord
