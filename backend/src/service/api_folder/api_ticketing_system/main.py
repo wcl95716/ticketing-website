@@ -169,7 +169,7 @@ def api_download_all_tickets():
             url = "http://47.116.201.99:4000/ticket/index/detail"
             for ticket in all_tickets:
                 ticket.chat_link = f"{url}?ticket_id={ticket.ticket_id}"
-                print("ticket.chat_link: ",ticket.chat_link , ticket.to_dict())
+                local_logger.logger.info("ticket.chat_link: %s %s ",ticket.chat_link , ticket.to_dict())
                 
             local_logger.logger.info("all_tickets : %d ", len(all_tickets))
             # 将数据转换为DataFrame
