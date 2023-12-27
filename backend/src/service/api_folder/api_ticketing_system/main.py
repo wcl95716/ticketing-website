@@ -6,6 +6,7 @@ from flask_cors import CORS
 import os
 import markdown2
 import pandas as pd
+from models.ticketing_system.types.enum_type import TicketStatus
 from models.wechat_bot.types.chat_action_function import ChatActionFunctionFactory
 
 from models import ticketing_system
@@ -148,6 +149,7 @@ def api_add_ticket():
             if ticket.creator == ticket_data["creator"]:
                 ticket.created_time = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
                 ticket.update_time =  datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+                ticket.status = TicketStatus.NEW
                 ticketing_system.ticket_api.update_ticket_local(ticket)
                 return  jsonify(ticket.to_dict())
         local_logger.logger.info("ticket_data : %s", ticket_data)
