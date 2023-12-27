@@ -40,6 +40,7 @@ const DetailModel = () => {
    const ticket_id = searchParams.get('ticket_id');
 
    const [pastedImage, setPastedImage] = useState<File | null>(null); // 添加状态变量来保存粘贴的图片
+   const [file, setFile] = useState<File | null>(null);
 
    const dispatch = useAppDispatch();
    const chatRecord = useAppSelector(selecChatRecord);
@@ -181,6 +182,7 @@ const DetailModel = () => {
             dispatch(getChatRequest(ticket_id));
          });
          setNewMessage(''); // 清空输入框
+         setFile(null);
       }
    };
    // 微信消息提醒
@@ -339,7 +341,7 @@ const DetailModel = () => {
       );
    };
 
-   const [file, setFile] = useState<File | null>(null);
+   
    const uploadFileInput = () => {
       if (file) {
          const formData = new FormData();
@@ -357,7 +359,7 @@ const DetailModel = () => {
             })
             .catch((error) => console.error('上传错误:', error));
       }
-      setFile(null);
+      
    };
    const handlePaste = (event: React.ClipboardEvent) => {
       const items = event.clipboardData.items;

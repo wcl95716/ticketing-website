@@ -41,6 +41,8 @@ const PChart = () => {
 
     const now = new Date();
     
+    const [pastedImage, setPastedImage] = useState<File | null>(null); // 添加状态变量来保存粘贴的图片
+    const [file, setFile] = useState<File | null>(null);
     
 
     useEffect(() => {
@@ -135,6 +137,7 @@ const PChart = () => {
             dispatch(getChatRequest(ticket_id));
         });
         setNewMessage(''); // 清空输入框
+        setFile(null);
     };
     // 修改renderItem函数，为每条消息添加头像和名字
     const renderMessageItem = (item: any) => {
@@ -260,6 +263,40 @@ const PChart = () => {
     if (chatRecord == undefined) {
         return <ErrorPage />;
     }
+    const uploadFileInput = () => {
+        if (file) {
+           const formData = new FormData();
+           formData.append('file', file);
+           // 这里替换为你的上传API
+           fetch('http://47.116.201.99:8001/test/upload_file', {
+              method: 'POST',
+              body: formData,
+           })
+              .then((response) => response.json())
+  
+              .then((data) => {
+                 console.log('data ', data);
+                 handleUpload(data);
+              })
+              .catch((error) => console.error('上传错误:', error));
+        }
+        
+     };
+    const handlePaste = (event: React.ClipboardEvent) => {
+        const items = event.clipboardData.items;
+        for (const item of items) {
+           if (item.kind === 'file') {
+              const pastedFile = item.getAsFile();
+              if (pastedFile) {
+                 setPastedImage(pastedFile); // 保存粘贴的图片到状态变量
+                 setNewMessage(pastedFile.name); // 将文件名显示在TextArea中
+                 setFile(pastedFile);
+                 // 这里可以添加上传文件的逻辑
+                 console.log('文件已粘贴:', pastedFile);
+              }
+           }
+        }
+     };
     return (
         <div style={{ backgroundColor: '#fff', height: '100vh', padding: '10px', display: 'flex', flexDirection: 'column' }}>
 
@@ -278,13 +315,12 @@ const PChart = () => {
                         inputMode="text"
                         style={{ flex: 1, marginRight: '2vh', fontSize: '16px' }}
                         placeholder="请输入聊天内容"
+                        onPaste={handlePaste}
                         suffix={
                            <div>
-                              <Button type='primary' onClick={
-                                    () => {
-                                       handleSendMessage();
-                                    }
-                              }>发送</Button>
+                              <Button type='primary'  onClick={() => {
+                                 file ? uploadFileInput() : handleSendMessage();
+                              }}>发送</Button>
                               {/* <Upload 
                                  {...props} showUploadList={false} >
                                     <Button style={{ flex: '0 0 auto', marginTop: '5px', marginLeft:"1vh" }} shape="circle" icon={<PlusOutlined style={{ color: 'grey' }} />} />
