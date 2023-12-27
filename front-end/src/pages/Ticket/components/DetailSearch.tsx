@@ -33,6 +33,7 @@ const SearchForm: React.FC<SearchFormProps> = (props) => {
     
     const { record } = props;
     const [selectedUser, setSelectedUser] = useState(record?.assigned_to);
+    const [selectRecord, setSelectRecord] = useState(record);
     // console.log("reeeec",record)
     const dispatch = useAppDispatch();
     const navigate = useNavigate();
@@ -81,6 +82,7 @@ const SearchForm: React.FC<SearchFormProps> = (props) => {
     const onUserChange = (value) => {
         setSelectedUser(value);
         const updateRecord = { ...record, assigned_to: value === undefined ? null : value };
+        setSelectRecord(updateRecord);
         dispatch(updateTicket(updateRecord)).then(() => {
             // dispatch(getUserDetail(value));
             dispatch(getTicketListRequest({}));
@@ -88,6 +90,7 @@ const SearchForm: React.FC<SearchFormProps> = (props) => {
     }
     const onStatusChange = (value) => {
         const updateRecord = { ...record, status: value === undefined ? null : value };
+        setSelectRecord(updateRecord);
         dispatch(updateTicket(updateRecord)).then(() => {
             dispatch(getTicketListRequest({}));
         });
@@ -110,7 +113,8 @@ const SearchForm: React.FC<SearchFormProps> = (props) => {
   
     const handleSaveClick = () => {
 
-      const updateRecord = { ...record, title: editedTitle };
+      const updateRecord = { ...selectRecord, title: editedTitle };
+      setSelectRecord(updateRecord);
       dispatch(updateTicket(updateRecord)).then(() => {
           // dispatch(getUserDetail(value));
           dispatch(getTicketListRequest({}));
