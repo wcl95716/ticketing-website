@@ -9,7 +9,6 @@ def download_excel_and_read(excel_url: str) -> pd.DataFrame:
     try:
         # 使用requests库下载Excel文件
         response = requests.get(excel_url)
-
         if response.status_code == 200:
             # 使用BytesIO对象包装字节数据
             content = BytesIO(response.content)

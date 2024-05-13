@@ -2,7 +2,7 @@
 import pandas as pd
 
 class Vehicle:
-    def __init__(self, plate_number, organization, status, camera_status):
+    def __init__(self, plate_number, organization, status, camera_status,expiration_date):
         # 车牌号码
         self.plate_number = plate_number
         # 车辆组织
@@ -11,6 +11,7 @@ class Vehicle:
         self.status = status
         # 摄像头状态
         self.camera_status = camera_status
+        self.expiration_date = expiration_date
 
     def __str__(self):
         return f"车牌号码: {self.plate_number}\n车辆组织: {self.organization}\n车辆状态: {self.status}\n摄像头状态: {self.camera_status}\n"

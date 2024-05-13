@@ -85,7 +85,7 @@ def create_table_image(df,title:str = "", directory = "./data/pngs/", file_name=
     fig, ax = plt.subplots(figsize=(ideal_width, ideal_height))
 
     # Plot the DataFrame as a table
-    table = ax.table(cellText=df.values, colLabels=df.columns,colWidths=[0.1,0.20,0.2,0.5,], cellLoc='center', loc='center')
+    table = ax.table(cellText=df.values, colLabels=df.columns,colWidths=[0.1,0.20,0.2,0.3,0.2], cellLoc='center', loc='center')
 
     # Adjust table font size
     table.auto_set_font_size(False)

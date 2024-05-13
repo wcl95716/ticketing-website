@@ -40,6 +40,7 @@ class LogProcessing:
                 '车辆组织': vehicle_data.organization,
                 '车辆状态': vehicle_data.status,
                 '摄像头状态': vehicle_data.camera_status,
+                '服务到期时间': vehicle_data.expiration_date
             }
 
             data.append(row)
@@ -141,6 +142,8 @@ class LogProcessing:
             for org_group in self.organization_group:
                 
                 # 如果Vehicle对象的organization_group属性等于OrganizationGroup对象的group_name属性
+                # print("vehicle_data.organization: ", vehicle_data.organization)
+                # print("org_group.organization: ", org_group.organization)
                 if vehicle_data.organization == org_group.organization:
                     
                     # 如果vehicle_data_by_group字典中不存在org_group组织，则创建一个空列表
@@ -149,7 +152,8 @@ class LogProcessing:
                         
                     # 将Vehicle对象添加到vehicle_data_by_group字典中
                     vehicle_data_by_group[org_group].append(vehicle_data)
-                    
+        
+        print("vehicle_data_by_group: ", vehicle_data_by_group)
         return vehicle_data_by_group
         pass
     
