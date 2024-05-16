@@ -30,7 +30,7 @@ def get_vehicles_from_url(excel_url:str) -> list[Vehicle]:
     # 类型为时间
     df['车辆状态（离线/定位）'] = df['车辆状态（离线/定位）'].fillna('').astype(str)
     df['摄像头状态'] = df['摄像头状态'].fillna('').astype(str)
-    df['服务到期时间'] = df['服务到期时间'].fillna('').astype(str)
+    # df['服务到期时间'] = df['服务到期时间'].fillna('').astype(str)
     # print(df)
     # print("asdasddasd  ",df)
     if df is None:
@@ -44,7 +44,8 @@ def get_vehicles_from_url(excel_url:str) -> list[Vehicle]:
         status:str = row['车辆状态（离线/定位）']
         camera_status = row['摄像头状态']
         # row['服务到期时间']
-        expiration_date = row['服务到期时间']
+        expiration_date = " " #row['服务到期时间']
+        
         # print("status: ", status , isinstance(status, float))
         # 判断status 是否为浮点数
         try:
@@ -69,6 +70,7 @@ def get_vehicles_from_url(excel_url:str) -> list[Vehicle]:
             pass
         
         vehicle = Vehicle(plate_number, organization, status, camera_status,expiration_date)
+        print("vehicle: ", vehicle)
         vehicles.append(vehicle)
     return vehicles
 
@@ -142,8 +144,9 @@ if __name__=='__main__':
     # vehicle_url= "http://127.0.0.1:8001/test/uploads/5d1cf85c71b94aa4bdac16393c986d55_12.6.xlsx"
     # excel_file_path= "http://localhost:8001/test/uploads/757e28eb783e4f86af3e48bb2580c237_-12-6.xlsx"
     
-    vehicle_url= "http://0.0.0.0:25432/FileStoreAPI/get_file_uu_id/c2d27ebc-51f8-4a0f-8b4a-b1d55a9e0033"
-    excel_file_path= "http://47.116.201.99:8001/test/uploads/80fcd33050464a439d65e71bdaa54a64_-12-11.xlsx"
+    vehicle_url= "http://0.0.0.0:25432/FileStoreAPI/get_file_uu_id/7bbdd223-cdc9-4bb6-aaa0-6e21aacb2c4f"
+    # a71a109e-bb4c-4efb-a8dc-d44f3a678ce4
+    excel_file_path= "http://0.0.0.0:25432/FileStoreAPI/get_file_uu_id/a71a109e-bb4c-4efb-a8dc-d44f3a678ce4"
 
 
     # 获取分类后的数据
