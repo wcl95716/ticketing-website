@@ -30,7 +30,10 @@ def get_vehicles_from_url(excel_url:str) -> list[Vehicle]:
     # 类型为时间
     df['车辆状态（离线/定位）'] = df['车辆状态（离线/定位）'].fillna('').astype(str)
     df['摄像头状态'] = df['摄像头状态'].fillna('').astype(str)
-    # df['服务到期时间'] = df['服务到期时间'].fillna('').astype(str)
+    if df.get('服务到期时间') is not None:
+        df['服务到期时间'] = df['服务到期时间'].fillna('').astype(str)
+    else:
+        df['服务到期时间'] = ''
     # print(df)
     # print("asdasddasd  ",df)
     if df is None:
@@ -44,7 +47,7 @@ def get_vehicles_from_url(excel_url:str) -> list[Vehicle]:
         status:str = row['车辆状态（离线/定位）']
         camera_status = row['摄像头状态']
         # row['服务到期时间']
-        expiration_date = " " #row['服务到期时间']
+        expiration_date = row['服务到期时间']
         
         # print("status: ", status , isinstance(status, float))
         # 判断status 是否为浮点数
