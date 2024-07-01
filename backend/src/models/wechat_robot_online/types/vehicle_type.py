@@ -14,7 +14,7 @@ class Vehicle:
         self.expiration_date = expiration_date
 
     def __str__(self):
-        return f"车牌号码: {self.plate_number}\n车辆组织: {self.organization}\n车辆状态: {self.status}\n摄像头状态: {self.camera_status}\n"
+        return f"车牌号码: {self.plate_number}\n车辆组织: {self.organization}\n车辆状态: {self.status}\n摄像头状态: {self.camera_status}\n 服务到期时间:{self.expiration_date}\n"
 
 
 def run_example():

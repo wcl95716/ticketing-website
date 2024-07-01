@@ -48,6 +48,7 @@ def get_vehicles_from_url(excel_url:str) -> list[Vehicle]:
         camera_status = row['摄像头状态']
         # row['服务到期时间']
         expiration_date = row['服务到期时间']
+        print("expiration_date: ", expiration_date)
         
         # print("status: ", status , isinstance(status, float))
         # 判断status 是否为浮点数
@@ -73,7 +74,7 @@ def get_vehicles_from_url(excel_url:str) -> list[Vehicle]:
             pass
         
         vehicle = Vehicle(plate_number, organization, status, camera_status,expiration_date)
-        print("vehicle: ", vehicle)
+        # print("vehicle: ", vehicle.__str__())
         vehicles.append(vehicle)
     return vehicles
 
@@ -147,9 +148,9 @@ if __name__=='__main__':
     # vehicle_url= "http://127.0.0.1:8001/test/uploads/5d1cf85c71b94aa4bdac16393c986d55_12.6.xlsx"
     # excel_file_path= "http://localhost:8001/test/uploads/757e28eb783e4f86af3e48bb2580c237_-12-6.xlsx"
     
-    vehicle_url= "http://0.0.0.0:25432/FileStoreAPI/get_file_uu_id/7bbdd223-cdc9-4bb6-aaa0-6e21aacb2c4f"
+    vehicle_url= "http://0.0.0.0:25432/FileStoreAPI/get_file_uu_id/10bc559c-8680-4ba2-815f-7fd1b0264359"
     # a71a109e-bb4c-4efb-a8dc-d44f3a678ce4
-    excel_file_path= "http://0.0.0.0:25432/FileStoreAPI/get_file_uu_id/a71a109e-bb4c-4efb-a8dc-d44f3a678ce4"
+    excel_file_path= "http://0.0.0.0:25432/FileStoreAPI/get_file_uu_id/7e985b48-a5fe-49e1-b225-d68b3b769f54"
 
 
     # 获取分类后的数据

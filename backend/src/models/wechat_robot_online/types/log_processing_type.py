@@ -153,7 +153,7 @@ class LogProcessing:
                     # 将Vehicle对象添加到vehicle_data_by_group字典中
                     vehicle_data_by_group[org_group].append(vehicle_data)
         
-        print("vehicle_data_by_group: ", vehicle_data_by_group)
+        # print("vehicle_data_by_group: ", vehicle_data_by_group)
         return vehicle_data_by_group
         pass
     
