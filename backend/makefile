@@ -7,6 +7,10 @@ stop:
 start:
 	nohup python src/main.py > output.log &
 
+start_pm2:
+	pm2 start src/main.py --name my_python_app --interpreter python3
+
+
 
 install:
 	conda env list | grep ticketing-website || conda create --name ticketing-website python=3.9
