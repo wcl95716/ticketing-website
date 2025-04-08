@@ -165,14 +165,14 @@ import requests
 @api_bp.route('/download_all_tickets', methods=['POST'])
 def api_download_all_tickets():
     # 调用上传文件接口
-    upload_url = "http://47.116.201.99:8001/test/upload_file"  # 替换为您的上传文件的接口URL
+    upload_url = "http://14.103.200.99:8001/test/upload_file"  # 替换为您的上传文件的接口URL
     try:
         ticket_filter_data = request.get_json()
         local_logger.logger.info("ticket_filter_data : %s", ticket_filter_data)
         # 如果没有传递任何筛选条件，则返回所有工单
         if not ticket_filter_data:
             all_tickets = ticketing_system.ticket_api.get_all_tickets()
-            url = "http://47.116.201.99:4000/ticket/index/detail"
+            url = "http://14.103.200.99:4000/ticket/index/detail"
             for ticket in all_tickets:
                 ticket.chat_link = f"{url}?ticket_id={ticket.ticket_id}"
                 local_logger.logger.info("ticket.chat_link: %s %s ",ticket.chat_link , ticket.to_dict())
@@ -195,7 +195,7 @@ def api_download_all_tickets():
             
         # 如果传递了筛选条件，则返回符合条件的工单
         result = ticketing_system.ticket_api.get_ticket_filter(ticket_filter_data)
-        url = "http://47.116.201.99:4000/ticket/index/detail"
+        url = "http://14.103.200.99:4000/ticket/index/detail"
         for ticket in result:
             ticket.chat_link = f"{url}?ticket_id={ticket.ticket_id}"
             local_logger.logger.info("ticket.chat_link: %s %s ",ticket.chat_link , ticket.to_dict())
@@ -237,7 +237,7 @@ def api_upload_file():
         file_name = ticketing_system.chat_api.upload_file(file)
         # 构造文件的 URL
         local_logger.logger.info("upload_file done file_name : %s", file_name)
-        file_url = "http://47.116.201.99:8001/test/uploads/" + file_name
+        file_url = "http://14.103.200.99:8001/test/uploads/" + file_name
 
         return jsonify({'message': 'File uploaded successfully', 'file_id': file_name, 'file_url':file_url})
     return jsonify({'error': 'File upload failed'})

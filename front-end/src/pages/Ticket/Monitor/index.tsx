@@ -17,7 +17,7 @@ const Monitor = () => {
   const monitorlog: UploadProps = {
     name: 'file',
     multiple: true,
-    action: 'http://47.116.201.99:8001/test/upload_file',
+    action: 'http://14.103.200.99:8001/test/upload_file',
     onChange(info) {
       const { status } = info.file;
       if (status !== 'uploading') {
@@ -47,7 +47,7 @@ const Monitor = () => {
   const distrirule: UploadProps = {
     name: 'file',
     multiple: true,
-    action: 'http://47.116.201.99:8001/test/upload_file',
+    action: 'http://14.103.200.99:8001/test/upload_file',
     onChange(info) {
       const { status } = info.file;
       if (status !== 'uploading') {
@@ -77,7 +77,7 @@ const Monitor = () => {
   const protocolrule: UploadProps = {
     name: 'file',
     multiple: true,
-    action: 'http://47.116.201.99:8001/test/upload_file',
+    action: 'http://14.103.200.99:8001/test/upload_file',
     onChange(info) {
       const { status } = info.file;
       if (status !== 'uploading') {
@@ -106,7 +106,7 @@ const Monitor = () => {
   //提交接口
   const getRecord = async (fileListParams) => {
     try {
-      const response = await fetch(`http://47.116.201.99:8001/wechat_robot_online/process_log`, {
+      const response = await fetch(`http://14.103.200.99:8001/wechat_robot_online/process_log`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -128,11 +128,11 @@ const Monitor = () => {
     } else if (fileList.organization_group_url === '') {
       message.error(`请上传分发规则`);
       return;
-    } 
+    }
     // else if (fileList.language_template_url === '') {
     //   message.error(`请上传话术规则`);
     //   return;
-    // } 
+    // }
     else {
       message.success(`提交成功`);
       getRecord(fileList);
@@ -157,7 +157,7 @@ const Monitor = () => {
           <p className='ant-upload-text'>点击上传分发规则/拖拽到此处</p>
           <p className='ant-upload-hint'>请上传 分发规则 文件</p>
         </Dragger>
-{/* 
+{/*
         <Dragger {...protocolrule} maxCount={1}>
           <p className='ant-upload-drag-icon'>
             <InboxOutlined />

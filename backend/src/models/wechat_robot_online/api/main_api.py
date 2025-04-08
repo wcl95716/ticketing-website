@@ -117,7 +117,7 @@ def get_tasks( vehicle_url, organization_group_url) -> list[RobotTask]:
     pass 
 
 def upload_img_file(img_path:str) -> None:
-    url = 'http://47.116.201.99:8001/test/upload_file'
+    url = 'http://14.103.200.99:8001/test/upload_file'
     file_path = img_path
     # files = {'file': ( , open(file_path, 'rb'))}
     files = {'file': open(file_path, 'rb')}

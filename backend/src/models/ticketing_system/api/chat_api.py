@@ -24,7 +24,7 @@ def get_chat_history(ticket_id: str) -> list[dict]:
         try:
             if "file_id" not in chat:
                 continue
-            chat["file_url"] = "http://47.116.201.99:8001/test/uploads/"+ chat["file_id"]
+            chat["file_url"] = "http://14.103.200.99:8001/test/uploads/"+ chat["file_id"]
         except Exception as e:
             print(f"获取聊天记录时发生错误：{str(e)}")
             chat["file_url"] = ""

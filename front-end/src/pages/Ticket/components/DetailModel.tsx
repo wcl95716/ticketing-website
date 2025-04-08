@@ -52,7 +52,7 @@ const DetailModel = () => {
    useEffect(() => {
       const getRecord = async () => {
          try {
-            const response = await fetch(`http://47.116.201.99:8001/test/get_ticket/${ticket_id}`);
+            const response = await fetch(`http://14.103.200.99:8001/test/get_ticket/${ticket_id}`);
             const record = await response.json();
             setRecord(record); // 更新详情
          } catch (error) {
@@ -204,7 +204,7 @@ const DetailModel = () => {
    };
    const props = {
       accept: '.png,.jpg,.jpeg,.mp4', // 只允许上传 PNG, JPG/JPEG 和 MP4 文件
-      action: 'http://47.116.201.99:8001/test/upload_file',
+      action: 'http://14.103.200.99:8001/test/upload_file',
       onChange: handleChange,
    };
    // 修改renderItem函数，为每条消息添加头像和名字
@@ -341,13 +341,13 @@ const DetailModel = () => {
       );
    };
 
-   
+
    const uploadFileInput = () => {
       if (file) {
          const formData = new FormData();
          formData.append('file', file);
          // 这里替换为你的上传API
-         fetch('http://47.116.201.99:8001/test/upload_file', {
+         fetch('http://14.103.200.99:8001/test/upload_file', {
             method: 'POST',
             body: formData,
          })
@@ -359,7 +359,7 @@ const DetailModel = () => {
             })
             .catch((error) => console.error('上传错误:', error));
       }
-      
+
    };
    const handlePaste = (event: React.ClipboardEvent) => {
       const items = event.clipboardData.items;
@@ -437,7 +437,7 @@ const DetailModel = () => {
                   className={Style['custom-textarea']}
                   style={{ width: '100%',height:'150px', border: 'none', outline: 'none' }}
                   contentEditable={true}
-                  
+
                   onPaste={handlePaste}
                   // ... 其他属性
                 >

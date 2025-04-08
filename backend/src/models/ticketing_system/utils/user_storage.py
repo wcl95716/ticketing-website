@@ -74,7 +74,7 @@ def get_users_to_file() -> list[dict]:
                 if cleaned_line:  # 如果不是空白行
                     record: dict = json.loads(cleaned_line)
                     # 更改头像地址
-                    record["avatar_url"] = "http://47.116.201.99:8001/test/uploads/79cd180e87d345be9fd60123183fec4a_16211702261434_.pic.jpg"
+                    record["avatar_url"] = "http://14.103.200.99:8001/test/uploads/79cd180e87d345be9fd60123183fec4a_16211702261434_.pic.jpg"
                     # print(record)
                     users.append(record)
     except FileNotFoundError:

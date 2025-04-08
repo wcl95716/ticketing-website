@@ -40,10 +40,10 @@ const PChart = () => {
     const customer_id = queryParams.get('customer_id');
 
     const now = new Date();
-    
+
     const [pastedImage, setPastedImage] = useState<File | null>(null); // 添加状态变量来保存粘贴的图片
     const [file, setFile] = useState<File | null>(null);
-    
+
 
     useEffect(() => {
         if (ticket_id) {
@@ -79,7 +79,7 @@ const PChart = () => {
                     sender: customer_id,
                     message_type: MessageType.TEXT,
                     chat_profile: ChatPriority.CUSTOMER,
-                    avatar_url: "http://47.116.201.99:8001/test/uploads/94645ce7df1b4fcb8123f93b040dbcb1_617e9a689d4bc7779c46e2ab93791df.png",
+                    avatar_url: "http://14.103.200.99:8001/test/uploads/94645ce7df1b4fcb8123f93b040dbcb1_617e9a689d4bc7779c46e2ab93791df.png",
                 }
             ];
             setMessages(newMessages);
@@ -92,7 +92,7 @@ const PChart = () => {
                 sender: customer_id,
                 message_type: MessageType.TEXT,
                 chat_profile: ChatPriority.CUSTOMER,
-                avatar_url: "http://47.116.201.99:8001/test/uploads/94645ce7df1b4fcb8123f93b040dbcb1_617e9a689d4bc7779c46e2ab93791df.png",
+                avatar_url: "http://14.103.200.99:8001/test/uploads/94645ce7df1b4fcb8123f93b040dbcb1_617e9a689d4bc7779c46e2ab93791df.png",
             }
 
             dispatch(postChatRequest(updatedMessages)).then(() => {
@@ -116,7 +116,7 @@ const PChart = () => {
                 file_url: file.file_url,
                 file_id: file.file_id,
                 chat_profile: ChatPriority.CUSTOMER,
-                avatar_url: "http://47.116.201.99:8001/test/uploads/94645ce7df1b4fcb8123f93b040dbcb1_617e9a689d4bc7779c46e2ab93791df.png",
+                avatar_url: "http://14.103.200.99:8001/test/uploads/94645ce7df1b4fcb8123f93b040dbcb1_617e9a689d4bc7779c46e2ab93791df.png",
             }
         ];
         setMessages(newMessages);
@@ -131,7 +131,7 @@ const PChart = () => {
             file_url: file.file_url,
             file_id: file.file_id,
             chat_profile: ChatPriority.CUSTOMER,
-            avatar_url: "http://47.116.201.99:8001/test/uploads/94645ce7df1b4fcb8123f93b040dbcb1_617e9a689d4bc7779c46e2ab93791df.png",
+            avatar_url: "http://14.103.200.99:8001/test/uploads/94645ce7df1b4fcb8123f93b040dbcb1_617e9a689d4bc7779c46e2ab93791df.png",
         }
         dispatch(postChatRequest(updatedMessages)).then(() => {
             dispatch(getChatRequest(ticket_id));
@@ -247,7 +247,7 @@ const PChart = () => {
 
     const props = {
         accept: "image/*,video/*", // 允许上传图片和视频
-        action: 'http://47.116.201.99:8001/test/upload_file',
+        action: 'http://14.103.200.99:8001/test/upload_file',
         onChange: handleChange,
     };
 
@@ -268,19 +268,19 @@ const PChart = () => {
            const formData = new FormData();
            formData.append('file', file);
            // 这里替换为你的上传API
-           fetch('http://47.116.201.99:8001/test/upload_file', {
+           fetch('http://14.103.200.99:8001/test/upload_file', {
               method: 'POST',
               body: formData,
            })
               .then((response) => response.json())
-  
+
               .then((data) => {
                  console.log('data ', data);
                  handleUpload(data);
               })
               .catch((error) => console.error('上传错误:', error));
         }
-        
+
      };
     const handlePaste = (event: React.ClipboardEvent) => {
         const items = event.clipboardData.items;
@@ -321,11 +321,11 @@ const PChart = () => {
                               <Button type='primary'  onClick={() => {
                                  file ? uploadFileInput() : handleSendMessage();
                               }}>发送</Button>
-                              {/* <Upload 
+                              {/* <Upload
                                  {...props} showUploadList={false} >
                                     <Button style={{ flex: '0 0 auto', marginTop: '5px', marginLeft:"1vh" }} shape="circle" icon={<PlusOutlined style={{ color: 'grey' }} />} />
                               </Upload> */}
-                           </div>        
+                           </div>
                      }
                         value={newMessage}
                         onChange={(e: any) => {

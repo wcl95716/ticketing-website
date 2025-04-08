@@ -16,11 +16,11 @@ class ChatActionsEnum(Enum):
     
 class ChatActionFunctionFactory:
     
-    page_url = "http://47.116.201.99:4000/user_chat_page"
+    page_url = "http://14.103.200.99:4000/user_chat_page"
     # ticket_id=2023-11-17-211224191561&customer_id=%E4%BD%A0%E6%98%AF
     @staticmethod
     def add_ticket_to_website(ticket_record: dict = None) -> dict:
-        url = 'http://47.116.201.99:8001/test/add_ticket'
+        url = 'http://14.103.200.99:8001/test/add_ticket'
         response = requests.post(url, json=ticket_record)
         # 检查响应状态码
         if response.status_code == 200:
@@ -40,7 +40,7 @@ class ChatActionFunctionFactory:
 
     @staticmethod
     def add_ticket_init_chat(ticket_record: dict = None , group_message:list[tuple] = None, sender_name:str = None) -> dict:
-        url = 'http://47.116.201.99:8001/test/add_chat_record'
+        url = 'http://14.103.200.99:8001/test/add_chat_record'
         ticket_id = ticket_record["ticket_id"]
         
             # 生成随机的消息ID、工单ID、发送者、消息内容和消息时间
@@ -59,7 +59,7 @@ class ChatActionFunctionFactory:
             "message_time": message_time,
             "message_type": message_type,
             "chat_profile":1001,
-            "avatar_url": "http://47.116.201.99:8001/test/uploads/79cd180e87d345be9fd60123183fec4a_16211702261434_.pic.jpg",
+            "avatar_url": "http://14.103.200.99:8001/test/uploads/79cd180e87d345be9fd60123183fec4a_16211702261434_.pic.jpg",
         }
         response = requests.post(url, json=chatMessage)
         if group_message is None:
@@ -87,7 +87,7 @@ class ChatActionFunctionFactory:
                     "message_time": message_time,
                     "message_type": message_type,
                     "chat_profile":1000,
-                    "avatar_url": "http://47.116.201.99:8001/test/uploads/94645ce7df1b4fcb8123f93b040dbcb1_617e9a689d4bc7779c46e2ab93791df.png"
+                    "avatar_url": "http://14.103.200.99:8001/test/uploads/94645ce7df1b4fcb8123f93b040dbcb1_617e9a689d4bc7779c46e2ab93791df.png"
                 }
                 response = requests.post(url, json=chatMessage)
                 pass
@@ -150,7 +150,7 @@ class ChatActionFunctionFactory:
         # return "工单已更新"
         
     @staticmethod
-    def get_online_tasks(api_url = 'http://47.116.201.99:8001/wechat_robot_online/get_task') -> list[tuple[str]]:
+    def get_online_tasks(api_url = 'http://14.103.200.99:8001/wechat_robot_online/get_task') -> list[tuple[str]]:
         try:
             # 发送 GET 请求
             response = requests.get(api_url)
@@ -173,7 +173,7 @@ class ChatActionFunctionFactory:
         
     # @staticmethod
     # def send_log_file(task: dict = None) -> tuple[str]:
-    #      # data like : [{'content': 'http://47.116.201.99:8001/test/uploads/402fb8848690486782a5dd2b6c73ad6a_b6aa2cbea01642709f62526ba59b40f4.png', 'task_type': None, 'to_user': '昆山一组（苏州）'}, {'content': 'http://47.116.201.99:8001/test/uploads/847e92cd766145aeb84b5d54a3d9bb28_bbca4427f9894640b230df88aa3f73a6.png', 'task_type': None, 'to_user': '无锡公司-注册群'}, {'content': 'http://47.116.201.99:8001/test/uploads/a09a1921dd2a4282aa829ba1d0b7da8f_59a47f551acd47bb8bd3c45b638ca73d.png', 'task_type': None, 'to_user': '太仓公司安装注册群'}]
+    #      # data like : [{'content': 'http://14.103.200.99:8001/test/uploads/402fb8848690486782a5dd2b6c73ad6a_b6aa2cbea01642709f62526ba59b40f4.png', 'task_type': None, 'to_user': '昆山一组（苏州）'}, {'content': 'http://14.103.200.99:8001/test/uploads/847e92cd766145aeb84b5d54a3d9bb28_bbca4427f9894640b230df88aa3f73a6.png', 'task_type': None, 'to_user': '无锡公司-注册群'}, {'content': 'http://14.103.200.99:8001/test/uploads/a09a1921dd2a4282aa829ba1d0b7da8f_59a47f551acd47bb8bd3c45b638ca73d.png', 'task_type': None, 'to_user': '太仓公司安装注册群'}]
     #     return (task["to_user"], task["content"])
     
     @staticmethod
